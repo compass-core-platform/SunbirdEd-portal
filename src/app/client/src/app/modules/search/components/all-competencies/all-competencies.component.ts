@@ -137,8 +137,8 @@ export class AllCompetenciesComponent implements OnInit {
                 })
               })
               this.popularCompetencies.title = "Popular competencies";
+              this.popularCompetenciesData.sort((a, b) => b.noOfCourses - a.noOfCourses);
               this.popularCompetencies.data = this.popularCompetenciesData;
-              console.log(this.popularCompetenciesData);
             }
           }
         });  

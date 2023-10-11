@@ -42,6 +42,19 @@ interface ISoftConstraints {
     channel?: number;
 }
 
+interface Competency {
+    title?: string,
+    type?: string,
+    icon?: any,
+    description?: string,
+    associatedCoursesTxt?: string,
+    noOfCourses?: number,
+    name?: string,
+    btnText?: string,
+    expand?: boolean,
+    expandData?: any
+  }
+
 @Component({
     selector: 'app-explore-page-component',
     templateUrl: './explore-page.component.html',
@@ -263,35 +276,56 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                     // console.log('Channel Data', this.contentSearchService.channelData);
                     let obj = {};
                     let tempIndex = 0;
-                    for (let i = 0; i < this.contentSearchService.channelData.length; i++) {
-                        for (let j = 0; j < this.contentSearchService.channelData[i]['terms'].length; j++) {
-                            if (this.contentSearchService.channelData[i]['terms'][j]['associations'] !== undefined) {
-                                for (let k = 0; k < this.contentSearchService.channelData[i]['terms'][j]['associations'].length; k++) {
-                                    // console.log('PPG', this.contentSearchService.channelData[i]['terms'][j]['associations'][0]['identifier']);
-                                    let index = this.popularCompetencies.indexOf(this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['identifier']);
-                                    if (index != -1) {
-                                        obj['identifier'] = this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['identifier'];
-                                        obj['title'] = this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['name'];
-                                        obj['noOfCourses'] = this.popularCompetenciesData[index]['count'];
-                                        obj['icon'] = '/assets/images/course-icon.png';
-                                        obj['type'] = '';
-                                        obj['associatedCoursesTxt'] = 'Associated Courses';
-                                        this.popularCompetencyMapping[tempIndex++] = obj;
+                    for(let comp of this.popularCompetenciesData){
+                        if(this.contentSearchService.channelData.length>0){
+                            for(let channelData of this.contentSearchService.channelData){
+                                if(channelData.name == "Competencies"){
+                                    for(let term of channelData['terms']){
+                                        let competency: Competency = {};
+                                        if(comp.name == term.identifier){
+                                            competency.title = term.name;
+                                            competency.type = ""; //hardcoded
+                                            competency.noOfCourses = comp.count;
+                                            competency.icon = "/assets/images/course-icon.png";
+                                            competency.expand = false;
+                                            competency.associatedCoursesTxt = "Associated courses";
+                                            this.popularCompetencyMapping.push(competency);
+                                        }
                                     }
+                                    this.popularCompetencyMapping.sort((a, b) => b.noOfCourses - a.noOfCourses);
                                 }
                             }
                         }
                     }
+                    
+                    // for (let i = 0; i < this.contentSearchService.channelData.length; i++) {
+                    //     for (let j = 0; j < this.contentSearchService.channelData[i]['terms'].length; j++) {
+                    //         if (this.contentSearchService.channelData[i]['terms'][j]['associations'] !== undefined) {
+                    //             for (let k = 0; k < this.contentSearchService.channelData[i]['terms'][j]['associations'].length; k++) {
+                    //                 // console.log('PPG', this.contentSearchService.channelData[i]['terms'][j]['associations'][0]['identifier']);
+                    //                 let index = this.popularCompetencies.indexOf(this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['identifier']);
+                    //                 if (index != -1) {
+                    //                     obj['identifier'] = this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['identifier'];
+                    //                     obj['title'] = this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['name'];
+                    //                     obj['noOfCourses'] = this.popularCompetenciesData[index]['count'];
+                    //                     obj['icon'] = '/assets/images/course-icon.png';
+                    //                     obj['type'] = '';
+                    //                     obj['associatedCoursesTxt'] = 'Associated Courses';
+                    //                     this.popularCompetencyMapping[tempIndex++] = obj;
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
                     // Filtering to remove duplicated data 
-                    let tempIds = [], tempData = [];
-                    for (let i = 0; i < this.popularCompetencyMapping.length; i++) {
-                        if (tempIds.indexOf(this.popularCompetencyMapping[i]['identifier']) == -1) {
-                            tempData.push(this.popularCompetencyMapping[i]);
-                        }
-                        tempIds.push(this.popularCompetencyMapping[i]['identifier']);
-                    }
-                    this.popularCompetencyMapping = tempData;
-                    console.log('Popular competencies mapping', this.popularCompetencyMapping);
+                    // let tempIds = [], tempData = [];
+                    // for (let i = 0; i < this.popularCompetencyMapping.length; i++) {
+                    //     if (tempIds.indexOf(this.popularCompetencyMapping[i]['identifier']) == -1) {
+                    //         tempData.push(this.popularCompetencyMapping[i]);
+                    //     }
+                    //     tempIds.push(this.popularCompetencyMapping[i]['identifier']);
+                    // }
+                    // this.popularCompetencyMapping = tempData;
                 }, err => {
                     this.toasterService.error(get(this.resourceService, 'frmelmnts.lbl.fetchingContentFailed'));
                     // this.navigationhelperService.goBack();
@@ -386,7 +420,6 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             for (let i = 0; i < this.popularCompetenciesData.length; i++) {
                 this.popularCompetencies[i] = this.popularCompetenciesData[i]['name'];
             }
-            // console.log('Popular competencies 1', this.popularCompetenciesData);
         });
     }
 
