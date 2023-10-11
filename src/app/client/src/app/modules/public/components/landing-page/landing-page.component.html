@@ -33,7 +33,7 @@
 <section class="ui container">
     <register-btn-card [regCardData]="resourceService?.frmelmnts?.lp?.regCardsData" (navigateToRegister)="registerClick()"></register-btn-card>
 </section>
-<section class="ui container" *ngIf="resourceService?.frmelmnts?.lp?.hpExploreCardData">
+<section class="ui container" *ngIf="resourceService?.frmelmnts?.lp?.exploreCardData">
     <p class="exploreTitle">{{resourceService?.frmelmnts?.lp?.exploreCompass}}</p>
     <div class="sb-g marginVertical">
         <explore-compass-card *ngFor="let info of doJsonDecode(resourceService?.frmelmnts?.lp?.exploreCardData);"
