@@ -280,7 +280,7 @@
   <div *ngIf="popularCompetencyMapping.length > 0" class="ui container mt-4rem">
     <div class="popular-card">
       <div class="popular-card-title">{{resourceService?.frmelmnts?.llp?.competencies.title}}</div>
-      <!--div><button class="com-secondary-btn">{{competencyData.button}}</button></div-->
+      <button class="com-secondary-btn" (click)="getBrowseByData(resourceService?.frmelmnts?.llp?.competencies.title)">{{resourceService?.frmelmnts?.llp?.competencies.button}}</button>
     </div>
     <div class="ui grid middle aligned stackable">
       <div class="three wide column" *ngFor="let data of popularCompetencyMapping;let i=index">
