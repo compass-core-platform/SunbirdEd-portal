@@ -266,7 +266,7 @@
   <div *ngIf="popularTopics.length > 0" class="ui container mt-4rem">
     <div class="popular-card">
       <div class="popular-card-title">{{resourceService?.frmelmnts?.llp?.topics.title}}</div>
-      <!--div><button class="com-secondary-btn">{{topicsData.button}}</button></div-->
+      <button class="com-secondary-btn">{{resourceService?.frmelmnts?.llp?.topics.button}}</button>
     </div>
     <div class="ui grid middle aligned stackable">
       <div class="three wide column" *ngFor="let data of popularTopics;let i=index">
