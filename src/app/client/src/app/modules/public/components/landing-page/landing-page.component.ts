@@ -37,7 +37,8 @@ export class LandingPageComponent implements OnInit {
       "request": {
         "filters": {
           "primaryCategory": ["Course"],
-          "visibility": ["Default", "Parent"]
+          "visibility": ["Default", "Parent"],
+          "channel": "0138325860604395527"
         },
         "limit": 12,
         "sort_by": {
