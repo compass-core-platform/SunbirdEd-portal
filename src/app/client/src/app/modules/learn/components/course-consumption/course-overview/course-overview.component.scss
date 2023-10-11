@@ -6,3 +6,33 @@
         }
     }
 }
+.member {
+    width: 40%;
+    min-width: 40%;
+    .member-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}
+
+
+@media screen and (max-width:1024px) {
+    .member {
+        min-width: 50%;
+        width: 55%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .member {
+        min-width: 60%;
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .member {
+        min-width: 70%;
+        width: 75%;
+    }
+}

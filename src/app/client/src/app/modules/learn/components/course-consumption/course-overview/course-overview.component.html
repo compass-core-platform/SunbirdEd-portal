@@ -14,24 +14,21 @@
         <div class="course-members mt-48">
           <div class="course-author">
             <div class="sub-heading-one mb-16"> {{configContent.overview.author}}</div>
-            <div class="ml-8 ui grid">
-              <sb-avatar class="five wide column pl-0" [initial]="courseDetails.creator | nameIntials" [memberName]="courseDetails.creator" [memberRole]="'Author'" [instance]="'compass'"></sb-avatar>
+            <div class="member ml-8">
+              <sb-avatar class="pl-0" [initial]="courseDetails.creator | nameIntials" [memberName]="courseDetails.creator" [memberRole]="'Author'" [instance]="'compass'"></sb-avatar>
             </div>
           </div>
           <div class="course-curator mt-48" *ngIf="courseDetails.curator">
             <div class="sub-heading-one mb-16">   {{configContent.overview.curator}}</div>
-            <div class="ml-8 ui grid">
-              <sb-avatar class="five wide column pl-0" [initial]="courseDetails.curator | nameIntials" [memberName]="courseDetails.curator" [memberRole]="'Curator'" [instance]="'compass'"></sb-avatar>
+            <div class="member ml-8">
+              <sb-avatar class="pl-0" [initial]="courseDetails.curator | nameIntials" [memberName]="courseDetails.curator" [memberRole]="'Curator'" [instance]="'compass'"></sb-avatar>
             </div>
           </div>
           <div class="mt-48"  *ngIf="associatedCompetencies">
             <div class="sub-heading-one mb-16">{{configContent.overview.competencyTitle}}</div>
             <div class="competencies">
-              <!-- <sb-levels [levelsInfo]="levelsInfo"></sb-levels> -->
-              <ul>
-                <li *ngFor="let term of associatedCompetencies">{{term.name}}</li>
-              </ul>
-            </div>
+              <sb-levels [levelsInfo]="levelsInfo"></sb-levels>
+             </div>
           </div>
         </div>
       </div>

@@ -9,6 +9,8 @@
     .com-primary-btn{
         display: block;
         width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     &__share-rating  {
         display: flex;
@@ -16,11 +18,22 @@
         margin-top: 24px;
         .com-secondary-btn{
             border-color:rgba(0, 0, 0, 0.16);
-            padding:10px 23px;
+            // padding:10px 23px;
             width: 47%;
             opacity:0.5;
-            .mat-icon{
-                margin-right: 8px;
+            .button-icon {
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                .mat-icon{
+                    margin-right: 8px;
+                }
+            }
+            .button-label {
+                margin-bottom: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 14px;
             }
         }
     }
@@ -28,6 +41,9 @@
         margin-top:48px;  
         .sub-heading-one{
             text-transform: none;
+        }
+        .timer-icon {
+            overflow: inherit;
         }
         ul{
             margin:16px 0 0 0;
@@ -49,12 +65,12 @@
                     display: flex;
                     flex-direction: column;
                     ul {
-                        padding-left: 26px;
+                        // padding-left: 26px;
                         margin-top: 10px;
                         li{
                             .mat-icon{
                                 font-size: 20px;
-                                margin-right: 3px;
+                                margin-right: 8px;
                             }
                         }
                     }

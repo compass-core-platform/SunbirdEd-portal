@@ -47,10 +47,10 @@
               </div>
             </div>
             <div class="d-flex flex-ai-center w-50 flex-jc-flex-end">
-              <div class="w-50 text-right sb-color-gray-200">Your progress <span
-                  class="sb-color-gray-800 font-weight-bold">{{completedCount}} of {{totalCount}} completed</span></div>
+              <div class="w-50 text-right sb-color-gray-200">{{resourceService?.messages?.stmsg?.m0108}} <span
+                  class="sb-color-gray-800 font-weight-bold">{{completedCount}} {{resourceService?.frmelmnts?.lbl?.of}} {{totalCount}} {{resourceService?.frmelmnts?.lbl?.completed}}</span></div>
               <div class="w-20 text-right sb-color-gray-200 d-flex w-100 flex-jc-flex-end flex-ai-center d-none"><mat-icon
-                  class="mr-4">chat</mat-icon>Make notes</div>
+                  class="mr-4">chat</mat-icon>{{resourceService?.frmelmnts?.player?.notes}}</div>
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@
                   <ng-container *ngIf="prevModule && !nextModule">
                     <button type="button" class="com-primary-btn finish-button" tabindex="0"
                       (click)="goBack(); logTelemetry('back-track', courseHierarchy)" attr.aria-label="'Finish'">
-                      <span>Finish</span>
+                      <span>{{resourceService?.frmelmnts?.player?.finish}}</span>
                     </button>
                   </ng-container>
                 </div>
@@ -126,7 +126,7 @@
       </section>
       <section [ngClass]="isSectionVisible ? 'sb-g-col-xs-4 sb-g-col-md-4 sb-g-col-lg-4' : 'd-none'">
         <div class="right-side-title my-24">
-          <div class="title">Content</div>
+          <div class="title">{{resourceService?.frmelmnts?.player?.content}}</div>
           <div>
             <button class="sb-g-col-lg-4 sb-btn sb-btn-link sb-btn-normal sb-right-icon-btn close-icon  ml-auto"
               aria-label="close-icon" tabindex="0" (click)="hideSection()">

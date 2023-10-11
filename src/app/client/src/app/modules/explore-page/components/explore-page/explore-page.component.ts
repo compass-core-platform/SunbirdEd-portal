@@ -270,18 +270,22 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                                     // console.log('PPG', this.contentSearchService.channelData[i]['terms'][j]['associations'][0]['identifier']);
                                     let index = this.popularCompetencies.indexOf(this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['identifier']);
                                     if (index != -1) {
+                                        let obj = {};
                                         obj['identifier'] = this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['identifier'];
                                         obj['title'] = this.contentSearchService.channelData[i]['terms'][j]['associations'][k]['name'];
                                         obj['noOfCourses'] = this.popularCompetenciesData[index]['count'];
                                         obj['icon'] = '/assets/images/course-icon.png';
                                         obj['type'] = '';
                                         obj['associatedCoursesTxt'] = 'Associated Courses';
-                                        this.popularCompetencyMapping[tempIndex++] = obj;
+                                        this.popularCompetencyMapping.push(obj);
+                                        // console.log('1', obj['identifier']);
+                                        // console.log('2', obj['title']);
                                     }
                                 }
                             }
                         }
                     }
+                    // console.log('Pr == g', this.popularCompetencyMapping);
                     // Filtering to remove duplicated data 
                     let tempIds = [], tempData = [];
                     for (let i = 0; i < this.popularCompetencyMapping.length; i++) {
@@ -291,6 +295,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                         tempIds.push(this.popularCompetencyMapping[i]['identifier']);
                     }
                     this.popularCompetencyMapping = tempData;
+                    // console.log('Popular competencies mapping', this.popularCompetencyMapping);
                 }, err => {
                     this.toasterService.error(get(this.resourceService, 'frmelmnts.lbl.fetchingContentFailed'));
                     // this.navigationhelperService.goBack();
@@ -385,6 +390,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             for (let i = 0; i < this.popularCompetenciesData.length; i++) {
                 this.popularCompetencies[i] = this.popularCompetenciesData[i]['name'];
             }
+            console.log('Popular competencies 1', this.popularCompetenciesData);
         });
     }
 
