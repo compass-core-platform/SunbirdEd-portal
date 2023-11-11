@@ -5,6 +5,7 @@ import { ContentSearchService } from '@sunbird/content-search';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Subject, of, Observable } from 'rxjs';
 import { takeUntil, map, delay, debounceTime, tap, mergeMap } from 'rxjs/operators';
+import { FrameworkService } from '../../../core/services/framework/framework.service';
 import * as _ from 'lodash-es';
 
 @Component({
@@ -17,11 +18,12 @@ export class CoursesSearchComponent implements OnInit {
   courses = [];
   public unsubscribe$ = new Subject<void>();
   public primaryCategories = ["course", "assessment"];
+  selectedCompetency: string;
 
 
   constructor(public activatedRoute: ActivatedRoute, public searchService: SearchService,
     public resourceService: ResourceService, private schemaService: SchemaService,
-    private contentSearchService: ContentSearchService, public coursesService: CoursesService) { }
+    private contentSearchService: ContentSearchService, public coursesService: CoursesService, public frameworkService: FrameworkService) { }
 
   ngOnInit(): void {
     if (this.activatedRoute.snapshot.queryParams.learnings == 'true') {
@@ -57,6 +59,19 @@ export class CoursesSearchComponent implements OnInit {
       ];
       this.fetchContentOnParamChange();
     }
+
+    this.frameworkService.getSelectedFrameworkCategories(this.activatedRoute.snapshot.queryParams.framework)
+    .subscribe((res: any) => {
+      res.result.framework.categories.map((item)=>{
+        if(item.name == "Competencies"){
+          item.terms.map((term)=>{
+            if(term.identifier == this.activatedRoute.snapshot.queryParams.competency){
+              this.selectedCompetency = term.name;
+            }
+          })
+        }
+      })
+    })
   }
 
   private fetchContentOnParamChange() {

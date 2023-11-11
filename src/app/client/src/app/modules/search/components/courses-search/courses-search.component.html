@@ -7,9 +7,7 @@
         </h4>
         <h4 class="sb-pageSection-title mb-10 mr-5" *ngIf="activatedRoute.snapshot.queryParams.competency">
             {{resourceService.frmelmnts?.lbl?.showingResults | translate}}
-            "{{activatedRoute.snapshot.queryParams.competency ??
-            activatedRoute.snapshot.queryParams.competency[0].toUpperCase() +
-            activatedRoute.snapshot.queryParams.competency.slice(1)}}"
+            "{{selectedCompetency}}"
         </h4>
         <h4 class="sb-pageSection-title mb-10 mr-5" *ngIf="activatedRoute.snapshot.queryParams.keyword">
             {{resourceService.frmelmnts?.lbl?.showingResults | translate}}
