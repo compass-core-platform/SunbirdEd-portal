@@ -31,6 +31,14 @@
         min-width: 60%;
         width: 65%;
     }
+    .ui.grid{
+        flex-direction: column-reverse;
+        .four.wide.column, .eight.wide.column{
+            width: 90%!important;
+            margin-left: auto!important;
+            margin-right: auto!important;
+        }
+    }
 }
 
 @media screen and (max-width: 560px) {
