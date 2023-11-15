@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {UserService} from '@sunbird/core';
-import {IUserData} from '@sunbird/shared';
+import {IUserData, ToasterService, ResourceService} from '@sunbird/shared';
 import { ProfileService } from '@sunbird/profile';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-personal-details',
@@ -15,7 +16,7 @@ export class PersonalDetailsComponent implements OnInit {
   userProfile: any;
   payload: any = {};
 
-  constructor(private formBuilder: FormBuilder, public userService: UserService, private profileService: ProfileService,) { }
+  constructor(private formBuilder: FormBuilder, public userService: UserService, private profileService: ProfileService, public toasterService: ToasterService, public resourceService: ResourceService) { }
 
   ngOnInit(): void {
     this.userService.userData$.subscribe((user: IUserData) => {
@@ -61,6 +62,7 @@ export class PersonalDetailsComponent implements OnInit {
       this.payload.professionalDetails = professionalDetails;
       this.profileService.updatePrivateProfile(this.payload).subscribe(res => {
         console.log("res",res);
+        this.toasterService.success(_.get(this.resourceService, 'messages.smsg.m0059'));
     })
     }
   }
