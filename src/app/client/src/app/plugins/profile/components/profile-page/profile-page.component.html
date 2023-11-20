@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="profile-header__buttons container ui">
-      <button class="com-secondary-btn mr-40" appTelemetryInteract appOnlineOnly
+      <button class="com-secondary-btn mr-20" appTelemetryInteract appOnlineOnly
         [telemetryInteractEdata]="editProfileInteractEdata"
-        attr.aria-label="{{resourceService?.frmelmnts?.lbl?.editPersonalDetails}}" tabindex="0"
-        (click)="navigateToEditProfile()">Edit Profile</button>
-      <button class="com-secondary-btn">Your dashboard</button>
+        attr.aria-label="{{resourceService?.frmelmnts?.lbl?.editProfileBtn}}" tabindex="0"
+        (click)="navigateToEditProfile()">{{resourceService?.frmelmnts?.lbl?.editProfileBtn}}</button>
+      <button class="com-secondary-btn disabled">{{resourceService?.frmelmnts?.lbl?.yourDashboardBtn}}</button>
     </div>
   </header>
   <section class="course-certificates container ui mt-4rem">

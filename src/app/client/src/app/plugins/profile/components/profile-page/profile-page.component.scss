@@ -37,6 +37,12 @@
   max-width: calculateRem(400px) !important;
 }
 
+.disabled{
+  pointer-events: none !important;
+  opacity: 0.5 !important;
+  border-color: rgba(0, 0, 0, 0.16);
+}
+
 .profile-label-container {
   max-width: calculateRem(600px) !important;
 
@@ -281,8 +287,6 @@
     }
 
   }
-
-  &__info {}
 
   &__info-name {
     color: var(--com-primary-color);
