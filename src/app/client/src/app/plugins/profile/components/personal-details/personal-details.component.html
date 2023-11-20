@@ -8,9 +8,10 @@
             </div>
             <div *ngFor = "let field of formData.colOne.fields" class="form-group">
                 <label for="{{field.value}}">{{field.label}}</label>
-                <input *ngIf="field.value2!='mobile'&&field.value!='primaryEmail'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+                <input *ngIf="field.value2!='mobile'&&field.value!='primaryEmail'&&field.value!='doj'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
                 <input *ngIf="field.value=='primaryEmail'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="{{userProfile?.email}}" [value]="userProfile?.email"
                 readonly>
+                <input *ngIf="field.value=='doj'" class="input" type="date" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
                 <div class="phone" *ngIf="field.value2=='mobile'">
                   <input class="input w-10 mr-10" type="number" id="{{field.value1}}" formControlName="{{field.value1}}" placeholder="+91">
                   <input class="input w-90" type="number" id="{{field.value2}}" formControlName="{{field.value2}}" placeholder="Type here">

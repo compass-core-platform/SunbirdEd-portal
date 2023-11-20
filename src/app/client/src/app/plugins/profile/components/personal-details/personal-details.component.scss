@@ -39,12 +39,16 @@
         height: 60px;
         border: solid 1px var(--com-grey-border);
         border-radius: 4px;
+        padding-left: 10px;
     }
-    input:focus {
+    .input:focus-visible {
+        border: solid 1px var(--primary-color)!important;
+    }
+    .input:hover {
         border: solid 1px var(--primary-color);
     }
-    input::placeholder{
-        color: rgba(0,0,0,0.87);
+    input.input::placeholder {
+        color:  var(--com-grey-border);
         font-weight: 500;
     }
     textarea{
