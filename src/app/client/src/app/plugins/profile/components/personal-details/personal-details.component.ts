@@ -12,7 +12,7 @@ import _ from 'lodash';
 })
 export class PersonalDetailsComponent implements OnInit {
   form: FormGroup;
-  formData = {"colOne":{"fields":[{"label":"First name","value":"firstName"},{"label":"Last name","value":"lastName"},{"label":"Mobile number","value1":"code","value2":"mobile"},{"label":"Primary email","value":"primaryEmail"},{"label":"Secondary email","value":"secondaryEmail"},{"label":"Department name","value":"departmentName"},{"label":"Designation","value":"designation"},{"label":"Date of joining","value":"doj"}],"radio":[]},"colTwo":{}}
+  formData = {"colOne":{"fields":[{"label":"First name","value":"firstName"},{"label":"Last name","value":"lastName"},{"label":"Mobile number","value1":"code","value":"mobile"},{"label":"Primary email","value":"primaryEmail"},{"label":"Secondary email","value":"secondaryEmail"},{"label":"Department name","value":"departmentName"},{"label":"Designation","value":"designation"},{"label":"Date of joining","value":"doj"}],"radio":[]},"colTwo":{}}
   userProfile: any;
   payload: any = {};
 
@@ -24,7 +24,9 @@ export class PersonalDetailsComponent implements OnInit {
         this.userProfile = user.userProfile;
       }
     });
-    console.log("user profile", this.userProfile);
+    this.formData.colOne.fields.map((item)=>{
+      item.label = this.resourceService.frmelmnts.lbl.editProfile[item.value];
+    })
     this.form = this.formBuilder.group({
       firstName: [this.userProfile.firstName, Validators.required],
       lastName: [this.userProfile.lastName, Validators.required],

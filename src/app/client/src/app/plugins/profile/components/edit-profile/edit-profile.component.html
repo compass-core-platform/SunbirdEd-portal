@@ -1,6 +1,6 @@
 <compass-breadcrumb *ngIf="breadCrumbData" [data]="breadCrumbData"></compass-breadcrumb>
 <div class="ui container">
-    <div class="headline">Edit profile</div>
+    <div class="headline">{{resourceService?.frmelmnts?.lbl?.editProfileBtn}}</div>
     <mat-tab-group animationDuration="0ms">
         <mat-tab label={{resourceService.frmelmnts.editProfile.tab.personalDetails}}>
             <app-personal-details></app-personal-details>

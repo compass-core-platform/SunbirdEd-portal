@@ -8,13 +8,13 @@
             </div>
             <div *ngFor = "let field of formData.colOne.fields" class="form-group">
                 <label for="{{field.value}}">{{field.label}}</label>
-                <input *ngIf="field.value2!='mobile'&&field.value!='primaryEmail'&&field.value!='doj'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+                <input *ngIf="field.value!='mobile'&&field.value!='primaryEmail'&&field.value!='doj'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
                 <input *ngIf="field.value=='primaryEmail'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="{{userProfile?.email}}" [value]="userProfile?.email"
                 readonly>
                 <input *ngIf="field.value=='doj'" class="input" type="date" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
-                <div class="phone" *ngIf="field.value2=='mobile'">
+                <div class="phone" *ngIf="field.value=='mobile'">
                   <input class="input w-10 mr-10" type="number" id="{{field.value1}}" formControlName="{{field.value1}}" placeholder="+91">
-                  <input class="input w-90" type="number" id="{{field.value2}}" formControlName="{{field.value2}}" placeholder="Type here">
+                  <input class="input w-90" type="number" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
               </div>
             </div>
             <!-- <div *ngFor = "let field of formData.colOne.radio" class="form-group">
@@ -29,17 +29,17 @@
       <!-- <div class="form-column">
         <div *ngFor = "let field of formData.colTwo.fields" class="form-group">
             <label for="{{field.value}}">{{field.label}}</label>
-            <input class="input" *ngIf="field.value!='postalAddress'&&field.value2!='mobile'" [type]="(field.value === 'telephone' || field.value === 'pincode') ? 'number' : 'text'" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+            <input class="input" *ngIf="field.value!='postalAddress'&&field.value!='mobile'" [type]="(field.value === 'telephone' || field.value === 'pincode') ? 'number' : 'text'" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
             <textarea class="input" type="text" *ngIf="field.value=='postalAddress'" formControlName="{{field.value}}" placeholder="Type here" rows="4"></textarea>
-            <div class="phone" *ngIf="field.value2=='mobile'">
+            <div class="phone" *ngIf="field.value=='mobile'">
                 <input class="input w-10 mr-10" type="number" id="{{field.value1}}" formControlName="{{field.value1}}" placeholder="+91">
-                <input class="input w-90" type="number" id="{{field.value2}}" formControlName="{{field.value2}}" placeholder="Type here">
+                <input class="input w-90" type="number" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
             </div>
         </div>
       </div> -->
     </div>
     <div class="submitbtn">
-        <button class="com-primary-btn btn" type="submit">Submit changes</button>
+        <button class="com-primary-btn btn" type="submit">{{resourceService.frmelmnts.lbl.editProfile.submit}}</button>
     </div>    
 </form>
   
