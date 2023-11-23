@@ -38,8 +38,8 @@ export class PersonalDetailsComponent implements OnInit {
         this.userProfile?.profileDetails?.employmentDetails?.departmentName || '',
         Validators.required
       ],
-      designation: [this.userProfile?.professionalDetails?.designation || '', Validators.required],
-      doj: [this.userProfile?.professionalDetails?.doj || '', Validators.required]
+      designation: [this.userProfile?.profileDetails?.professionalDetails[0]?.designation || '', Validators.required],
+      doj: [this.userProfile?.profileDetails?.professionalDetails[0]?.doj || '', Validators.required]
     });
   }
 
@@ -50,16 +50,15 @@ export class PersonalDetailsComponent implements OnInit {
       this.payload.userId = this.userProfile.userId;
       const maskingPattern = /^\*{6}\d{4}$/;
       if(maskingPattern.test(this.payload.phone)){delete this.payload.phone;}
+      let profileDetails: any = {};
       let personalDetails: any = {};
       personalDetails.firstName = this.payload.firstName;
       personalDetails.primaryEmail = this.payload.primaryEmail;
-      this.payload.personalDetails = personalDetails;
-      let profileDetails: any = {};
+      profileDetails.personalDetails = personalDetails;
       let employmentDetails: any = {};
       employmentDetails.departmentName = this.payload.departmentName;
       delete this.payload.departmentName;
       profileDetails.employmentDetails = employmentDetails;
-      this.payload.profileDetails = profileDetails;
       let professionalDetails: any = [];
       let professionalDetail: any = {};
       professionalDetail.designation = this.payload.designation;
@@ -67,7 +66,8 @@ export class PersonalDetailsComponent implements OnInit {
       professionalDetails.push(professionalDetail);
       delete this.payload.designation;
       delete this.payload.doj;
-      this.payload.professionalDetails = professionalDetails;
+      profileDetails.professionalDetails = professionalDetails;
+      this.payload.profileDetails = profileDetails;
       this.profileService.updatePrivateProfile(this.payload).subscribe(res => {
         console.log("res",res);
         this.toasterService.success(_.get(this.resourceService, 'messages.smsg.m0059'));
