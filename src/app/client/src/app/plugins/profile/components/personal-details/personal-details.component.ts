@@ -29,8 +29,8 @@ export class PersonalDetailsComponent implements OnInit {
     })
     console.log("user data", this.userProfile);
     this.form = this.formBuilder.group({
-      firstName: [this.userProfile?.firstName, Validators.required],
-      lastName: [this.userProfile?.lastName, Validators.required],
+      firstName: [{value : this.userProfile?.firstName, disabled: true}],
+      lastName: [{value : this.userProfile?.lastName,disabled: true}],
       phone: [this.userProfile?.phone],
       primaryEmail: [{ value: this.userProfile?.email, disabled: true }],
       secondaryEmail: [this.userProfile?.secondaryEmail],
@@ -54,6 +54,8 @@ export class PersonalDetailsComponent implements OnInit {
       let personalDetails: any = {};
       personalDetails.firstName = this.payload.firstName;
       personalDetails.primaryEmail = this.payload.primaryEmail;
+      personalDetails.secondaryEmail = this.payload.secondaryEmail;
+      delete this.payload.secondaryEmail;
       profileDetails.personalDetails = personalDetails;
       let employmentDetails: any = {};
       employmentDetails.departmentName = this.payload.departmentName;
