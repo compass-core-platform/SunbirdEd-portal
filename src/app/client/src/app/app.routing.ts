@@ -51,7 +51,7 @@ const appRoutes: Routes = [
     path: '', loadChildren: () => import('./modules/public/public.module').then(m => m.PublicModule)
   },
   {
-    path: 'discussion-forum', loadChildren: () => import('./modules/discussion-forum/discussion-forum.module').then(m => m.DiscussionForumModule)
+    path: 'discussion-forum', loadChildren: () => import('./modules/discussion/discussion.module').then(m => m.DiscussionModule)
   },
   {
     path: 'competency-passbook', loadChildren: () => import('./modules/competency-passbook/competency-passbook.module').then(m => m.CompetencyPassbookModule)

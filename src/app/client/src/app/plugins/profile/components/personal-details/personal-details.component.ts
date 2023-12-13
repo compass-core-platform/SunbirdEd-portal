@@ -27,14 +27,13 @@ export class PersonalDetailsComponent implements OnInit {
     this.formData.colOne.fields.map((item)=>{
       item.label = this.resourceService.frmelmnts.lbl.editProfile[item.value];
     })
-    console.log("user data", this.userProfile);
     this.form = this.formBuilder.group({
       firstName: [{value : this.userProfile?.firstName, disabled: true}],
       lastName: [{value : this.userProfile?.lastName,disabled: true}],
       countryCode : [this.userProfile?.countryCode],
       phone: [this.userProfile?.phone],
       primaryEmail: [{ value: this.userProfile?.email, disabled: true }],
-      secondaryEmail: [this.userProfile?.secondaryEmail],
+      secondaryEmail: [this.userProfile?.profileDetails?.personalDetails?.secondaryEmail],
       departmentName: [
         this.userProfile?.profileDetails?.employmentDetails?.departmentName || '',
         Validators.required
