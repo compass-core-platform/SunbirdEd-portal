@@ -337,7 +337,6 @@ export class WorkSpaceService {
     return this.publicDataService.delete(option);
   }
 
-
   getQuestion(contentId: string, option: any = { params: {} }): Observable<ServerResponse> {
     const param = { fields: this.config.editorConfig.DEFAULT_PARAMS_FIELDS };
     const req = {

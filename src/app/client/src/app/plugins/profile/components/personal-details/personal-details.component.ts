@@ -27,7 +27,6 @@ export class PersonalDetailsComponent implements OnInit {
     this.formData.colOne.fields.map((item)=>{
       item.label = this.resourceService.frmelmnts.lbl.editProfile[item.value];
     })
-    console.log("user data", this.userProfile);
     this.form = this.formBuilder.group({
       firstName: [{value : this.userProfile?.firstName, disabled: true}],
       lastName: [{value : this.userProfile?.lastName,disabled: true}],
