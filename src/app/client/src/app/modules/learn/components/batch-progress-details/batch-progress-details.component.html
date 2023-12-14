@@ -17,27 +17,23 @@
                    <div class="startAndend">
                     <mat-form-field appearance="outline">
                         <mat-label> From </mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngMOdel)]="startDate">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <input matInput [matDatepicker]="picker1" [(ngMOdel)]="startDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
                       </mat-form-field>
                       <mat-form-field appearance="outline">
                         <mat-label> To </mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngMOdel)]="endDate">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <input matInput [matDatepicker]="picker2" [(ngMOdel)]="endDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
                       </mat-form-field>
-                    <!-- <mat-form-field class="search"  [floatLabel]="'never'" appearance="none">
-                        <mat-label>From</mat-label>
-                        <input matInput type="text" [(ngModel)]="startDate" placeholder="Start Date" />    
-                    </mat-form-field>
-                    <mat-form-field class="search"  [floatLabel]="'never'" appearance="none">
-                            <mat-label>To</mat-label>
-                        <input matInput type="text" [(ngModel)]="endDate" placeholder="End Date" />   
-                    </mat-form-field> -->
+                  
                    </div>
-                   <button mat-stroked-button class="com-basic-btn"> Today </button>
-                   <button mat-stroked-button class="com-basic-btn"> Tomorrow </button>
+                   <button mat-stroked-button class="com-basic-btn" (click)="bulkDateFilter('today')"> Today </button>
+                   <button mat-stroked-button class="com-basic-btn" (click)="bulkDateFilter('tomorrow')"> Tomorrow </button>
+                   <button mat-stroked-button class="com-basic-btn" (click)="bulkDateFilter('current-month')"> This Month </button>
+                   <button mat-stroked-button class="com-basic-btn" (click)="bulkDateFilter('past-month')"> Past Month </button>
+                   <button mat-stroked-button class="com-basic-btn" (click)="bulkDateFilter('past-3-month')"> Past 3 Month </button>
                 </div>
             </div>
                 <mat-form-field [floatLabel]="'never'">

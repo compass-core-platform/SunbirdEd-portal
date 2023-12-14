@@ -6,6 +6,7 @@ import { ContentSearchService } from '@sunbird/content-search';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import {get} from 'lodash-es';
+import { CourseBatchService } from '../../services';
 
 export interface CourseData {
   id: string;
@@ -15,6 +16,7 @@ export interface CourseData {
   Duration: string;
   publishedDate: string;
   totalMembers: number;
+  batchId:any[];
   link: any;
 }
 
@@ -38,7 +40,7 @@ export class CourseAssessmentProgressComponent implements OnInit {
   }
 
   constructor( public userService: UserService, private searchService: SearchService, 
-    private contentSearchService: ContentSearchService, private orgDetailsService: OrgDetailsService) { 
+    private contentSearchService: ContentSearchService, private orgDetailsService: OrgDetailsService, private courseBatchService: CourseBatchService) { 
       
   }
 
@@ -91,6 +93,10 @@ export class CourseAssessmentProgressComponent implements OnInit {
               this.recentlyPublishedList = this.contentSearchService.updateCourseWithTaggedCompetency(this.recentlyPublishedList);
               this.count = res.result.count;
               console.log('recentlyPublishedList', this.recentlyPublishedList);
+              const batchList = this.recentlyPublishedList.map(c => {
+                return c.batches?c.batches[0].batchId:'';
+              });
+              this.getAllparicipentsList(batchList);
               this.dataSource = this.recentlyPublishedList.map((data:any) => { 
               return {
                 id:data.identifier,
@@ -100,11 +106,30 @@ export class CourseAssessmentProgressComponent implements OnInit {
                 publishedDate: new Date(data.lastPublishedOn).toLocaleDateString(),
                 Duration:this.covertTime(data.Duration),
                 totalMembers:100,
+                batchId:data.batches?data.batches[0].batchId:'',
                 link:data.batches?{text:'View Progress', path:`/learn/batch/${data.identifier}/${data.batches[0].batchId}`}:{text:'View Progress', path:'#'}
               }}); 
+             
           });  
   }
 
+  getAllparicipentsList(batchList){
+      let payload = {
+        request:{
+          batch: {
+            batchId:batchList.filter((b:any) => b!=='')
+          }
+        }
+      }
+      this.courseBatchService.getAllParticipantList(payload).subscribe((res:any) => {
+        if(this.dataSource){
+          this.dataSource.forEach((value, i) => {
+            const batchList = res.result.batch.filter((b:any) => b.batchId === value.batchId)
+            value.totalMembers = batchList?.participants?.length||''
+          });
+        }
+      });
+  }
 
   getChannelId(): Observable<{ channelId: string, custodianOrg: boolean }> {
     if (this.isUserLoggedIn()) {

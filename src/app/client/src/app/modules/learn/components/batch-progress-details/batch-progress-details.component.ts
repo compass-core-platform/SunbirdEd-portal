@@ -25,30 +25,22 @@ export class BatchProgressDetailsComponent implements OnInit {
   courseDetails: any = {};
   memberList: any[];
   authToken : [];
-  displayColumns = ['initials', 'name', 'designation', 'enrolledDate','progress', 'link'];
+  displayColumns = ['initials', 'name', 'designation', 'department','progress', 'link'];
   breadCrumbData = [];
   search:string;
-  startDate = '';
-  endDate = '';
+  startDate = new FormControl();
+  endDate = new FormControl();
   showDatedropdown = false;
   statusList = ['All members', 'Completed', 'Not started'];
   status = new FormControl('');
+  dateRange;
+
   constructor(private route: ActivatedRoute, private courseBatchService: CourseBatchService,
     private userSerivce: UserService, private httpClient: HttpClient) {
    }
 
   ngOnInit(): void {
-    this.memberList = [
-      // {
-      //   id:'12121',
-      //   initials:'AB',
-      //   name:'Anand Bhavan',
-      //   designation:'Teacher',
-      //   enrolledDate:new Date('2023-07-11 04:56:35:501+0000').toLocaleDateString(),
-      //   progress:80,
-      //   link:{path:'', text:'profile'}
-      // }
-    ];
+    this.memberList = [];
    this.route.queryParamMap.subscribe((pa:any) => {
       this.courseDetails.name = pa.params.name;
       this.breadCrumbData.push({
@@ -92,10 +84,9 @@ export class BatchProgressDetailsComponent implements OnInit {
                     initials:`${m.firstName[0]}${m.lastName[0] ? m.lastName[0] : ''}`,
                     name: m.firstName+' '+m.lastName,
                     designation:m.userType,
-                    
-                    enrolledDate: new Date(m.updatedDate).toLocaleDateString(),
+                    department:m.department || '',
                     progress: 80,
-                    link:{path:'/', text:'Profile'}
+                    link:{path:'/profile', text:'profile'}
                   }
                 })
           }
@@ -104,10 +95,44 @@ export class BatchProgressDetailsComponent implements OnInit {
     })
   }
 
+  OnDateChange(e){
+    console.log(this.startDate.value.format('DD/MM/yyyy'));
+    console.log(this.endDate.value.format('DD/MM/yyyy'));
+  }
+
   onPageChange(e){
     console.log(e);
   }
+
   onSelect(event){
     console.log(event);
   }
+
+
+  bulkDateFilter(data) {
+    switch(data){
+      case 'today': let dateRange = new Date().toUTCString();
+                    console.log(new Date(dateRange).toLocaleDateString());
+                      break;
+      case 'tomorrow': let currentDate = new Date().toUTCString();
+                       let dateR = new Date(currentDate).setDate(new Date(currentDate).getDate()+1);
+                       console.log(new Date(dateR).toLocaleDateString());
+                       break;
+      case 'current-month': console.log(this.convertpastDate(0))
+                            break;
+      case 'past-month': console.log(this.convertpastDate(1))
+                          break;
+      case 'past-3-month': console.log(this.convertpastDate(3))
+                          break;
+      default:break;
+    }
+  }
+
+  convertpastDate(numberofMonth) {
+    let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    let firstDay = new Date(y, m - numberofMonth, 1);
+    let lastDay = new Date(y, m, 0);
+    return {firstDay:firstDay, lastDay: lastDay};
+  }
+
 }

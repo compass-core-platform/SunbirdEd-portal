@@ -1924,6 +1924,10 @@ const API_LIST = {
     "/learner/course/batch/cert/v1/template/add": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.PUBLIC]
+    },
+    "/learner/course/v1/batch/allparticipants/list" : {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.PUBLIC]
     }
   },
   URL_PATTERN: [
@@ -2078,7 +2082,8 @@ const API_LIST = {
     '/learner/user/v1/search',
     '/learner/course/batch/cert/v1/template/add',
     '/action/asset/v1/create',
-    '/learner/user/v1/create'
+    '/learner/user/v1/create',
+    'course/v1/batch/allparticipants/list'
   ]
 };
 module.exports = API_LIST;
