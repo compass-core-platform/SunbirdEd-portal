@@ -1667,6 +1667,13 @@ const API_LIST = {
         ROLE.CONTENT_CREATOR
       ]
     },
+    '/api/questionset/v1/retire/:do_id': {
+      description: 'QuestionSet retire',
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [
+        ROLE.PUBLIC
+      ]
+    },
     '/action/question/v2/read/:do_id': {
       description: 'Question read',
       checksNeeded: ['ROLE_CHECK'],
@@ -2083,7 +2090,8 @@ const API_LIST = {
     '/learner/course/batch/cert/v1/template/add',
     '/action/asset/v1/create',
     'course/v1/batch/allparticipants/list',
-    '/learner/user/v1/create'
+    '/learner/user/v1/create',
+    '/api/questionset/v1/retire/:do_id'
   ]
 };
 module.exports = API_LIST;
