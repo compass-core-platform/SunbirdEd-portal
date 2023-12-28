@@ -1667,7 +1667,7 @@ const API_LIST = {
         ROLE.CONTENT_CREATOR
       ]
     },
-    '/api/questionset/v1/retire/:do_id': {
+    '/action/questionset/v1/retire/:do_id': {
       description: 'QuestionSet retire',
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [
@@ -2095,7 +2095,7 @@ const API_LIST = {
     '/action/asset/v1/create',
     'course/v1/batch/allparticipants/list',
     '/learner/user/v1/create',
-    '/api/questionset/v1/retire/:do_id',
+    '/action/questionset/v1/retire/:do_id',
     '/api/course/v2/users/list'
   ]
 };

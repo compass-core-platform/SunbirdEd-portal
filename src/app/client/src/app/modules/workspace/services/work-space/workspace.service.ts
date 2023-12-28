@@ -333,7 +333,7 @@ export class WorkSpaceService {
         }
     }
     };
-    return this.publicDataService.delete(option);
+    return this.actionService.delete(option);
   }
 
 
