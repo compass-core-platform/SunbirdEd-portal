@@ -169,7 +169,8 @@ module.exports = function (app) {
     '/action/question/v2/create',
     '/action/question/v2/review/:do_id',
     '/action/question/v2/publish/:do_id',
-    '/action/question/v2/list'
+    '/action/question/v2/list',
+    '/action/questionset/v2/retire/:do_id'
     ],
     isAPIWhitelisted.isAllowed(),
     addCorsHeaders,
