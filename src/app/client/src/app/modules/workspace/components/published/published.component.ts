@@ -151,6 +151,11 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
   */
   private currentContentId: ContentIDParam;
 
+    /**
+  * To store deleting content id
+  */
+    private currentPrimaryCategory: any;
+
   /**
   * To store deleteing content type
   */
@@ -338,6 +343,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     }
     if (param.action.eventName === 'delete') {
       this.currentContentId = param.data.metaData.identifier;
+      this.currentPrimaryCategory = param.data.metaData.primaryCategory;
       const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
       config.isClosable = false;
       config.size = 'small';
@@ -351,6 +357,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
           element[0].className = 'sb-modal';
       }, 10);
       this.showCollectionLoader = false;
+      // this.deleteContent(param.data.metaData.identifier, param.data.metaData.primaryCategory);
     } else {
       this.workSpaceService.navigateToContent(param.data.metaData, this.state);
     }
@@ -365,14 +372,14 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     }
     this.showCollectionLoader = false;
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
-      this.deleteContent(this.currentContentId);
+      this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
       return;
     }
     this.getLinkedCollections(this.currentContentId)
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
         if (!count) {
-          this.deleteContent(this.currentContentId);
+          this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
         }
         this.showCollectionLoader = true;
@@ -426,25 +433,44 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
   /**
   * This method deletes content using the content id.
   */
-  public deleteContent(contentIds) {
+  public deleteContent(contentIds, primaryCategory) {
         this.showLoader = true;
         this.loaderMessage = {
           'loaderMessage': this.resourceService.messages.stmsg.m0034,
         };
-        this.delete(contentIds).subscribe(
-          (data: ServerResponse) => {
-            this.showLoader = false;
-            this.publishedContent = this.removeContent(this.publishedContent, contentIds);
-            if (this.publishedContent.length === 0) {
-              this.fetchPublishedContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber);
+        if(primaryCategory == "Practice Question Set"){
+          this.retire(contentIds).subscribe(
+            (data: ServerResponse) => {
+              this.showLoader = false;
+              this.publishedContent = this.removeContent(this.publishedContent, contentIds);
+              if (this.publishedContent.length === 0) {
+                this.fetchPublishedContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber);
+              }
+              this.toasterService.success(this.resourceService.messages.smsg.m0006);
+            },
+            (err: ServerResponse) => {
+              this.showLoader = false;
+              this.toasterService.success(this.resourceService.messages.fmsg.m0022);
             }
-            this.toasterService.success(this.resourceService.messages.smsg.m0006);
-          },
-          (err: ServerResponse) => {
-            this.showLoader = false;
-            this.toasterService.success(this.resourceService.messages.fmsg.m0022);
+          );
+          } 
+          else {
+            this.delete(contentIds).subscribe(
+              (data: ServerResponse) => {
+                this.showLoader = false;
+                this.publishedContent = this.removeContent(this.publishedContent, contentIds);
+                if (this.publishedContent.length === 0) {
+                  this.fetchPublishedContent(this.config.appConfig.WORKSPACE.PAGE_LIMIT, this.pageNumber);
+                }
+                this.toasterService.success(this.resourceService.messages.smsg.m0006);
+              },
+              (err: ServerResponse) => {
+                this.showLoader = false;
+                this.toasterService.success(this.resourceService.messages.fmsg.m0022);
+              }
+            );
           }
-        );
+        
         if (!_.isUndefined(this.deleteModal)) {
           this.deleteModal.deny();
         }
