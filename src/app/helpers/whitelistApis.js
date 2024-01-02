@@ -1667,7 +1667,21 @@ const API_LIST = {
         ROLE.CONTENT_CREATOR
       ]
     },
+    '/api/questionset/v2/retire/:do_id': {
+      description: 'QuestionSet retire',
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [
+        ROLE.CONTENT_CREATOR
+      ]
+    },
     '/action/questionset/v2/retire/:do_id': {
+      description: 'QuestionSet retire',
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [
+        ROLE.CONTENT_CREATOR
+      ]
+    },
+    '/content/questionset/v2/retire/:do_id': {
       description: 'QuestionSet retire',
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [
@@ -2096,6 +2110,7 @@ const API_LIST = {
     'course/v1/batch/allparticipants/list',
     '/learner/user/v1/create',
     '/action/questionset/v2/retire/:do_id',
+    '/content/questionset/v2/retire/:do_id',
     '/learner/user/v2/signup',
     '/learner/course/v2/users/list'
   ]
