@@ -184,6 +184,10 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   */
   private currentContentId: ContentIDParam;
 
+   /**
+  * To store deleting content id
+  */
+   private currentPrimaryCategory: any;
   /**
   * To store deleteing content type
   */
@@ -324,8 +328,9 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     );
   }
 
-  public deleteConfirmModal(contentIds, mimeType) {
+  public deleteConfirmModal(contentIds, primaryCategory, mimeType) {
     this.currentContentId = contentIds;
+    this.currentPrimaryCategory = primaryCategory;
     this.contentMimeType = mimeType;
     this.showCollectionLoader = false;
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
@@ -351,7 +356,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     }
     this.showCollectionLoader = false;
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
-      this.deleteContent(this.currentContentId);
+      this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
       return;
     }
 
@@ -359,7 +364,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
         if (!count) {
-          this.deleteContent(this.currentContentId);
+          this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
         }
         this.showCollectionLoader = true;
@@ -413,25 +418,43 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   /**
   * This method deletes content using the content id.
   */
-  deleteContent(contentId) {
+  deleteContent(contentId, primaryCategory) {
     this.showLoader = true;
     this.loaderMessage = {
       'loaderMessage': this.resourceService.messages.stmsg.m0034,
     };
-    this.delete(contentId).subscribe(
-      (data: ServerResponse) => {
-        this.showLoader = false;
-        this.allContent = this.removeAllMyContent(this.allContent, contentId);
-        if (this.allContent.length === 0) {
-          this.ngOnInit();
+    if(primaryCategory == "Practice Question Set"){
+      this.retire(contentId).subscribe(
+        (data: ServerResponse) => {
+          this.showLoader = false;
+          this.allContent = this.removeAllMyContent(this.allContent, contentId);
+          if (this.allContent.length === 0) {
+            this.ngOnInit();
+          }
+          this.toasterService.success(this.resourceService.messages.smsg.m0006);
+        },
+        (err: ServerResponse) => {
+          this.showLoader = false;
+          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
         }
-        this.toasterService.success(this.resourceService.messages.smsg.m0006);
-      },
-      (err: ServerResponse) => {
-        this.showLoader = false;
-        this.toasterService.error(this.resourceService.messages.fmsg.m0022);
-      }
-    );
+      );
+    }else{
+      this.delete(contentId).subscribe(
+        (data: ServerResponse) => {
+          this.showLoader = false;
+          this.allContent = this.removeAllMyContent(this.allContent, contentId);
+          if (this.allContent.length === 0) {
+            this.ngOnInit();
+          }
+          this.toasterService.success(this.resourceService.messages.smsg.m0006);
+        },
+        (err: ServerResponse) => {
+          this.showLoader = false;
+          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+        }
+      );
+    }
+    
     if (!_.isUndefined(this.deleteModal)) {
       this.deleteModal.deny();
     }
