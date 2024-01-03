@@ -370,6 +370,8 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     if (!_.isUndefined(modal)) {
       this.deleteModal = modal;
     }
+    console.log("modal", modal);
+    console.log("currentPrimaryCategory", this.currentPrimaryCategory);
     this.showCollectionLoader = false;
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
       this.deleteContent(this.currentContentId, this.currentPrimaryCategory);

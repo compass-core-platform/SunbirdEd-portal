@@ -419,6 +419,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   * This method deletes content using the content id.
   */
   deleteContent(contentId, primaryCategory) {
+    console.log("primaryCategory", primaryCategory);
     this.showLoader = true;
     this.loaderMessage = {
       'loaderMessage': this.resourceService.messages.stmsg.m0034,
