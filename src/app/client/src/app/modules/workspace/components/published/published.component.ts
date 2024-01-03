@@ -332,6 +332,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     * This method launch the content editior
   */
   contentClick(param, content) {
+    console.log("content",content);
     this.contentMimeType = content.metaData.mimeType;
     if (param.data && param.data.originData) {
       const originData = JSON.parse(param.data.originData);
@@ -342,6 +343,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
       }
     }
     if (param.action.eventName === 'delete') {
+      console.log("delete");
       this.currentContentId = param.data.metaData.identifier;
       this.currentPrimaryCategory = param.data.metaData.primaryCategory;
       const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
@@ -357,7 +359,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
           element[0].className = 'sb-modal';
       }, 10);
       this.showCollectionLoader = false;
-      // this.deleteContent(param.data.metaData.identifier, param.data.metaData.primaryCategory);
+      this.deleteContent(param.data.metaData.identifier, param.data.metaData.primaryCategory);
     } else {
       this.workSpaceService.navigateToContent(param.data.metaData, this.state);
     }
@@ -373,6 +375,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     console.log("modal", modal);
     console.log("currentPrimaryCategory", this.currentPrimaryCategory);
     this.showCollectionLoader = false;
+    console.log("contentMimeType", this.contentMimeType);
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
       this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
       return;
@@ -380,6 +383,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     this.getLinkedCollections(this.currentContentId)
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
+        console.log("count", count);
         if (!count) {
           this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
@@ -440,6 +444,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
         this.loaderMessage = {
           'loaderMessage': this.resourceService.messages.stmsg.m0034,
         };
+        console.log("delete Content");
         if(primaryCategory == "Practice Question Set"){
           this.retire(contentIds).subscribe(
             (data: ServerResponse) => {
