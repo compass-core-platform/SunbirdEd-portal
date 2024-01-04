@@ -287,7 +287,7 @@ export class SignupComponent implements OnInit, OnDestroy, AfterViewInit {
         userName: email.value,
         lastName: lastName.value,
         password: password.value,
-
+        rootOrgId: this.config.appConfig.rootOrgId,
         channel: this.config.appConfig.channelName
       }
   }
