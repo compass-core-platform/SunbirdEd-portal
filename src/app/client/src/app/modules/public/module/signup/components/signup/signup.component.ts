@@ -3,7 +3,8 @@ import { Subject, Subscription, throwError } from 'rxjs';
 import {
   ResourceService,
   NavigationHelperService,
-  ConfigService
+  ConfigService,
+  ToasterService
 } from '@sunbird/shared';
 import { TenantService, UserService } from '@sunbird/core';
 import { TelemetryService } from '@sunbird/telemetry';
@@ -59,7 +60,7 @@ export class SignupComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(public resourceService: ResourceService, public tenantService: TenantService, public deviceDetectorService: DeviceDetectorService,
     public activatedRoute: ActivatedRoute, public telemetryService: TelemetryService,
     public navigationhelperService: NavigationHelperService, private router: Router, private userService: UserService,
-    private registerService: RegisterService, private config: ConfigService
+    private registerService: RegisterService, private config: ConfigService, private toasterService: ToasterService
     ) {
   }
 
@@ -294,7 +295,8 @@ export class SignupComponent implements OnInit, OnDestroy, AfterViewInit {
   this.registerService.register(data).pipe(catchError(error => {
       // const statusCode = error.status;
       this.registerErrorMessage = error?.error?.params?.errmsg;
-      return throwError(error);
+      this.toasterService.error(this.registerErrorMessage);
+      return throwError(error);  
     })
     ).subscribe(res => {
       firstName.value = "";
@@ -305,6 +307,7 @@ export class SignupComponent implements OnInit, OnDestroy, AfterViewInit {
       confirmPassword.value = "";
       this.registerSuccessMessage = "Registration successfull, please login."
       console.log('Register', res);
+      this.toasterService.success(this.registerSuccessMessage);
     })
   }
   
