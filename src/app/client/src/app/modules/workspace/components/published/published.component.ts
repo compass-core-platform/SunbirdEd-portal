@@ -397,18 +397,21 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
         forkJoin(_.map(channels, (channel: string) => {
             return this.getChannelDetails(channel);
           })).subscribe((forkResponse) => {
+            console.log("forkresponse", forkResponse);
             this.collectionData = [];
             _.forEach(forkResponse, channelResponse => {
               const channelId = _.get(channelResponse, 'result.channel.code');
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
+            console.log("collection", collections);
 
             _.forEach(collections, collection => {
               const obj = _.pick(collection, ['contentType', 'name', 'channel', ...this.taxonomyCategories]);
               obj['channel'] = channelMapping[obj.channel];
               this.collectionData.push(obj);
           });
+          console.log("collectionData",this.collectionData);
 
           this.headers = {
              type: 'Type',
@@ -423,6 +426,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
               this.deleteModal.deny();
             }
           this.collectionListModal = true;
+          console.log("collectionListModal",this.collectionListModal);
           },
           (error) => {
            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
