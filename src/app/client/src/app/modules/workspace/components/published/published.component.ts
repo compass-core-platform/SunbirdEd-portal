@@ -359,7 +359,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
           element[0].className = 'sb-modal';
       }, 10);
       this.showCollectionLoader = false;
-      // this.deleteContent(param.data.metaData.identifier, param.data.metaData.primaryCategory);
     } else {
       this.workSpaceService.navigateToContent(param.data.metaData, this.state);
     }
@@ -388,7 +387,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
           this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
         }
-        this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
         this.showCollectionLoader = true;
         const collections = _.get(response, 'result.content', []);
 
