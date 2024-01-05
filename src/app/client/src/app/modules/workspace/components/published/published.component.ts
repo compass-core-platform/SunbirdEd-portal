@@ -332,8 +332,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     * This method launch the content editior
   */
   contentClick(param, content) {
-    console.log("content",content);
-    console.log("param",param);
     this.contentMimeType = content.metaData.mimeType;
     if (param.data && param.data.originData) {
       const originData = JSON.parse(param.data.originData);
@@ -344,7 +342,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
       }
     }
     if (param.action.eventName === 'delete') {
-      console.log("delete");
       this.currentContentId = param.data.metaData.identifier;
       this.currentPrimaryCategory = param.data.metaData.primaryCategory;
       const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
@@ -372,10 +369,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     if (!_.isUndefined(modal)) {
       this.deleteModal = modal;
     }
-    console.log("modal", modal);
-    console.log("currentPrimaryCategory", this.currentPrimaryCategory);
     this.showCollectionLoader = false;
-    console.log("contentMimeType", this.contentMimeType);
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
       this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
       return;
@@ -383,7 +377,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
     this.getLinkedCollections(this.currentContentId)
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
-        console.log("count", count);
         if (!count) {
           this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
@@ -398,22 +391,18 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
         forkJoin(_.map(channels, (channel: string) => {
             return this.getChannelDetails(channel);
           })).subscribe((forkResponse) => {
-            try{
-              console.log("forkresponse", forkResponse);
             this.collectionData = [];
             _.forEach(forkResponse, channelResponse => {
               const channelId = _.get(channelResponse, 'result.channel.code');
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
-            console.log("collection", collections);
 
             _.forEach(collections, collection => {
               const obj = _.pick(collection, ['contentType', 'name', 'channel', ...this.taxonomyCategories]);
               obj['channel'] = channelMapping[obj.channel];
               this.collectionData.push(obj);
           });
-          console.log("collectionData",this.collectionData);
 
           this.headers = {
              type: 'Type',
@@ -427,14 +416,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
              if (!_.isUndefined(this.deleteModal)) {
               this.deleteModal.deny();
             }
-          console.log("headers",this.headers);
-          this.collectionListModal = true;
-          console.log("collectionListModal",this.collectionListModal);
-            } catch(e){
-              this.collectionListModal = true;
-              console.log("catch block", e);
-            }
-            
+          this.collectionListModal = true;            
           },
           (error) => {
            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
@@ -455,7 +437,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
         this.loaderMessage = {
           'loaderMessage': this.resourceService.messages.stmsg.m0034,
         };
-        console.log("delete Content");
         if(primaryCategory == "Practice Question Set"){
           this.retire(contentIds).subscribe(
             (data: ServerResponse) => {
