@@ -258,7 +258,6 @@ export class DraftComponent extends WorkSpace implements OnInit, AfterViewInit {
                     const metaData = this.config.appConfig.WORKSPACE.Draft.metaData;
                     const dynamicFields = this.config.appConfig.WORKSPACE.Draft.dynamicFields;
                     this.draftList = this.workSpaceService.getDataForCard(allContent, constantData, dynamicFields, metaData);
-                    console.log("draftList",this.draftList);
                     this.showLoader = false;
                 } else {
                     this.showError = false;
@@ -276,13 +275,11 @@ export class DraftComponent extends WorkSpace implements OnInit, AfterViewInit {
                 this.toasterService.error(this.resourceService.messages.fmsg.m0006);
             }
         );
-        console.log("draftList",this.draftList);
     }
     /**
      * This method launch the content editior
     */
     contentClick(param) {
-        console.log("after delete click", param);
         if (_.size(param.data.lockInfo) && this.userService.userid !== param.data.lockInfo.createdBy) {
             this.lockPopupData = param.data;
             this.showLockedContentModal = true;
@@ -305,9 +302,6 @@ export class DraftComponent extends WorkSpace implements OnInit, AfterViewInit {
     }
 
     public deleteConfirmModal(contentIds, primaryCategory) {
-        console.log("after confirm modal");
-        console.log("contentIds ",contentIds);
-        console.log("primaryCategory ",primaryCategory);
         const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
         config.isClosable = false;
         config.size = 'small';

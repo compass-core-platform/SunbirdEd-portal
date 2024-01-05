@@ -333,6 +333,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
   */
   contentClick(param, content) {
     console.log("content",content);
+    console.log("param",param);
     this.contentMimeType = content.metaData.mimeType;
     if (param.data && param.data.originData) {
       const originData = JSON.parse(param.data.originData);
@@ -425,6 +426,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
              if (!_.isUndefined(this.deleteModal)) {
               this.deleteModal.deny();
             }
+          console.log("headers",this.headers);
           this.collectionListModal = true;
           console.log("collectionListModal",this.collectionListModal);
           },

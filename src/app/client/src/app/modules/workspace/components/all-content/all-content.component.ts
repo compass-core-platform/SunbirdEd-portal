@@ -354,7 +354,10 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     if (!_.isUndefined(modal)) {
       this.deleteModal = modal;
     }
+    console.log("modal", modal);
+    console.log("currentPrimaryCategory", this.currentPrimaryCategory);
     this.showCollectionLoader = false;
+    console.log("contentMimeType", this.contentMimeType);
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
       this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
       return;
@@ -363,6 +366,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     this.getLinkedCollections(this.currentContentId)
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
+        console.log("count", count);
         if (!count) {
           this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
@@ -377,18 +381,21 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
         forkJoin(_.map(channels, (channel: string) => {
             return this.getChannelDetails(channel);
           })).subscribe((forkResponse) => {
+            console.log("forkresponse", forkResponse);
             this.collectionData = [];
             _.forEach(forkResponse, channelResponse => {
               const channelId = _.get(channelResponse, 'result.channel.code');
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
+            console.log("collection", collections);
 
             _.forEach(collections, collection => {
               const obj = _.pick(collection, ['contentType','name','channel', ...this.taxonomyCategories]);
               obj['channel'] = channelMapping[obj.channel];
               this.collectionData.push(obj);
           });
+          console.log("collectionData",this.collectionData);
 
           this.headers = {
             type: 'Type',
@@ -402,7 +409,9 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
             if (!_.isUndefined(modal)) {
               this.deleteModal.deny();
             }
+            console.log("headers",this.headers);
           this.collectionListModal = true;
+          console.log("collectionListModal",this.collectionListModal);
           },
           (error) => {
             this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
