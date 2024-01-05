@@ -90,7 +90,7 @@
     </div>
   </div>
 </ng-template>
-<sui-modal *ngIf="collectionListModal" [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'large'"
+<sui-modal *ngIf="collectionListModal==true" [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'large'"
 class="sb-modal custom-lg-modal" (dismissed)="this.collectionListModal = false" #modal>
 		<div class="sb-modal-header">
 		</div>

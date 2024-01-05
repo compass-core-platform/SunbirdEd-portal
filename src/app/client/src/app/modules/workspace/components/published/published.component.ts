@@ -398,7 +398,8 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
         forkJoin(_.map(channels, (channel: string) => {
             return this.getChannelDetails(channel);
           })).subscribe((forkResponse) => {
-            console.log("forkresponse", forkResponse);
+            try{
+              console.log("forkresponse", forkResponse);
             this.collectionData = [];
             _.forEach(forkResponse, channelResponse => {
               const channelId = _.get(channelResponse, 'result.channel.code');
@@ -429,6 +430,11 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
           console.log("headers",this.headers);
           this.collectionListModal = true;
           console.log("collectionListModal",this.collectionListModal);
+            } catch(e){
+              this.collectionListModal = true;
+              console.log("catch block", e);
+            }
+            
           },
           (error) => {
            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
