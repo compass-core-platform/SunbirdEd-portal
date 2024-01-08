@@ -177,7 +177,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
    public isQuestionSetEnabled: boolean;
    taxonomyCategories:any;
    frameworkId: any;
-   categoryNames:any =[];
+   categoryNames:any;
    targetTaxonomyIds: any = ["targetTaxonomyCategory1Ids","targetTaxonomyCategory2Ids","targetTaxonomyCategory3Ids","targetTaxonomyCategory4Ids"];
    competencyDetails: any = [];
   /**
@@ -423,8 +423,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
                   })
                 }
               })
-            })
-            console.log("categoryNames",this.categoryNames);
+              console.log("categoryNames",this.categoryNames);
             _.forEach(collections, collection => {
               const obj = _.pick(collection, ['contentType', 'name', 'channel']);
               obj['channel'] = channelMapping[obj.channel];
@@ -453,7 +452,9 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
              if (!_.isUndefined(this.deleteModal)) {
               this.deleteModal.deny();
             }
-          this.collectionListModal = true;            
+          this.collectionListModal = true;   
+            })
+                     
           },
           (error) => {
            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));

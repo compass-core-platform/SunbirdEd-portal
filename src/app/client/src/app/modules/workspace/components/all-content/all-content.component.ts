@@ -203,6 +203,10 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
    */
   public collectionListModal = false;
   public isQuestionSetFilterEnabled: boolean;
+  frameworkId: any;
+  categoryNames:any =[];
+  targetTaxonomyIds: any = ["targetTaxonomyCategory1Ids","targetTaxonomyCategory2Ids","targetTaxonomyCategory3Ids","targetTaxonomyCategory4Ids"];
+  competencyDetails: any = [];
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -360,6 +364,56 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
       return;
     }
 
+    // this.getLinkedCollections(this.currentContentId)
+    //   .subscribe((response) => {
+    //     const count = _.get(response, 'result.count');
+    //     if (!count) {
+    //       this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
+    //       return;
+    //     }
+    //     this.showCollectionLoader = true;
+    //     const collections = _.get(response, 'result.content', []);
+
+    //     const channels = _.map(collections, (collection) => {
+    //       return _.get(collection, 'channel');
+    //     });
+    //     const channelMapping = {};
+    //     forkJoin(_.map(channels, (channel: string) => {
+    //         return this.getChannelDetails(channel);
+    //       })).subscribe((forkResponse) => {
+    //         this.collectionData = [];
+    //         _.forEach(forkResponse, channelResponse => {
+    //           const channelId = _.get(channelResponse, 'result.channel.code');
+    //           const channelName = _.get(channelResponse, 'result.channel.name');
+    //           channelMapping[channelId] = channelName;
+    //         });
+
+    //         _.forEach(collections, collection => {
+    //           const obj = _.pick(collection, ['contentType','name','channel', ...this.taxonomyCategories]);
+    //           obj['channel'] = channelMapping[obj.channel];
+    //           this.collectionData.push(obj);
+    //       });
+
+    //       this.headers = {
+    //         type: 'Type',
+    //         name: 'Name',
+    //         [this.taxonomyCategories[3]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[3]),
+    //         [this.taxonomyCategories[2]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[2]),
+    //         [this.taxonomyCategories[1]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[1]),
+    //         [this.taxonomyCategories[0]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[0]),
+    //         channel: 'Tenant Name'
+    //         };
+    //         if (!_.isUndefined(modal)) {
+    //           this.deleteModal.deny();
+    //         }
+    //       this.collectionListModal = true;
+    //       },
+    //       (error) => {
+    //         this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
+    //         console.log(error);
+    //       });
+    //     },
+
     this.getLinkedCollections(this.currentContentId)
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
@@ -383,29 +437,60 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
-
+            console.log("taxonomy category",this.taxonomyCategories);
+            console.log("collection",collections);
+            this.frameworkService.getSelectedFrameworkCategories(this.frameworkId)
+            .subscribe((res: any) => {
+              res.result.framework.categories.map((item)=>{
+                this.taxonomyCategories.map((cat: any)=>{
+                  if(item.code == cat){
+                    this.categoryNames.push(item.name);
+                  }
+                }) 
+                if(item.name=="Competencies"){
+                  item.terms.map((term:any)=>{
+                    let object: any ={};
+                    object.identifier = term.identifier;
+                    object.name = term.name;
+                    this.competencyDetails.push(object);
+                  })
+                }
+              })
+              console.log("categoryNames",this.categoryNames);
             _.forEach(collections, collection => {
-              const obj = _.pick(collection, ['contentType','name','channel', ...this.taxonomyCategories]);
+              const obj = _.pick(collection, ['contentType', 'name', 'channel']);
               obj['channel'] = channelMapping[obj.channel];
+              let competencies:any = [];
+              collection[this.targetTaxonomyIds[3]].map((id:any)=>{
+                this.competencyDetails.map((comp:any)=>{
+                  if(comp.identifier == id){
+                    competencies.push(comp.name);
+                  }
+                })
+              })
+              obj[this.targetTaxonomyIds[3]] = competencies;
               this.collectionData.push(obj);
           });
+          console.log("collectionData ",this.collectionData);
 
           this.headers = {
-            type: 'Type',
-            name: 'Name',
-            [this.taxonomyCategories[3]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[3]),
-            [this.taxonomyCategories[2]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[2]),
-            [this.taxonomyCategories[1]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[1]),
-            [this.taxonomyCategories[0]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[0]),
-            channel: 'Tenant Name'
-            };
-            if (!_.isUndefined(modal)) {
+             type: 'Type',
+             name: 'Name',
+             [this.categoryNames[3]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[3]),
+             [this.categoryNames[2]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[2]),
+             [this.categoryNames[1]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[1]),
+             [this.categoryNames[0]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[0]),
+             channel: 'Tenant Name'
+             };
+             if (!_.isUndefined(this.deleteModal)) {
               this.deleteModal.deny();
             }
-          this.collectionListModal = true;
+          this.collectionListModal = true;   
+            })
+                     
           },
           (error) => {
-            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
+           this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
             console.log(error);
           });
         },

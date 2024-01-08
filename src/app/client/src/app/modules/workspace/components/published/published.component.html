@@ -111,7 +111,7 @@ class="sb-modal custom-lg-modal" (dismissed)="this.collectionListModal = false" 
             <tr *ngFor = "let row of collectionData">
               <td class="white-space-inherit">{{row['contentType']}}</td>
               <td class="white-space-inherit font-weight-bold">{{row['name']}}</td>
-              <td class="white-space-inherit">{{row[targetTaxonomyIds[3][0]]?.join(", ") || '-'}}</td>
+              <td class="white-space-inherit">{{row[targetTaxonomyIds[3]][0]?.join(", ") || '-'}}</td>
               <td class="white-space-inherit">{{row[targetTaxonomyIds[2]]?.join(", ") || '-'}}</td>
               <td class="white-space-inherit">{{row[targetTaxonomyIds[1]]?.join(", ") || '-'}}</td>
               <td class="white-space-inherit">{{row[targetTaxonomyIds[0]]}}</td>
