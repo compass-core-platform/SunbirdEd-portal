@@ -397,12 +397,14 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
-
+            console.log("taxonomy category",this.taxonomyCategories);
+            console.log("collection",collections);
             _.forEach(collections, collection => {
               const obj = _.pick(collection, ['contentType', 'name', 'channel', ...this.taxonomyCategories]);
               obj['channel'] = channelMapping[obj.channel];
               this.collectionData.push(obj);
           });
+          console.log("collectionData ",this.collectionData);
 
           this.headers = {
              type: 'Type',
