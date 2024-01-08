@@ -15,6 +15,7 @@ import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semanti
 import { debounceTime, map } from 'rxjs/operators';
 import { ContentIDParam } from '../../interfaces/delteparam';
 import { TaxonomyService } from '../../../../service/taxonomy.service';
+import { ContentSearchService } from '@sunbird/content-search';
 
 @Component({
   selector: 'app-all-content',
@@ -226,7 +227,8 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     route: Router, userService: UserService,
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService,
-    public taxonomyService:TaxonomyService) {
+    public taxonomyService:TaxonomyService,
+    private contentSearchService: ContentSearchService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -243,6 +245,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   }
 
   ngOnInit() {
+    this.frameworkId = this.contentSearchService.frameworkId;
     this.workSpaceService.questionSetEnabled$.subscribe(
       (response: any) => {
         this.isQuestionSetFilterEnabled = response.questionSetEnablement;
@@ -437,10 +440,10 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
-            console.log("taxonomy category",this.taxonomyCategories);
             console.log("collection",collections);
             this.frameworkService.getSelectedFrameworkCategories(this.frameworkId)
             .subscribe((res: any) => {
+              this.categoryNames = [];
               res.result.framework.categories.map((item)=>{
                 this.taxonomyCategories.map((cat: any)=>{
                   if(item.code == cat){

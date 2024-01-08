@@ -177,7 +177,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
    public isQuestionSetEnabled: boolean;
    taxonomyCategories:any;
    frameworkId: any;
-   categoryNames:any;
+   categoryNames:any = [];
    targetTaxonomyIds: any = ["targetTaxonomyCategory1Ids","targetTaxonomyCategory2Ids","targetTaxonomyCategory3Ids","targetTaxonomyCategory4Ids"];
    competencyDetails: any = [];
   /**
@@ -404,7 +404,6 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
-            console.log("taxonomy category",this.taxonomyCategories);
             console.log("collection",collections);
             this.frameworkService.getSelectedFrameworkCategories(this.frameworkId)
             .subscribe((res: any) => {
@@ -453,8 +452,7 @@ export class PublishedComponent extends WorkSpace implements OnInit, AfterViewIn
               this.deleteModal.deny();
             }
           this.collectionListModal = true;   
-            })
-                     
+            })     
           },
           (error) => {
            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
