@@ -55,8 +55,7 @@ export class CourseAsideComponent implements OnInit {
     this.parentId = this.courseContent[0].body[0].collectionId;
     this.courseProgressService.courseStatus.subscribe((status:number) => {
       // alert(status);
-      // this.courseStatus = status
-      this.courseStatus = 2
+      this.courseStatus = status
     });
 
     //set selected content Id with last visited contentId
