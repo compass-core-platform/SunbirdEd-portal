@@ -302,17 +302,20 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     checkUserProfileDetails() {
         this.userService.userData$.subscribe((user: IUserData) => {
+            if(user.userProfile['profileDetails'] !== null){
             if (user.userProfile['profileDetails']['professionalDetails'].length > 0) {
                 if (user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == null || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == undefined || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == '') {
                     this.toasterService.warning("Please update your designation to proceed.");
                     // this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
                     window.location.href = '/profile/edit?channel=' + user.userProfile['rootOrgId'] + '&showError=true';
                 }
-            } else {
+            }
+            }  else {
                 this.toasterService.warning("Please update your designation to proceed.");
                 // this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
                 window.location.href = '/profile/edit?channel=' + user.userProfile['rootOrgId'] + '&showError=true';
             }
+
         });
     }
 
@@ -365,7 +368,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             "icon": "school",
             "link": ""
         });
-        this.checkUserProfileDetails();
+        // this.checkUserProfileDetails();
     }
 
     public getWishlisteddoIds() {
@@ -1700,7 +1703,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigate(['/learn/course', id])
     }
 
-    favoriteIconClicked(option: string, courseId: any) {
+    favoriteIconClicked(option: string, courseId: any, key: string) {
         console.log("Icon: ", option);
 
         let payload = {
@@ -1710,9 +1713,11 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         }
 
-        if (option === 'selected') {
+        if(option === 'selected') {
             this.wishlistedService.addToWishlist(payload).subscribe((res: any) => {
-                if (res) {
+                if(res) {
+                    this.updateWishlistedCourse(option,key, courseId);
+                    this.wishlistedService.updateData({ message: 'Added to Wishlist' });
                     this.snackBar.openFromComponent(SnackBarComponent, {
                         duration: 2000,
                         panelClass: ['wishlist-snackbar']
@@ -1721,8 +1726,13 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             });
         } else {
             this.wishlistedService.removeFromWishlist(payload).subscribe((res: any) => {
-                if (res) {
-                    console.log("un wishlisted");
+                if(res) {
+                    this.updateWishlistedCourse(option,key, courseId)
+                    this.wishlistedService.updateData({ message: 'Removed from Wishlist' });
+                    this.snackBar.openFromComponent(SnackBarComponent, {
+                        duration: 2000,
+                        panelClass: ['wishlist-snackbar']
+                    });
                 }
             });
         }

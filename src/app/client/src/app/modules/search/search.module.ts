@@ -21,6 +21,7 @@ import { CoursesSearchComponent } from './components/courses-search/courses-sear
 import { WhishlistCoursesComponent } from './components/whishlist-courses/whishlist-courses.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { MatListModule } from '@angular/material/list';
     ContentSearchModule,
     CardModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    InfiniteScrollModule
   ],
   declarations: [ UserSearchComponent,
   UserFilterComponent, UserEditComponent, UserDeleteComponent,

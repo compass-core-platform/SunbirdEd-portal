@@ -623,6 +623,6 @@ export class SearchService {
       url: this.config.urlConFig.URLS.COMPOSITE.SEARCH_METRIC,
       data: payload
     };
-    return this.learnerService.post(option);
+    return this.content.post(option);
   }
 }

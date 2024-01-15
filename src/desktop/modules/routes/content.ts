@@ -259,6 +259,10 @@ export default (app, proxyURL, contentDownloadManager) => {
           res.status(res.statusCode).send(res.body);
       });
 
+      app.post("/content/composite/v1/search/metric", customProxy(proxyURL, { bypassContentRoute: true }), (req, res) => {
+        res.status(res.statusCode).send(res.body);
+    });
+
       app.get(
         "/learner/questionset/v2/hierarchy/:id",
         async (req, res, next) => {

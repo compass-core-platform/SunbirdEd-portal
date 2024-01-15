@@ -121,6 +121,7 @@ export class CreateContentComponent implements OnInit, AfterViewInit {
   getInsightDashboardData() {
     const payload= {
       "request": {
+          "limit": 10000,
           "filters": {
               "status": [
                   "Draft",
@@ -138,23 +139,26 @@ export class CreateContentComponent implements OnInit, AfterViewInit {
       }
     }
     this.searchService.getInsightsMetric(payload).subscribe((res: any) => {
-      if(res.result.metric.length > 0) {
-        let response = res.result.metric;
-        // response.forEach((data: any) => {
-        //   if(data.primaryCategory == 'Course') {
-        //     this.metricsData.splice(0,0,data)
-        //   } else if(data.primaryCategory == 'Assessment') {
-        //     this.metricsData.splice(1,0,data)
-        //   } else if(data.primaryCategory == 'Learning Resource') {
-        //     this.metricsData.splice(2,0,data)
-        //   } else {
-        //     this.metricsData.splice(3,0,data)
-        //   }
-        // })
+      if(res.result.metrics?.length > 0) {
+        let response = res.result.metrics;
 
+        //Sort array in required format
         this.metricsData = response.sort((a, b) => {
           return this.sequence.indexOf(a.primaryCategory) - this.sequence.indexOf(b.primaryCategory);
-      });
+        });
+
+        //Replace names for title accordingly
+        response.forEach((data: any) => {
+          if(data.primaryCategory == 'Learning Resource') {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.resource;
+          } else if(data.primaryCategory == 'Practice Question Set') {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.questionset;
+          } else if(data.primaryCategory == 'Course') {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.course;
+          } else {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.assessment;
+          }
+        });
       }
     });
   }

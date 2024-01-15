@@ -269,6 +269,16 @@ const API_LIST = {
         ROLE.FLAG_REVIEWER, ROLE.ORG_ADMIN
       ]
     },
+    '/content/composite/v1/search/metric': {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [
+        ROLE.CONTENT_CREATOR, ROLE.CONTENT_REVIEWER,
+        ROLE.COURSE_CREATOR,
+        ROLE.BOOK_CREATOR, ROLE.BOOK_REVIEWER,
+        ROLE.FLAG_REVIEWER, ROLE.ORG_ADMIN
+      ]
+    },
+    
 
     // Generic Editor
     '/action/content/v3/bundle': {

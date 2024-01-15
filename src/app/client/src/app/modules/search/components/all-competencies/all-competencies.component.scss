@@ -13,6 +13,15 @@
     width: 25%;
     padding: 1rem 1rem 1rem 1rem;
 }
+::ng-deep snack-bar-container.wishlist-snackbar{
+    background-color: white;
+    border-radius: 0px !important;
+    min-width: 161px !important;
+    height: 54px;
+    text-align: center;
+    justify-content: center;
+    display: flex !important;
+}
 @media only screen and (max-width: 1127px) {
     .popular-card {
         width: 33%;

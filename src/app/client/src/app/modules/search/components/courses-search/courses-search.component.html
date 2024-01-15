@@ -1,3 +1,4 @@
+
 <compass-breadcrumb [data]="breadCrumbData"></compass-breadcrumb>
 
 <div class="ui container grid mt-4rem">
@@ -25,7 +26,13 @@
 <div class="container ui grid stackable">
     <div class="nine wide column">
         <div class="ui grid stackable">
-            <div class="four wide column" *ngFor="let course of courses">
+            <div class="four wide column" *ngFor="let course of courses"  infiniteScroll
+            [infiniteScrollDistance]="0"
+            [infiniteScrollThrottle]="500"
+            [infiniteScrollDisabled]="scrollCheck"
+            [scrollWindow]="true"
+            (scrolled)="onScroll()"
+            >
                 <compass-course-card (click)="courseCardClicked(course)" [data]="course" (favoriteIconClicked)="favoriteIconClicked($event, course['identifier'] || course['contentId'])">
                 </compass-course-card>
             </div>

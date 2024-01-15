@@ -31,6 +31,9 @@ export class CoursesSearchComponent implements OnInit {
                 ]
   recentlyPublished = true;
   allWishlistedIds = [];
+  currentPage=1;
+  itemsPerPage=15;
+  scrollCheck = false;
   constructor(public activatedRoute: ActivatedRoute, public searchService: SearchService,
     public resourceService: ResourceService, private schemaService: SchemaService,
     private contentSearchService: ContentSearchService, public coursesService: CoursesService, public frameworkService: FrameworkService, private snackBar: MatSnackBar,
@@ -167,7 +170,8 @@ export class CoursesSearchComponent implements OnInit {
       ],
       query: key ?? '',
       sort_by: { lastPublishedOn: this.recentlyPublished?'desc':'asc' },
-      pageNumber: pageNumber
+      pageNumber: this.currentPage,
+      limit:this.itemsPerPage
     };
     if (option.filters.keywords == '') {
       delete option.filters.keywords;
@@ -177,8 +181,9 @@ export class CoursesSearchComponent implements OnInit {
     }
     this.searchService.contentSearch(option).subscribe(res => {
       this.getWishlisteddoids();
-      this.courses = res['result']['content'];
-      this.courses = this.contentSearchService.updateCourseWithTaggedCompetency(this.courses);
+      this.courses = [...this.courses , ...res['result']['content']];
+      this.courses =  this.contentSearchService.updateCourseWithTaggedCompetency(this.courses);
+      this.scrollCheck = false;
       // console.log('Searched Courses', res['result']['content']);
     });
   }
@@ -283,5 +288,9 @@ export class CoursesSearchComponent implements OnInit {
     const startRates = this.startRates.filter(s => s.selected);
     console.log(startRates);
   }
-
+  onScroll(){
+    this.currentPage++;
+    this.scrollCheck = true;
+    this.fetchContentOnParamChange();
+  }
 }
