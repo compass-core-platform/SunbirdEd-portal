@@ -23,7 +23,7 @@
             *ngFor="let info of allCompetencies.data"
             [pillName]="'Competency'" [data]="info"
             class="w-100 mb-32"
-            (filterChange) = "onCourseClick($event)"
+            (filterChange) = "onCourseClick($event)" (favoriteIconClicked)="favoriteIconClicked($event)"
           ></sb-popular-card>
       </div>
   </section>

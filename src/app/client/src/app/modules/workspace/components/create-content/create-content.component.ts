@@ -121,6 +121,7 @@ export class CreateContentComponent implements OnInit, AfterViewInit {
   getInsightDashboardData() {
     const payload= {
       "request": {
+          "limit": 10000,
           "filters": {
               "status": [
                   "Draft",
