@@ -24,6 +24,39 @@
                 </div>
               </ng-container>
             </div>
+            <div class="form-group">
+              <label for="">Areas of interest</label>
+              <!-- <mat-form-field>
+                <mat-select placeholder="Select areas" [formControl]="areasOfInterest" [(value)]="selectedAreasOfInterest" multiple>
+                  <mat-option *ngFor="let area of areasOfInterestList" [value]="area" [selected]=true>{{area}}</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              <mat-form-field class="example-chip-list" appearance="fill">
+                <!-- <mat-label>Favorite Fruits</mat-label> -->
+                <mat-chip-list #chipList aria-label="Area selection">
+                  <mat-chip
+                    *ngFor="let area of areas"
+                    (removed)="remove(area)">
+                    {{area}}
+                    <button matChipRemove>
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip>
+                  <input
+                    placeholder="New area..."
+                    #areaInput
+                    [formControl]="areasOfIntrestCtrl"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let area of filteredAreas | async" [value]="area">
+                    {{area}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
             <!-- <div *ngFor = "let field of formData.colOne.radio" class="form-group">
                 <label for="{{field.value}}">{{field.label}}</label>
                 <mat-radio-group formControlName="{{field.value}}">

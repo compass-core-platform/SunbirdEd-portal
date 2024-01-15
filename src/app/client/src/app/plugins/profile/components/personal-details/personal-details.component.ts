@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {UserService, ChannelService} from '@sunbird/core';
 import {IUserData, ToasterService, ResourceService} from '@sunbird/shared';
 import { ProfileService } from '@sunbird/profile';
@@ -7,6 +7,14 @@ import { ContentSearchService } from '@sunbird/content-search';
 import _ from 'lodash';
 import { FrameworkService } from '../../../../modules/core/services/framework/framework.service';
 import { ActivatedRoute } from '@angular/router';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+// import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
+
+
 
 @Component({
   selector: 'app-personal-details',
@@ -20,11 +28,25 @@ export class PersonalDetailsComponent implements OnInit {
   payload: any = {};
   frameworkId:any;
   positions: any = [];
+  // selectedAreasOfInterest: any = [];
+  
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  areasOfIntrestCtrl = new FormControl('');
+  filteredAreas: Observable<string[]>;
+  areas: string[] = [];
+  allAreas: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  @ViewChild('areaInput') areaInput: ElementRef<HTMLInputElement>;
+
 
   constructor(private formBuilder: FormBuilder, public userService: UserService, private profileService: ProfileService, public toasterService: ToasterService, public resourceService: ResourceService, private contentSearchService: ContentSearchService,
     private frameworkService: FrameworkService, private channelService: ChannelService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.filteredAreas = this.areasOfIntrestCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allAreas.slice())),
+    );
     this.userService.userData$.subscribe((user: IUserData) => {
       if (user.userProfile) {
         this.userProfile = user.userProfile;
@@ -64,11 +86,51 @@ export class PersonalDetailsComponent implements OnInit {
         Validators.required
       ],
       designation: [this.userProfile?.profileDetails?.professionalDetails[0]?.designation || '', Validators.required],
-      doj: [this.userProfile?.profileDetails?.professionalDetails[0]?.doj || '']
+      doj: [this.userProfile?.profileDetails?.professionalDetails[0]?.doj || ''],
     });
+    this.areas = this.userProfile?.profileDetails?.areaOfInterest[0].skills || [];
+    // console.log('XX', this.selectedAreasOfInterest)
+    // console.log('YY', this.userProfile?.profileDetails?.areaOfInterest[0].skills)
+  }
+
+
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.areas.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.areasOfIntrestCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.areas.indexOf(fruit);
+
+    if (index >= 0) {
+      this.areas.splice(index, 1);
+    }
+  }
+
+  selected(event: any): void {
+    this.areas.push(event.option.viewValue);
+    this.areaInput.nativeElement.value = '';
+    this.areasOfIntrestCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allAreas.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 
   onSubmit(request) {
+    // console.log(this.selectedAreasOfInterest);
     if (this.form.valid) {
       console.log('Form submitted!', this.form.value);
       this.payload = this.form.value;
@@ -94,6 +156,9 @@ export class PersonalDetailsComponent implements OnInit {
       delete this.payload.designation;
       delete this.payload.doj;
       profileDetails.professionalDetails = professionalDetails;
+      let areaOfInterest: any = [];
+      areaOfInterest.push({skills: this.areas});
+      profileDetails.areaOfInterest = areaOfInterest;
       this.payload.profileDetails = profileDetails;
       this.profileService.updatePrivateProfile(this.payload).subscribe(res => {
         console.log("res",res);

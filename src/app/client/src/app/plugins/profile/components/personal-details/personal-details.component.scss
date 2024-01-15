@@ -35,7 +35,7 @@
         text-align: left;
         line-height: 20px;
     }
-    input{
+    input {
         height: 60px;
         border: solid 1px var(--com-grey-border);
         border-radius: 4px;
@@ -120,5 +120,18 @@
                 }
             }
         }
+    }
+
+    .mat-form-field-flex {
+      padding-left: 10px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+      height: 0px !important;
+    }
+
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      background: #ffffff;
     }
   }
