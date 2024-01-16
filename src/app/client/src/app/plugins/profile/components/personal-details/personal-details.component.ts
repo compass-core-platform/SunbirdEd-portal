@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FloatLabelType} from '@angular/material/form-field';
 import {UserService, ChannelService} from '@sunbird/core';
 import {IUserData, ToasterService, ResourceService} from '@sunbird/shared';
 import { ProfileService } from '@sunbird/profile';
@@ -13,14 +14,12 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-
-
-
 @Component({
   selector: 'app-personal-details',
   templateUrl: './personal-details.component.html',
   styleUrls: ['./personal-details.component.scss']
 })
+
 export class PersonalDetailsComponent implements OnInit {
   form: FormGroup;
   formData = {"colOne":{"fields":[{"label":"First name","value":"firstName"},{"label":"Last name","value":"lastName"},{"label":"Mobile number","value1":"countryCode","value":"phone"},{"label":"Primary email","value":"primaryEmail"},{"label":"Secondary email","value":"secondaryEmail"},{"label":"Department name","value":"departmentName"},{"label":"Designation","value":"designation"},{"label":"Date of joining","value":"doj"}],"radio":[]},"colTwo":{}}
@@ -34,7 +33,6 @@ export class PersonalDetailsComponent implements OnInit {
   areasOfIntrestCtrl = new FormControl('');
   filteredAreas: Observable<string[]>;
   areas: string[] = [];
-  allAreas: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   @ViewChild('areaInput') areaInput: ElementRef<HTMLInputElement>;
 
@@ -43,10 +41,10 @@ export class PersonalDetailsComponent implements OnInit {
     private frameworkService: FrameworkService, private channelService: ChannelService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.filteredAreas = this.areasOfIntrestCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allAreas.slice())),
-    );
+    // this.filteredAreas = this.areasOfIntrestCtrl.valueChanges.pipe(
+    //   startWith(null),
+    //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allAreas.slice())),
+    // );
     this.userService.userData$.subscribe((user: IUserData) => {
       if (user.userProfile) {
         this.userProfile = user.userProfile;
@@ -123,11 +121,6 @@ export class PersonalDetailsComponent implements OnInit {
     this.areasOfIntrestCtrl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allAreas.filter(fruit => fruit.toLowerCase().includes(filterValue));
-  }
 
   onSubmit(request) {
     // console.log(this.selectedAreasOfInterest);

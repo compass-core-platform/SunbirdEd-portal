@@ -10,10 +10,12 @@
     .sb-mat__dropdown.mat-form-field-appearance-fill .mat-form-field-flex {
         border-radius: 0px;
     }
-
-    .mat-form-field-flex {
-        box-shadow: unset !important;
-        border: solid 1px rgba(0, 0, 0, 0.16) !important;
+    
+    .sb-mat__dropdown {
+        .mat-form-field-flex {
+            box-shadow: unset !important;
+            border: solid 1px rgba(0, 0, 0, 0.16) !important;
+        }
     }
 
     .mat-form-field-infix {
