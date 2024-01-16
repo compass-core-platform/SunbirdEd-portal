@@ -445,12 +445,15 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
           //calculate percentage here
           if(res[0]?.bestScore) {
             let totalPercentage = this.getTotalPercentage(res[0].bestScore);   
-            if(totalPercentage > response?.questionset?.minimumPassPercentage && res[0].status !== 2) {
-              this.courseProgressService.statusCompletion(res[0], this.userService.userid)
+            if(totalPercentage > response?.questionset?.minimumPassPercentage) {
+              this.courseProgressService.setResultMessage('Pass');
+              if(res[0].status !== 2) {
+                this.courseProgressService.statusCompletion(res[0], this.userService.userid)
+              }
+            } else {
+              this.courseProgressService.setResultMessage('Fail');
             }
           }
-        }, (err) => {
-          this.toasterService.error(this.resourceService.messages.stmsg.m0009);
         });
   }
 

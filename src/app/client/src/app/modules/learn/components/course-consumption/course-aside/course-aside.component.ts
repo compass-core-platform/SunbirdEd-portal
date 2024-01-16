@@ -35,6 +35,8 @@ export class CourseAsideComponent implements OnInit {
   resumeContent: any;
   courseContent: any;
   showRatingModal = false;
+  rating:number = 0;
+  resultMessage: string = '';
   instructorRating:number = 0;
   contentRating:number = 0;
   engagementRating:number = 0;
@@ -198,5 +200,14 @@ export class CourseAsideComponent implements OnInit {
       return this.courseConsumptionService.AvgPercentage;
     }
     return 0;
+  }
+
+  getResultMessage() {
+    if(this.courseProgressService.resultMessage) {
+      this.resultMessage = this.courseProgressService.resultMessage;
+      return '- ' + this.courseProgressService.resultMessage;
+    }
+    this.resultMessage = '';
+    return this.resultMessage;
   }
 }
