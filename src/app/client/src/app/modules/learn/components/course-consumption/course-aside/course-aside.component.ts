@@ -36,6 +36,7 @@ export class CourseAsideComponent implements OnInit {
   courseContent: any;
   showRatingModal = false;
   rating:number = 0;
+  resultMessage: string = '';
 
   constructor(private router: Router, private courseConsumptionService: CourseConsumptionService,
      private userService: UserService,  public courseProgressService: CourseProgressService, public resourceService: ResourceService, public toasterService: ToasterService,
@@ -188,5 +189,14 @@ export class CourseAsideComponent implements OnInit {
       return this.courseConsumptionService.AvgPercentage;
     }
     return 0;
+  }
+
+  getResultMessage() {
+    if(this.courseProgressService.resultMessage) {
+      this.resultMessage = this.courseProgressService.resultMessage;
+      return '- ' + this.courseProgressService.resultMessage;
+    }
+    this.resultMessage = '';
+    return this.resultMessage;
   }
 }

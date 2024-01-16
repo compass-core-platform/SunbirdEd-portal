@@ -16,7 +16,7 @@
             </text>
         </svg>
     </span>
-    <span class="sub-heading-one">Your Progress</span>
+    <span class="sub-heading-one">Your Progress </span> <span [ngClass]="resultMessage == 'Fail'? 'failMessage':'passMessage'" class="sub-heading-one">&nbsp;{{getResultMessage()}}</span>
 </div>
 <aside class="aside">
     <div class="aside__top">

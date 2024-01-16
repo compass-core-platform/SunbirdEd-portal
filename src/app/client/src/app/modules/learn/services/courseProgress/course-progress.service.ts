@@ -28,6 +28,7 @@ export class CourseProgressService {
   mimeType: string = '';
   contentProgress: any = {};
   lastReadContentId = new BehaviorSubject<any>('');
+  resultMessage: string;
 
   private courseStatus$ = new BehaviorSubject<Number>(0);
   courseStatus = this.courseStatus$.asObservable();
@@ -381,6 +382,10 @@ export class CourseProgressService {
 
   getLastReadContent() {
     return this.lastReadContentId.asObservable();
+  }
+
+  setResultMessage(message: string) {
+    this.resultMessage = message;
   }
 
 
