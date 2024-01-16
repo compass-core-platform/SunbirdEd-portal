@@ -110,41 +110,103 @@
         <div class="sb-modal">
             <div class="transition ui dimmer page modals active visible">
                 <div class="ui modal transition active visible normal">
-                    <button aria-label="close dialog" mat-dialog-close (click)="showRatingModal = false;"
+                    <div class="sb-modal-header font-weight-normal">
+                        {{resourceService?.frmelmnts?.toc?.overview?.ratingHeader}}
+                        <button aria-label="close dialog" mat-dialog-close (click)="showRatingModal = false;"
                         class="mat-close-btn">
-                        <span>&times;</span>
+                        <span><mat-icon>close</mat-icon></span>
                     </button>
-                    <div class="sb-modal-header font-weight-normal padding-20-x">
-                        {{resourceService?.frmelmnts?.toc?.overview?.rating}}
                     </div>
-                    <div class="rating-stars ui container mt-2em padding-20-x">
-                        <p>What would you rate this course?</p>
+                    
+                    
+                    <div class="rating-stars mt-2em">
+                        <p class="ratingQn">What would you rate the quality of the instructor?</p>
                         <p class="give-rating">
-                            <span class="button-icon" [ngClass]="{'active-star' : rating >= 1}" (click)="rating=1">
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 1, 'button-icon' : instructorRating < 1}" (click)="instructorRating=1">
                                 <mat-icon>star</mat-icon>
                             </span>
-                            <span class="button-icon" [ngClass]="{'active-star' : rating >= 2}" (click)="rating=2">
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 2, 'button-icon' : instructorRating < 2}" (click)="instructorRating=2">
                                 <mat-icon>star</mat-icon>
                             </span>
-                            <span class="button-icon" [ngClass]="{'active-star' : rating >= 3}" (click)="rating=3">
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 3, 'button-icon' : instructorRating < 3}" (click)="instructorRating=3">
                                 <mat-icon>star</mat-icon>
                             </span>
-                            <span class="button-icon" [ngClass]="{'active-star' : rating >= 4}" (click)="rating=4">
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 4, 'button-icon' : instructorRating < 4}" (click)="instructorRating=4">
                                 <mat-icon>star</mat-icon>
                             </span>
-                            <span class="button-icon" [ngClass]="{'active-star' : rating >= 5}" (click)="rating=5">
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 5, 'button-icon' : instructorRating < 5}" (click)="instructorRating=5">
                                 <mat-icon>star</mat-icon>
                             </span>
                         </p>
                     </div>
-                    <div class="ui container padding-20-x mt-2em">
+                    <div class="rating-stars mt-2em">
+                        <p  class="ratingQn">What would you rate the relevence of the content?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 1,'button-icon' : contentRating < 1}" (click)="contentRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 2,'button-icon' : contentRating < 2}" (click)="contentRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 3,'button-icon' : contentRating < 3}" (click)="contentRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 4,'button-icon' : contentRating < 4}" (click)="contentRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 5,'button-icon' : contentRating < 5}" (click)="contentRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-stars mt-2em">
+                        <p  class="ratingQn">What would you rate the engagement level of this course?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 1,'button-icon' : engagementRating < 1}" (click)="engagementRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 2,'button-icon' : engagementRating < 2}" (click)="engagementRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 3,'button-icon' : engagementRating < 3}" (click)="engagementRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 4,'button-icon' : engagementRating < 4}" (click)="engagementRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 5,'button-icon' : engagementRating < 5}" (click)="engagementRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-stars mt-2em">
+                        <p  class="ratingQn">What would you rate the quality of these assessments?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 1,'button-icon' : assessmentRating < 1}" (click)="assessmentRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 2,'button-icon' : assessmentRating < 2}" (click)="assessmentRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 3,'button-icon' : assessmentRating < 3}" (click)="assessmentRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 4,'button-icon' : assessmentRating < 4}" (click)="assessmentRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 5,'button-icon' : assessmentRating < 5}" (click)="assessmentRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-description mt-2em">
                         <p>{{resourceService?.frmelmnts?.toc?.courseAside?.yourReview}}</p>
                         <div class="sb-input">
-                            <textarea rows="5" class="false sb-textbox ng-pristine ng-valid valid ng-touched" name="review" id="review"></textarea>
+                            <textarea rows="5" class="false sb-textbox ng-pristine ng-valid valid ng-touched" name="review" id="review" placeholder="Type here"></textarea>
                         </div>
                     </div>
-                    <div class="ui container right aligned padding-20-x">
-                        <button class="com-secondary-btn mt-2em mb-2em" (click)="saveCourseRating()">{{resourceService?.frmelmnts?.btn?.submit}}</button>
+                    <div class="submit-btn">
+                        <button class="com-primary-btn" (click)="saveCourseRating()">{{resourceService?.frmelmnts?.btn?.submit}}</button>
                     </div>
                 </div>
             </div>

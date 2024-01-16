@@ -126,11 +126,57 @@
 
 .sb-modal .ui.modal.normal {
     background-color: #ffffff;
+
+    .sb-modal-header{
+        @include typography(var(--font-com-en), 20px, 600, 0.12px, 28px);
+        background-color: var(--white);
+        color: var(--black);
+        min-height: calculateRem(50px);
+        margin: 1.5rem 1.5rem 1.5rem 2rem;
+        font-weight: 600 !important;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mat-close-btn{
+        border-radius: none !important;
+        box-shadow: none;
+        background-color: var(--white);
+        color: var(--com-grey-60);
+        margin: 0;
+    }
+
+    .rating-stars{
+        margin: 1.5rem 2rem;
+        .ratingQn{
+            @include typography(var(--font-com-lato), 16px, 400, 0.25px, 24px);
+            text-align: left;
+            font-style: Regular;
+        }
+        .give-rating {
+            width: 200px;
+            .button-icon{
+                color: var(--com-grey-16);
+            }
+        }
+    }
+    .rating-description{
+        @include typography(var(--font-com-lato), 14px, 700, 0.25px, 20px);
+        margin: 1.5rem 1.5rem 1.5rem 2rem;
+        padding: 0;
+    }
+    .submit-btn{
+        margin: 1.5rem 1.5rem 1.5rem 2rem;
+        .com-primary-btn{
+            padding: 1rem 2rem;
+            margin: 2.5rem 0 2.5rem 0;
+        }
+    }
 }
 
-.give-rating {
-    width: 200px;
-}
+
 
 .mt-2em {
     margin-top: 2em;
@@ -149,10 +195,13 @@ textarea {
     width: 100%;
     font-size: 12px;
     padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--com-grey-16);
+    resize: none;
 }
 
 .active-star {
-    color: var(--com-primary-color);
+    color: rgb(239, 149, 30);
 }
 
 .avg-progress {
