@@ -1486,5 +1486,6 @@
   },
   "OTPTemplate": {
       "updateContactTemplate": "otpContactUpdateTemplate"
-  }
+  },
+  "isProfileupdateMandatory":false
 }

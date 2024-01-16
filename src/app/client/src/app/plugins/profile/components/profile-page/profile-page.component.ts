@@ -159,18 +159,19 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSubscription = this.userService.userData$.subscribe((user: IUserData) => {
       /* istanbul ignore else */
       this.showFullScreenLoader = false;
-
-      if (user.userProfile) {
-        // if (user.userProfile['profileDetails']['professionalDetails'].length > 0) {
-        //   if (user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == null || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == undefined || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == '') {
-        //     this.toasterService.warning("Please update your designation to proceed.");
-        //     this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
-        //   }
-        // } else {
-        //   this.toasterService.warning("Please update your designation to proceed.");
-        //   this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
-        // }
-
+      
+      if (user.userProfile ) {
+        if(this.configService.appConfig.isProfileupdateMandatory) {
+          if (user.userProfile['profileDetails']['professionalDetails'].length > 0) {
+            if (user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == null || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == undefined || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == '') {
+              this.toasterService.warning("Please update your designation to proceed.");
+              this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
+            }
+          } else {
+            this.toasterService.warning("Please update your designation to proceed.");
+            this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
+          }
+        }
         this.getWishlistedDoids();
         this.userProfile = user.userProfile;
         const role: string = (!this.userProfile.profileUserType.type ||
