@@ -42,6 +42,7 @@ export class CourseAsideComponent implements OnInit {
   engagementRating:number = 0;
   assessmentRating:number = 0;
   courseBatchCompletetion = 0;
+  reviewValue: string;
 
   constructor(private router: Router, private courseConsumptionService: CourseConsumptionService,
      private userService: UserService,  public courseProgressService: CourseProgressService, public resourceService: ResourceService, public toasterService: ToasterService,
@@ -179,9 +180,13 @@ export class CourseAsideComponent implements OnInit {
       contentRelevance: this.contentRating,
       courseEngagement: this.engagementRating,
       assessmentsQuality: this.assessmentRating,
-      review: (<HTMLInputElement>document.getElementById("review")).value
+      review: this.reviewValue
   };
+  if(data.instructorQuality == 0 || data.contentRelevance == 0 || data.courseEngagement == 0 || data.assessmentsQuality == 0 || data.review == ''){
+    this.toasterService.error('Ratings or review cannot be empty!');
+  }else{
     this.courseConsumptionService.saveCourseRating(data).subscribe((res: any) => {
+      this.toasterService.success('Ratings added successfully!');
       this.showRatingModal = false;
       this.instructorRating = 0;
       this.contentRating = 0;
@@ -190,6 +195,7 @@ export class CourseAsideComponent implements OnInit {
       (<HTMLInputElement>document.getElementById("review")).value = '';
       console.log('Rating', res);
     });
+  }
   }
 
   displayRatingModal() {

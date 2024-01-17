@@ -215,7 +215,11 @@
                     <div class="rating-description mt-2em">
                         <p>{{resourceService?.frmelmnts?.toc?.courseAside?.yourReview}}</p>
                         <div class="sb-input">
-                            <textarea rows="5" class="false sb-textbox ng-pristine ng-valid valid ng-touched" name="review" id="review" placeholder="Type here"></textarea>
+                            <textarea rows="5" class="false sb-textbox ng-pristine ng-valid valid ng-touched" name="review" id="review" placeholder="Type here" required #reviewInput="ngModel"
+                            [(ngModel)]="reviewValue" [class.error]="reviewInput.invalid && reviewInput.touched && !textareaValue"></textarea>
+                            <div *ngIf="reviewInput.invalid && reviewInput.touched" class="error-message">
+                                This field is mandatory.
+                            </div>
                         </div>
                     </div>
                     <div class="submit-btn">
