@@ -1961,7 +1961,7 @@ const API_LIST = {
     "/learner/wishlist/v1/get": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.PUBLIC]
-    },
+    }
   },
   URL_PATTERN: [
     '/learner/user/v1/feed/delete',
@@ -2121,7 +2121,8 @@ const API_LIST = {
     '/learner/course/v2/users/list',
     '/learner/wishlist/v1/add',
     '/learner/wishlist/v1/remove',
-    '/learner/wishlist/v1/get'
+    '/learner/wishlist/v1/get',
+   '/course/v1/content/state/read'
   ]
 };
 module.exports = API_LIST;
