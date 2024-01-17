@@ -74,6 +74,25 @@ export class CourseProgressService {
         return err;
       }));
   }
+  public geCourseBatchState(req) {
+      const channelOptions = {
+        url: this.configService.urlConFig.URLS.COURSE.USER_CONTENT_STATE_READ,
+        data: {
+          request: {
+            courseId: req.courseId,
+            batchId: req.batchId
+          }
+        }
+      };
+      if (_.get(req, 'fields')) {
+        channelOptions.data.request['fields'] = _.get(req, 'fields');
+      }
+      return this.contentService.post(channelOptions).pipe(map((res: ServerResponse) => {
+        return res;
+      }), catchError((err) => {
+           return err;
+      }));
+  }
 
   public getContentProgressState(req, res) {
     const courseId_batchId = req.courseId + '_' + req.batchId;

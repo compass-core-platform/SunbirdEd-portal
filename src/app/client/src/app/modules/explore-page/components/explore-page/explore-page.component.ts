@@ -368,7 +368,10 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             "icon": "school",
             "link": ""
         });
-        // this.checkUserProfileDetails();
+        if(this.configService.appConfig.isProfileupdateMandatory){
+            this.checkUserProfileDetails();
+        }
+       
     }
 
     public getWishlisteddoIds() {
