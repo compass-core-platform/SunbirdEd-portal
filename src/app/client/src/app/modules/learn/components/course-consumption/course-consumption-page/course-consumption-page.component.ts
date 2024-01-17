@@ -63,6 +63,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
     public publicPlayerService: PublicPlayerService, private wishlistedService: WishlistedService) {
   }
   ngOnInit() {
+
     this.initLayout();
     this.fetchEnrolledCourses$.pipe(switchMap(this.handleEnrolledCourses.bind(this)))
       .subscribe(({ courseHierarchy, enrolledBatchDetails }: any) => {
@@ -84,6 +85,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
         this.updateBreadCrumbs();
         this.updateCourseContent()
         this.getAllBatchDetails();
+        this.getCourseBatchState();
         this.showLoader = false;
         this.config = {
           className: 'dark-background',
@@ -472,4 +474,10 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  getCourseBatchState(){
+    this.courseProgressService.geCourseBatchState({...this.activatedRoute.snapshot.firstChild.params}).subscribe(res => {
+      console.log(res)
+      this.courseConsumptionService.courseBatchProgress.next(res);
+    });
+  }
 }

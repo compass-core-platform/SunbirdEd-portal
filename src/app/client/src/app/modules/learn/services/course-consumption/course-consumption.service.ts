@@ -33,6 +33,7 @@ export class CourseConsumptionService {
   mimeType: string = '';
   contentIds: any;
   AvgPercentage: any = 0
+  courseBatchProgress = new Subject<any>();
 
   constructor(private playerService: PlayerService, private courseProgressService: CourseProgressService,
     private toasterService: ToasterService, private resourceService: ResourceService, private router: Router,
@@ -318,7 +319,7 @@ getAllOpenBatches(contents) {
     }
     this.AvgPercentage = Math.round(avgCourseProgress / totalCount);
   }
-
+  
 
   // getCourseContent(hierarchy?: any) {
   //   if(hierarchy) {
@@ -417,4 +418,5 @@ getAllOpenBatches(contents) {
     return this.http.post(`api/ratings/v1/ratingLookUp`, data);
   }
 
+  
 }
