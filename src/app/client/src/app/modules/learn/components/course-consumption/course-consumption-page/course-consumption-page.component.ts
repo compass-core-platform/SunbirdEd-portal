@@ -393,6 +393,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
 
 
   private getContentState() {
+    this.courseProgressService.setResultMessage('');
     const fieldsArray: Array<string> = ['progress', 'score'];
     const req: any = {
       userId: this.userService.userid,
