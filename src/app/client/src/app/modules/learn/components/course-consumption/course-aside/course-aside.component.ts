@@ -207,8 +207,8 @@ export class CourseAsideComponent implements OnInit {
 
   getResultMessage() {
     if(this.courseProgressService.resultMessage) {
-      this.resultMessage = this.courseProgressService.resultMessage;
-      return '- ' + this.courseProgressService.resultMessage;
+      this.resultMessage = '- ' + this.courseProgressService.resultMessage;
+      return this.courseProgressService.resultMessage;
     }
     this.resultMessage = '';
     return this.resultMessage;

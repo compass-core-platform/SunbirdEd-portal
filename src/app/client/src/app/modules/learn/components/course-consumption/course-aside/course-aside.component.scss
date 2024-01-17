@@ -207,9 +207,6 @@ textarea {
 .avg-progress {
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.08);
-    margin-bottom: 1rem;
-    padding: 1.25rem;
     align-items: center;
 
     .completed-icon {
@@ -219,6 +216,20 @@ textarea {
             top: 0;
         }
     }
+}
+
+.progress-parent {
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.assessment-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 [data-percentage="100"] {
