@@ -254,6 +254,7 @@ export class CourseProgressService {
     }
     this.sendAssessment({requestBody, methodType}).subscribe(res => {
       console.log("Assessment status updated with 2");
+      window.location.href = '/learn/course/' + res.courseId + '/batch/' + res.batchId;
     })
   }
 

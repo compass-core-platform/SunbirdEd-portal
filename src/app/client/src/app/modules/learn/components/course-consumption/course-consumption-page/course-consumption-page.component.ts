@@ -411,8 +411,9 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
         //generate certificate, if passing criteria meets for assessment
         if(this.courseHierarchy.primaryCategory.toLowerCase() == 'assessment') {
           this.checkPassingCriteria(res)
+        } else {
+          this.courseConsumptionService.calculateAvgCourseProgress(res);
         }
-        this.courseConsumptionService.calculateAvgCourseProgress(res);
         this.tocList = this.courseConsumptionService.attachProgresstoContent(res);
         const _parsedResponse = this.courseProgressService.getContentProgressState(req, res);
         //set completedPercentage for consumed courses
@@ -445,14 +446,16 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
           //calculate percentage here
           if(res[0]?.bestScore) {
             let totalPercentage = this.getTotalPercentage(res[0].bestScore);   
-            if(totalPercentage > response?.questionset?.minimumPassPercentage) {
-              this.courseProgressService.setResultMessage('Pass');
+            if(totalPercentage >= response?.questionset?.minimumPassPercentage) {
               if(res[0].status !== 2) {
                 this.courseProgressService.statusCompletion(res[0], this.userService.userid)
+              } else {
+                this.courseProgressService.setResultMessage('Pass');
               }
             } else {
               this.courseProgressService.setResultMessage('Fail');
             }
+            this.courseConsumptionService.calculateAvgCourseProgress(res);
           }
         });
   }
