@@ -82,6 +82,13 @@ export class CourseDiscussionForumComponent implements OnInit {
         identifier: [this.courseId],
         // cid: 6
       };
+    } else {
+      // TODO: make getBatches() api call;
+      this.fetchForumIdReq = {
+        type: 'course',
+        identifier: [this.courseId],
+        // cid: 6
+      };
     }
     this.fetchForumIds();
   }
