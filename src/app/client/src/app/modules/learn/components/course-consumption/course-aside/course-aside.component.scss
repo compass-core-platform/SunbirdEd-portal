@@ -166,6 +166,14 @@
         @include typography(var(--font-com-lato), 14px, 700, 0.25px, 20px);
         margin: 1.5rem 1.5rem 1.5rem 2rem;
         padding: 0;
+        .error {
+            border: 1px solid red;
+          }
+        .error-message {
+        color: red;
+        font-size: 0.8em;
+        margin-top: 5px;
+        }
     }
     .submit-btn{
         margin: 1.5rem 1.5rem 1.5rem 2rem;
@@ -207,9 +215,6 @@ textarea {
 .avg-progress {
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.08);
-    margin-bottom: 1rem;
-    padding: 1.25rem;
     align-items: center;
 
     .completed-icon {
@@ -219,6 +224,20 @@ textarea {
             top: 0;
         }
     }
+}
+
+.progress-parent {
+    margin-bottom: 1rem;
+    padding: 1.25rem;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.assessment-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 [data-percentage="100"] {

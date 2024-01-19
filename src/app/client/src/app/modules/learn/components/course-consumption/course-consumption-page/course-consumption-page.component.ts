@@ -479,8 +479,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
   }
 
   getCourseBatchState(){
-    this.courseProgressService.geCourseBatchState({...this.activatedRoute.snapshot.firstChild.params}).subscribe(res => {
-      console.log(res)
+    this.courseProgressService.geCourseBatchState({...this.activatedRoute.snapshot.firstChild.params, userId: this.userService.userid}).subscribe(res => {
       this.courseConsumptionService.courseBatchProgress.next(res);
     });
   }
