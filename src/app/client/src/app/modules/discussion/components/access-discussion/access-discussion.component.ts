@@ -24,6 +24,7 @@ export class AccessDiscussionComponent implements OnInit {
   showLoader = false;
   private discussionCsService: any;
   discussionUrl: any;
+  iframeInterval: any;
 
   constructor(
     private resourceService: ResourceService,
@@ -131,7 +132,16 @@ export class AccessDiscussionComponent implements OnInit {
     var myIframe: any = document.getElementById("df-iframe");
     var divElement1: any = myIframe.contentWindow.document.querySelector("compass-header");
     divElement1.style.display = "none";
+    this.iframeInterval = setInterval(this.hideFooter, 1500);
+  }
+
+  hideFooter() 
+  {
+    var myIframe: any = document.getElementById("df-iframe");
     var divElement2: any = myIframe.contentWindow.document.querySelector("main-footer");
-    divElement2.style.display = "none";
+    if (divElement2 != undefined) {
+      divElement2.style.display = "none";
+      clearInterval(this.iframeInterval);
+    }
   }
 }
