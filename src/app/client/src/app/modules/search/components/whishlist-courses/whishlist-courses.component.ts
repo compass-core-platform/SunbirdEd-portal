@@ -34,7 +34,7 @@ export class WhishlistCoursesComponent implements OnInit {
               "link": "resources"
             },
             {
-              "label": "Whishlist",
+              "label": "Wishlist",
               "status": "active",
               "icon": "favorite",
               "link": ""

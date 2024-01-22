@@ -182,7 +182,7 @@ export class CourseAsideComponent implements OnInit {
       assessmentsQuality: this.assessmentRating,
       review: this.reviewValue
   };
-  if(data.instructorQuality == 0 || data.contentRelevance == 0 || data.courseEngagement == 0 || data.assessmentsQuality == 0 || data.review == ''){
+  if(data.instructorQuality == 0 || data.contentRelevance == 0 || data.courseEngagement == 0 || data.assessmentsQuality == 0 || data.review == '' || !data.review){
     this.toasterService.error('Ratings or review cannot be empty!');
   }else{
     this.courseConsumptionService.saveCourseRating(data).subscribe((res: any) => {
@@ -213,8 +213,8 @@ export class CourseAsideComponent implements OnInit {
 
   getResultMessage() {
     if(this.courseProgressService.resultMessage) {
-      this.resultMessage = '- ' + this.courseProgressService.resultMessage;
-      return this.courseProgressService.resultMessage;
+      this.resultMessage = this.courseProgressService.resultMessage;
+      return '- ' + this.resultMessage;
     }
     this.resultMessage = '';
     return this.resultMessage;

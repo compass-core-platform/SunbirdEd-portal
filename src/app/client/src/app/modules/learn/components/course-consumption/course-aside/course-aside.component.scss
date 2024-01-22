@@ -26,6 +26,10 @@
         .disabled {
             border-color: rgba(0, 0, 0, 0.16);
             opacity: 0.5;
+            cursor: default !important;
+            .button-label {
+                cursor: default !important;
+            }
         }
 
         .com-secondary-btn {
@@ -49,6 +53,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 font-size: 14px;
+                cursor: pointer;
             }
         }
     }
