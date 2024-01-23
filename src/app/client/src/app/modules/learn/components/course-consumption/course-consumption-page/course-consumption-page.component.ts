@@ -473,8 +473,10 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
   getCourseRating(courseId: string) {
     this.courseConsumptionService.getCourseRating(courseId).subscribe((res: any) => {
       // console.log('Rating', res);
-      this.config.rating = res["result"]["response"] != null ? res["result"]["response"]["total_number_of_ratings"] : 0;
-      this.config.numberOfRating = res["result"]["response"] != null ? `${res["result"]["response"]["sum_of_total_ratings"]} ratings` : '0 ratings';
+      let rating: number = res["result"]["response"] != null ? res["result"]["response"]["sum_of_total_ratings"] : 0;
+      let numberOfRatings: number = res["result"]["response"] != null ? res["result"]["response"]["total_number_of_ratings"] : 0;
+      this.config.numberOfRating = res["result"]["response"] != null ? `${res["result"]["response"]["total_number_of_ratings"]} ratings` : '0 ratings';
+      this.config.rating = rating == 0 || numberOfRatings == 0 ? 0 : parseFloat((rating / numberOfRatings).toFixed(1));
     });
   }
 

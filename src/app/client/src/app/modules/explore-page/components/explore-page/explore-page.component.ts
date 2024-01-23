@@ -507,7 +507,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             let searchRequest = {
                 "request": {
                     "fields": [
-                        "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory"
+                        "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory", "avgRating"
                     ],
                     "facets": [
                         "taxonomyCategory4Ids"
@@ -597,6 +597,9 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                     this.enrolledCourses = this.enrolledCourses.filter((course) => {
                         return course['completionPercentage'] !== 100;
                     });
+                    this.enrolledCourses.map((course:any)=>{
+                        course.avgRating = course.content.avgRating;
+                    })
                     console.log('enrolledCourses', this.enrolledCourses);
 
                     const { constantData, metaData, dynamicFields } = _.get(this.configService, 'appConfig.CoursePageSection.enrolledCourses');
