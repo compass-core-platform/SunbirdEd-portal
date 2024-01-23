@@ -2,7 +2,7 @@ import { of as observableOf, Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { Injectable, EventEmitter } from '@angular/core';
 import { ConfigService, ServerResponse, ToasterService, ResourceService } from '@sunbird/shared';
-import { ContentService, UserService, CoursesService, PublicDataService } from '@sunbird/core';
+import { ContentService, UserService, CoursesService, PublicDataService, LearnerService } from '@sunbird/core';
 import * as _ from 'lodash-es';
 import dayjs from 'dayjs';
 
@@ -40,7 +40,7 @@ export class CourseProgressService {
 
   constructor(contentService: ContentService, configService: ConfigService,
     userService: UserService, public coursesService: CoursesService, private toasterService: ToasterService, private publicService: PublicDataService,
-    private resourceService: ResourceService) {
+    private resourceService: ResourceService, private learnerService: LearnerService) {
     this.contentService = contentService;
     this.configService = configService;
     this.userService = userService;
@@ -76,7 +76,7 @@ export class CourseProgressService {
   }
   public geCourseBatchState(req) {
       const channelOptions = {
-        url: this.configService.urlConFig.URLS.COURSE.USER_CONTENT_STATE_READ,
+        url: this.configService.urlConFig.URLS.COURSE.COURSE_BATCH_PROGRESS,
         data: {
           request: {
             courseId: req.courseId,
@@ -88,7 +88,7 @@ export class CourseProgressService {
       if (_.get(req, 'fields')) {
         channelOptions.data.request['fields'] = _.get(req, 'fields');
       }
-      return this.contentService.post(channelOptions).pipe(map((res: ServerResponse) => {
+      return this.learnerService.post(channelOptions).pipe(map((res: ServerResponse) => {
         return res;
       }), catchError((err) => {
            return err;
