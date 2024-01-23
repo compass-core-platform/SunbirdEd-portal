@@ -169,7 +169,8 @@
       "UNENROLL_USER_COURSE": "course/v1/unenrol",
       "GET_QR_CODE_FILE": "course/v1/qrcode/download",
       "GET_REPORTS_METADATA": "course-reports/metadata",
-      "COURSE_USERS":"course/v2/users/list"
+      "COURSE_USERS":"course/v2/users/list",
+      "COURSE_BATCH_PROGRESS": "course/v1/batch/progress"
     },
     "CONTENT": {
       "SEARCH": "content/v1/search",
