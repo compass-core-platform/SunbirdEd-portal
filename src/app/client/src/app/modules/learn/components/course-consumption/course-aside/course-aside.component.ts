@@ -118,7 +118,7 @@ export class CourseAsideComponent implements OnInit {
       this.batchId = changes.params.currentValue;
     }
     this.courseConsumptionService.courseBatchProgress.subscribe((res:any) => {
-      this.courseBatchCompletetion = res.result.contentList[0]?.courseCompletionPercentage
+      this.courseBatchCompletetion = res.result.courseCompletionPercentage;
     })
   }
 
