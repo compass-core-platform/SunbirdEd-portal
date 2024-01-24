@@ -93,7 +93,7 @@ export class SearchService {
             lastUpdatedOn: requestParam.params.lastUpdatedOn || 'desc'
           },
           fields: [
-            "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids"
+            "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids","avgRating", "primaryCategory"
           ],
           facets: [
             "taxonomyCategory4Ids"
