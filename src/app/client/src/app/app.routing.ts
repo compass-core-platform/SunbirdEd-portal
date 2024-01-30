@@ -78,6 +78,9 @@ const appRoutes: Routes = [
     path: 'program', loadChildren: () => import('./modules/program-dashboard/program-dashboard.module').then(m => m.programDashboardModule)
   },
   {
+    path:'network-hub', loadChildren: () => import('./modules/network-hub/network-hub.module').then(m => m.NetworkHubModule)
+  },
+  {
     path: 'error', component: ErrorPageComponent
   },
   {

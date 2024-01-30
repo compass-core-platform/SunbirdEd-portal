@@ -28,6 +28,15 @@
              </div>
          </a>
         </li>
+        <li>
+          <a href="javascript:void(0);"  [routerLink]="['/network-hub/home']" mat-menu-item>
+            <mat-icon>extension</mat-icon>
+             <div class="display">
+                <h3 class="	sub-heading-two">Network Hub</h3>
+                <p>Network hub</p>
+             </div>
+         </a>
+        </li>
     </ul>
     <h3 class="	sub-heading-mobile" (click)="$event.stopPropagation();"
      *ngIf="permissionService.checkRolesPermissions(workSpaceRole) || permissionService.checkRolesPermissions(adminDashboard)"

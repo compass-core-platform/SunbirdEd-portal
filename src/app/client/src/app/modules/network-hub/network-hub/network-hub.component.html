@@ -1,0 +1,12 @@
+<div class="container ui network-lib">
+        <aside class="network-lib__side-content">
+                <a routerLink="/network-hub/home" [routerLinkActive]="['active']">Network home</a>
+                <a routerLink="/network-hub/your-connection" [routerLinkActive]="['active']">Your connections</a>
+                <a routerLink="/network-hub/connection-requst" [routerLinkActive]="['active']">Connection Requests</a>
+                <a routerLink="/network-hub/recommended-connection" [routerLinkActive]="['active']">Recommended connections</a>
+             
+        </aside>
+        <section class="network-lib__main-content">
+        <router-outlet></router-outlet>
+        </section>
+</div>
