@@ -410,10 +410,12 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
       .getContentState(req, { apiPath: '/content/course/v1' })
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-
+        let csrResponse: any = res;
         //generate certificate, if passing criteria meets for assessment
         if(this.courseHierarchy.primaryCategory.toLowerCase() == 'assessment') {
           this.checkPassingCriteria(res)
+          let attemptKey = 'currentAttempt_'+this.courseId;
+          localStorage.setItem(attemptKey, csrResponse[0]?.attempts);
         } else {
           this.courseConsumptionService.calculateAvgCourseProgress(res);
         }
