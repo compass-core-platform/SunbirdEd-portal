@@ -413,7 +413,8 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
 
         //generate certificate, if passing criteria meets for assessment
         if(this.courseHierarchy.primaryCategory.toLowerCase() == 'assessment') {
-          this.checkPassingCriteria(res)
+          this.checkPassingCriteria(res);
+          localStorage.setItem('currentAttempt', res[0]?.attempts)
         } else {
           this.courseConsumptionService.calculateAvgCourseProgress(res);
         }
