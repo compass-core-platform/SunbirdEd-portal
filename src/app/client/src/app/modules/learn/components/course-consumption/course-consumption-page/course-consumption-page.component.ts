@@ -156,9 +156,9 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
         }
         const paramsObj = { params: this.configService.appConfig.CourseConsumption.contentApiQueryParams };
         const enrollCourses: any = this.getBatchDetailsFromEnrollList(enrolledCourses, routeParams);
-        if (routeParams.batchId && !enrollCourses) { // batch not found in enrolled Batch list
-          return throwError('ENROLL_BATCH_NOT_EXIST');
-        }
+        // if (routeParams.batchId && !enrollCourses) { // batch not found in enrolled Batch list
+        //   return throwError('ENROLL_BATCH_NOT_EXIST');
+        // }
         if (enrollCourses) { // batch found in enrolled list
           this.batchId = enrollCourses.batchId;
           if (enrollCourses.batchId !== routeParams.batchId) { // if batch from route dint match or not present

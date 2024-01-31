@@ -507,7 +507,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
             let searchRequest = {
                 "request": {
                     "fields": [
-                        "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory", "avgRating"
+                        "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory", "avgRating", "batches"
                     ],
                     "facets": [
                         "taxonomyCategory4Ids"
@@ -1705,8 +1705,9 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('loadKeywordCourses', keyword);
     }
 
-    courseCardClicked(event: any, id: any) {
-        this.router.navigate(['/learn/course', id])
+    courseCardClicked(event: any, id: any, batchId: any) {
+        this.router.navigate([`learn/course/${id}/batch/${batchId}`]);
+        // this.router.navigate(['/learn/course', id])
     }
 
     favoriteIconClicked(option: string, courseId: any, key: string) {
