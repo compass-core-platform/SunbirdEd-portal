@@ -23,6 +23,7 @@ export class CoursesSearchComponent implements OnInit {
   public primaryCategories = ["course", "assessment"];
   selectedCompetency: string;
   rating = [];
+  selectedRate = [];
   startRates = [{label:5,selected:false}, 
                 {label:4,selected:false},
                 {label:3,selected:false},
@@ -160,7 +161,8 @@ export class CoursesSearchComponent implements OnInit {
         keywords: keyword ?? '',
         targetTaxonomyCategory4Ids: [
           competency ?? ''
-        ]
+        ],
+       avgRating: this.selectedRate
       },
       fields: [
         "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory", "avgRating"
@@ -280,13 +282,14 @@ export class CoursesSearchComponent implements OnInit {
   }
 
   recentlyAddCourses() {
-    console.log(this.recentlyPublished);
+    this.courses = [];
     this.fetchContentOnParamChange();
   }
 
   updateAllSelected(){
-    const startRates = this.startRates.filter(s => s.selected);
-    console.log(startRates);
+    this.courses = [];
+    this.selectedRate = this.startRates.filter(s => s.selected).map(r => r.label);
+    this.fetchContentOnParamChange();
   }
   onScroll(){
     this.currentPage++;
