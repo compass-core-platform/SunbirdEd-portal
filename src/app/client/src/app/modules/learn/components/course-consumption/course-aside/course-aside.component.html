@@ -8,27 +8,32 @@
         <span>Completed</span>
     </ng-container> -->
     <div class="avg-progress">
-        <span class="mr-8 progress-circle progress-circle--xs" title="{{getPercentageCompleted()}}" [attr.data-percentage]="100 - getPercentageCompleted()">
-            <svg class="progress-circle__svg" viewport="0 0 2000 2000">
-                <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
-                <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
-                <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-size="12" fill="#333">
-                    {{getPercentageCompleted()}}%
-                </text>
-            </svg>
-        </span>
-        <span class="sub-heading-one">Your Progress  &nbsp; &nbsp;</span>
-    
-        <span class="mr-8 progress-circle progress-circle--xs" title="{{getPercentageCompleted()}}" [attr.data-percentage]="100 - courseBatchCompletetion">
-            <svg class="progress-circle__svg" viewport="0 0 2000 2000">
-                <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
-                <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
-                <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-size="12" fill="#333">
-                    {{courseBatchCompletetion}}%
-                </text>
-            </svg>
-        </span>
-        <span class="sub-heading-one">Course Completion rate </span>
+        <div class="progress">
+            <span class="mr-8 progress-circle progress-circle--xs" title="{{getPercentageCompleted()}}" [attr.data-percentage]="100 - getPercentageCompleted()">
+                <svg class="progress-circle__svg" viewport="0 0 2000 2000">
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-size="12" fill="#333">
+                        {{getPercentageCompleted()}}%
+                    </text>
+                </svg>
+            </span>
+            <span class="sub-heading-one">Your Progress  &nbsp; &nbsp;</span>
+        </div>
+        
+        <div class="progress">
+            <span class="mr-8 progress-circle progress-circle--xs" title="Number of users enrolled/Number of user completed" [attr.data-percentage]="100 - courseBatchCompletetion">
+                <svg class="progress-circle__svg" viewport="0 0 2000 2000">
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-size="12" fill="#333">
+                        {{courseBatchCompletetion}}%
+                    </text>
+                </svg>
+            </span>
+            <span class="sub-heading-one">Course Completion rate </span>
+        </div>
+        
     </div>
 
     <div *ngIf="getResultMessage()" class="assessment-result">
