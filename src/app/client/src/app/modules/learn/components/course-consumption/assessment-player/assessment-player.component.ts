@@ -873,10 +873,15 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
     }, (error) => {
       this.showPlayer = true;
     });
-    let attemptKey = 'currentAttempt_'+this.courseId;
-    this.playerConfig['metadata']['maxAttempt'] = _.get(this.activeContent, 'maxAttempts');
-    this.playerConfig['metadata']['currentAttempt'] = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey)); 
+    this.playerConfig['metadata']['maxAttempt'] = _.get(this.activeContent, 'maxAttempts'); 
     this.playerConfig['context']['objectRollup'] = this.objectRollUp;
+    if(this.questionSetEvaluable) {
+      let attemptKey = 'currentAttempt_'+this.courseId;
+      this.playerConfig['metadata']['currentAttempt'] = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey));
+    } else {
+      let attemptKey = 'currentAttempt_'+id;
+      this.playerConfig['metadata']['currentAttempt'] = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey));
+    }
   }
 
   private initPlayer(id: string) {
