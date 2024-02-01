@@ -1,0 +1,131 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="ui grid stackable m-0 p-0">
+      <!-- First Column -->
+      <div class="six wide column m-0 p-0">
+        <div class="form-container">
+          <div class="form-column">
+            <p>10th Standard</p>
+            <mat-form-field appearance="outline">
+              <mat-label>School Name</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="tenthSchoolName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Year of passing</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="tenthSchoolPassing"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="form-container">
+          <div class="form-column">
+            <p>Graduation Details</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Degree</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="graduationName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Year of passing</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="graduationPassing"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Institute Name</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="graduationInstituteName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <button class="com-secondary-btn">Add Another Qualification</button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Second Column -->
+      <div class="six wide column m-0 p-0">
+        <div class="form-container">
+          <div class="form-column">
+            <p>12th Standard</p>
+            <mat-form-field appearance="outline">
+              <mat-label>School Name</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="twelthSchoolNames"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Year of passing</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="twelthShoolPassingYear"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-container">
+          <div class="form-column">
+            <p>Post Graduation Details</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Degree</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="DegreeName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Year of passing</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="degreeYearOfPassing"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Institute Name</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="degreeInstituteName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <button class="com-secondary-btn">Add Another Qualification</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="submitbtn">
+      <button class="com-primary-btn btn" type="submit">
+        {{ resourceService.frmelmnts.lbl.editProfile.submit }}
+      </button>
+    </div>
+  </form>
+  

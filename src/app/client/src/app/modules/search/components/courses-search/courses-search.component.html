@@ -32,6 +32,7 @@
             [infiniteScrollDisabled]="scrollCheck"
             [scrollWindow]="true"
             (scrolled)="onScroll()"
+            (scrolledUp)="scrolledUp()"
             >
                 <compass-course-card (click)="courseCardClicked(course)" [data]="course" (favoriteIconClicked)="favoriteIconClicked($event, course['identifier'] || course['contentId'])">
                 </compass-course-card>

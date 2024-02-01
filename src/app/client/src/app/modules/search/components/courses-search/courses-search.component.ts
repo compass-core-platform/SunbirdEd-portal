@@ -283,16 +283,23 @@ export class CoursesSearchComponent implements OnInit {
 
   recentlyAddCourses() {
     this.courses = [];
+    this.currentPage = 1
     this.fetchContentOnParamChange();
   }
 
   updateAllSelected(){
     this.courses = [];
+    this.currentPage = 1
     this.selectedRate = this.startRates.filter(s => s.selected).map(r => r.label);
     this.fetchContentOnParamChange();
   }
   onScroll(){
     this.currentPage++;
+    this.scrollCheck = true;
+    this.fetchContentOnParamChange();
+  }
+  scrolledUp(){
+    this.currentPage--;
     this.scrollCheck = true;
     this.fetchContentOnParamChange();
   }

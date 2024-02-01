@@ -28,6 +28,9 @@ import { PersonalDetailsComponent } from './components/personal-details/personal
 import { MatButtonModule } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatChipsModule} from '@angular/material/chips';
+import { AcademicDetailsComponent } from './components/academic-details/academic-details.component';
+import { ProfessionalDetailsComponent } from './components/professional-details/professional-details.component';
+import { CertificationAndSkillsComponent } from './components/certification-and-skills/certification-and-skills.component';
 
 export const csCourseServiceFactory = (csLibInitializerService: CsLibInitializerService) => {
   if (!CsModule.instance.isInitialised) {
@@ -74,7 +77,10 @@ export const csCertificateServiceFactory = (csLibInitializerService: CsLibInitia
    ChooseUserComponent,
    SubmitTeacherDetailsComponent,
    EditProfileComponent,
-   PersonalDetailsComponent
+   PersonalDetailsComponent,
+   AcademicDetailsComponent,
+   ProfessionalDetailsComponent,
+   CertificationAndSkillsComponent
    ],
   providers: [
     {provide: 'CS_COURSE_SERVICE', useFactory: csCourseServiceFactory, deps: [CsLibInitializerService]},

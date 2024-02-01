@@ -1,0 +1,67 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="ui grid stackable m-0 p-0">
+      <!-- First Column -->
+      <div class="six wide column m-0 p-0">
+        <div class="form-container">
+          <div class="form-column">
+            <p>Certification</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Additional skill acquired/Course completed</mat-label>
+              <textarea
+                matInput
+                #input
+                formControlName="additionalSkillCourse"
+                placeholder="Type here"
+                rows="5"
+              ></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Provide certification details</mat-label>
+              <textarea
+                matInput
+                #input
+                formControlName="certificationDetails"
+                placeholder="Type here"
+                rows="5"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Second Column -->
+      <div class="six wide column m-0 p-0">
+        <div class="form-container">
+          <div class="form-column">
+            <p>Skills</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Professional interests</mat-label>
+              <textarea
+                matInput
+                #input
+                formControlName="professionalInterests"
+                placeholder="Type here"
+                rows="5"
+              ></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Hobbies</mat-label>
+              <textarea
+                matInput
+                #input
+                formControlName="hobbies"
+                placeholder="Type here"
+                rows="5"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="submitbtn">
+      <button class="com-primary-btn btn" type="submit">
+        {{ resourceService.frmelmnts.lbl.editProfile.submit }}
+      </button>
+    </div>
+  </form>
+  
