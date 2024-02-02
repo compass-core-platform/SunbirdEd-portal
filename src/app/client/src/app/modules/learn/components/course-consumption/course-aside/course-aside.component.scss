@@ -221,7 +221,10 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    .progress{
+        display: flex;
+        align-items: center;
+    }
     .completed-icon {
         height: 24px;
 
@@ -326,4 +329,15 @@ textarea {
 }
 .passMessage {
     color: #0154D2;;
+}
+
+@media only screen and (max-width: 1280px) {
+    .avg-progress {
+        flex-direction: column;
+        .progress{
+            justify-content: flex-start;
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
 }

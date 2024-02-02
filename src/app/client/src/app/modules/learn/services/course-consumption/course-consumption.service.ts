@@ -293,7 +293,7 @@ export class CourseConsumptionService {
     return Math.round(sum / totalCount);
   }
 
-  calculateAvgCourseProgress(response: any) {
+  calculateAvgCourseProgress(response: any, courseType?:string) {
     let avgCourseProgress = 0;
     let totalCount = 0;
     if (this.tocList.length > 0) {
@@ -305,6 +305,10 @@ export class CourseConsumptionService {
               if (body.selectedContent == res.contentId) {
                 if (body.mimeType == 'application/vnd.sunbird.questionset' || body.mimeType == 'application/vnd.ekstep.content-collection' || body.mimeType == 'application/vnd.ekstep.ecml-archive') {
                   avgCourseProgress = avgCourseProgress + res.progress
+                  if(body.mimeType == 'application/vnd.sunbird.questionset' && courseType !== 'assessment') {
+                    let attemptKey = 'currentAttempt_'+body.selectedContent;
+                    localStorage.setItem(attemptKey, res.attempts);
+                  }
                 } else {
                   avgCourseProgress = avgCourseProgress + res.completionPercentage
                 }

@@ -461,7 +461,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
             } else {
               this.courseProgressService.setResultMessage('Fail');
             }
-            this.courseConsumptionService.calculateAvgCourseProgress(res);
+            this.courseConsumptionService.calculateAvgCourseProgress(res, 'assessment');
           }
         });
   }
