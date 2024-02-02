@@ -1070,7 +1070,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
       },
       id: id
     };
-    if(this.courseConsumptionService.courseHierarchy.primaryCategory == 'assessment') {
+    if(this.courseConsumptionService.courseHierarchy.primaryCategory.toLowerCase() == 'assessment') {
       let attemptKey = 'currentAttempt_'+this.courseId;
       let getAttemptId = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey)); 
       localStorage.setItem(attemptKey, getAttemptId+1);
