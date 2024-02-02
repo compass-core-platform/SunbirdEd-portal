@@ -399,7 +399,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
       .getContentState(req, { apiPath: '/content/course/v1' })
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((_res) => {
-        this.tocList = this.courseConsumptionService.attachProgresstoContent(_res);
+        this.tocList = this.courseConsumptionService.attachProgresstoContent(_res,this.courseConsumptionService.courseHierarchy.primaryCategory.toLowerCase());
         const res = this.CourseProgressService.getContentProgressState(req, _res);
         this.completedCount = res.completedCount;
         res.content?.forEach((content: any) => {
@@ -1065,8 +1065,12 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
       },
       id: id
     };
-    if(this.assessmentScoreService.courseType.toLowerCase() == 'assessment') {
+    if(this.courseConsumptionService.courseHierarchy.primaryCategory == 'assessment') {
       let attemptKey = 'currentAttempt_'+this.courseId;
+      let getAttemptId = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey)); 
+      localStorage.setItem(attemptKey, getAttemptId+1);
+    } else if (event.content.mimeType == 'application/vnd.sunbird.questionset') {
+      let attemptKey = 'currentAttempt_'+event.content.selectedContent;
       let getAttemptId = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey)); 
       localStorage.setItem(attemptKey, getAttemptId+1);
     }

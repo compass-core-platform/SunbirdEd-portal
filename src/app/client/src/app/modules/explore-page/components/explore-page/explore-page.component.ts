@@ -174,7 +174,6 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
     popularCompetenciesData = [];
     popularCompetencyMapping = [];
     breadCrumbData = [];
-    showIcon: boolean = false;
     allWishlistedIds = [];
 
     get slideConfig() {
@@ -593,10 +592,20 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                     let filteredCourses = _.filter(enrolledCourses || [], enrolledContentPredicate);
                     filteredCourses = _.orderBy(filteredCourses, [sortingField], [sortingOrder]);
                     this.enrolledCourses = _.orderBy(filteredCourses, [sortingField], [sortingOrder]);
-                    this.enrolledCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.enrolledCourses);
+                    this.enrolledCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.enrolledCourses, 'enrollment');
                     this.enrolledCourses = this.enrolledCourses.filter((course) => {
                         return course['completionPercentage'] !== 100;
                     });
+                    this.enrolledCourses = this.enrolledCourses.map((course: any) => {
+                        let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.content.identifier);
+                        if(isWhishListed) {
+                            course['isWishListed'] = true;
+                        } else {
+                            course['isWishListed'] = false;
+                        }
+    
+                        return course
+                    })
                     console.log('enrolledCourses', this.enrolledCourses);
 
                     const { constantData, metaData, dynamicFields } = _.get(this.configService, 'appConfig.CoursePageSection.enrolledCourses');
@@ -1702,9 +1711,12 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('loadKeywordCourses', keyword);
     }
 
-    courseCardClicked(event: any, id: any, batchId: any) {
-        this.router.navigate([`learn/course/${id}/batch/${batchId}`]);
-        // this.router.navigate(['/learn/course', id])
+    courseCardClicked(event: any, id: any, batchId?: any) {
+        if(batchId) {
+            this.router.navigate([`learn/course/${id}/batch/${batchId}`]);
+        } else {
+            this.router.navigate([`learn/course/`,id]);
+        }
     }
 
     favoriteIconClicked(option: string, courseId: any, key: string) {
@@ -1750,11 +1762,23 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                       course['isWishListed'] = true;
                     }
                 });
+            } else if( key === 'continue') {
+                this.enrolledCourses.forEach((course: any) => {
+                    if (course.content.identifier == courseId) {
+                      course['isWishListed'] = true;
+                    }
+                });
             }
         } else {
             if(key === 'published') {
                 this.recentlyPublishedList.forEach((course: any) => {
                     if (course.identifier == courseId) {
+                      course['isWishListed'] = false;
+                    }
+                });
+            } else if( key === 'continue') {
+                this.enrolledCourses.forEach((course: any) => {
+                    if (course.content.identifier == courseId) {
                       course['isWishListed'] = false;
                     }
                 });

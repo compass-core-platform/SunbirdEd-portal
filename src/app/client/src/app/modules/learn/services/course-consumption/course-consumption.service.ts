@@ -229,7 +229,7 @@ export class CourseConsumptionService {
     return this.tocList;
   }
 
-  attachProgresstoContent(response: any) {
+  attachProgresstoContent(response: any, courseType?: any) {
     if (this.tocList.length > 0) {
       this.tocList.forEach((toc: any) => {
         let count = 0;
@@ -241,7 +241,7 @@ export class CourseConsumptionService {
                 // toc.header['progress-content'] = res;
                 // toc.header['progress'] = res.progress;
                 let bestScore = this.bestScore(res);
-                if (bestScore) {
+                if (bestScore && courseType == 'assessment') {
                   body['bestScore'] = bestScore;
                 }
                 ++count;

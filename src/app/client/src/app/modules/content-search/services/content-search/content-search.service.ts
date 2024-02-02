@@ -135,9 +135,17 @@ export class ContentSearchService {
       localStorage.setItem('taxonomyConfig',JSON.stringify(taxonomyConfig));
   }
 
-  updateCourseWithTaggedCompetency(courses) {
-      let updatedCourseList;
-      updatedCourseList = courses.map(course =>this.mapCourseCompetencyIdwithTerms(course))
+  updateCourseWithTaggedCompetency(courses, cardCategory?: string) {
+      let updatedCourseList: any = [];
+      if(cardCategory == 'enrollment') {
+        courses.forEach(course =>{
+          let updatedContent = this.mapCourseCompetencyIdwithTerms(course.content)
+          course.content = updatedContent;
+          updatedCourseList.push(course);
+        });
+      } else {
+        updatedCourseList = courses.map(course =>this.mapCourseCompetencyIdwithTerms(course))
+      }
       return updatedCourseList;
   }
 

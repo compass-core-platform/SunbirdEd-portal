@@ -420,7 +420,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
         } else {
           this.courseConsumptionService.calculateAvgCourseProgress(res);
         }
-        this.tocList = this.courseConsumptionService.attachProgresstoContent(res);
+        this.tocList = this.courseConsumptionService.attachProgresstoContent(res, this.courseHierarchy.primaryCategory.toLowerCase());
         const _parsedResponse = this.courseProgressService.getContentProgressState(req, res);
         //set completedPercentage for consumed courses
         this.courseProgressService.storeVisitedContent(_parsedResponse);
