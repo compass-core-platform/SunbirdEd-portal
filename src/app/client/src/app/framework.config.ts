@@ -24,7 +24,8 @@ export const taxonomyEnvironment = {
   channelId: 'tarento',
   authToken: '',
   userToken:'',
-  isApprovalRequired: false
+  isApprovalRequired: false,
+  additionalPropertiesInCategory4: true
 };
 
 export const taxonomyConfig = [
