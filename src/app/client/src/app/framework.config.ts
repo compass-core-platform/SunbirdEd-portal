@@ -25,7 +25,7 @@ export const taxonomyEnvironment = {
   authToken: '',
   userToken:'',
   isApprovalRequired: false,
-  additionalPropertiesInCategory4: true
+  additionalProperties: ["taxonomyCategory4"]
 };
 
 export const taxonomyConfig = [
