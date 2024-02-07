@@ -54,6 +54,7 @@ export class ResourceService {
   languageSelected$ = this._languageSelected.asObservable();
 
   public RESOURCE_CONSUMPTION_ROOT = 'result.consumption.';
+  initialized = false;
 
   /**
    * constructor
@@ -68,7 +69,7 @@ export class ResourceService {
       this.config = config;
       this.baseUrl = this.config.urlConFig.URLS.RESOURCEBUNDLES_PREFIX;
       try {
-        this._instance = document.getElementById('instance')?(<HTMLInputElement>document.getElementById('instance')).value:'';
+        this._instance = document.getElementById('instance') ? (<HTMLInputElement>document.getElementById('instance')).value : '';
       } catch (error) {
       }
       ResourceService.singletonInstance = this;
@@ -76,9 +77,12 @@ export class ResourceService {
     return ResourceService.singletonInstance;
   }
   public initialize() {
-    const range = { value: 'en', label: 'English', dir: 'ltr' };
-    this.getResource(this.cacheService.get('portalLanguage') || 'en', range);
-    this.translateService.setDefaultLang('en');
+    if (!this.initialized) {
+      const range = { value: 'en', label: 'English', dir: 'ltr' };
+      this.getResource(this.cacheService.get('portalLanguage') || 'en', range);
+      this.translateService.setDefaultLang('en');
+      this.initialized = true;
+    }
   }
   /**
    * method to fetch resource bundle

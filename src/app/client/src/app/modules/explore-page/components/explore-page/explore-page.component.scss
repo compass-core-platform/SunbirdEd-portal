@@ -172,6 +172,10 @@
   cursor: pointer;
 }
 
+.browseByCard{
+  cursor: pointer;
+}
+
 .browseTitle {
   font-weight: 600;
   font-size: 20px;
@@ -235,11 +239,40 @@ body .slick-next {
   // height: 30vh;
   width: 100%;
 }
-::ng-deep .slide .course-card .text-section {
+::ng-deep .course-card .text-section {
   height: 145px;
 }
 
 .grey-bg {
   background-color: whitesmoke;
   padding: 40px 0px 50px;
+}
+
+.wishlist-snackbar-content {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 8px;
+}
+
+.pink-icon {
+  color: pink;
+  margin-right: 8px;
+}
+
+.black-text {
+  color: black;
+}
+
+::ng-deep snack-bar-container.wishlist-snackbar{
+  background-color: white;
+  border-radius: 0px !important;
+  min-width: 161px !important;
+  height: 54px;
+  text-align: center;
+  justify-content: center;
+  display: flex !important;
+}
+.comp-card-container{
+  margin-bottom: 4.5rem;
 }

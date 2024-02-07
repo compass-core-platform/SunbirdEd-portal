@@ -3,12 +3,14 @@
     <!-- popular competencies -->
     <section class="ui container mt-60" *ngIf="popularCompetencies">
       <p class="allCompetencyTitle w-100">{{popularCompetencies.title}}</p>
-      <div class="ui grid middle aligned stackable">
+      <div class="ui grid middle aligned stackable ">
+        <div class="wide popular-card"  *ngFor="let info of popularCompetencies.data">
           <sb-popular-card
-            *ngFor="let info of popularCompetencies.data"
+            (click)="loadCompetencyCourses(info['identifier'])"
             [pillName]="'Competency'" [data]="info"
             class="three wide column"
           ></sb-popular-card>
+        </div>
       </div>
   </section>
     <!-- popular competencies -->
@@ -21,7 +23,7 @@
             *ngFor="let info of allCompetencies.data"
             [pillName]="'Competency'" [data]="info"
             class="w-100 mb-32"
-            (filterChange) = "onCourseClick($event)"
+            (filterChange) = "onCourseClick($event)" (favoriteIconClicked)="favoriteIconClicked($event)"
           ></sb-popular-card>
       </div>
   </section>

@@ -1,5 +1,6 @@
 {
   "channelName":"compass",
+  "rootOrgId":"0138325860604395527",
   "UrlLinks": {
     "downloadDikshaApp": "https://play.google.com/store/apps/details?id=in.gov.diksha.app"
   },
@@ -1485,5 +1486,6 @@
   },
   "OTPTemplate": {
       "updateContactTemplate": "otpContactUpdateTemplate"
-  }
+  },
+  "isProfileupdateMandatory":true
 }

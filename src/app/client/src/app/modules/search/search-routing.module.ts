@@ -8,6 +8,7 @@ import {
 import { AuthGuard } from '../core/guard/auth-gard.service';
 import { AllTopicsComponent } from './components/all-topics/all-topics.component';
 import { CoursesSearchComponent } from './components/courses-search/courses-search.component';
+import { WhishlistCoursesComponent } from './components/whishlist-courses/whishlist-courses.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,14 @@ const routes: Routes = [
     path: 'Users/:pageNumber/view/:userId', component: UserProfileComponent,
     data: {
       breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '/profile' }],
+      telemetry: {
+        env: 'profile', pageid: 'user-detail', type: 'view', subtype: 'paginate'
+      }
+    }
+  },
+  {
+    path: 'wishlist', component: WhishlistCoursesComponent,
+    data: {
       telemetry: {
         env: 'profile', pageid: 'user-detail', type: 'view', subtype: 'paginate'
       }

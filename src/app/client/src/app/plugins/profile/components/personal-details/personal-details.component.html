@@ -1,0 +1,300 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+  <div class="ui grid stackable m-0 p-0">
+    <div class="six wide column m-0 p-0">
+      <div class="form-container">
+        <div class="form-column">
+          <!-- First Column -->
+          <div class="intials mr-20">
+            {{ userProfile?.firstName[0] | uppercase
+            }}{{ userProfile?.lastName[0] | uppercase }}
+          </div>
+          <!-- <div *ngFor="let field of formData.colOne.fields" class="form-group">
+                <label for="{{field.value}}">{{field.label}}</label>
+                <ng-container [ngSwitch]="field.value">
+                  <input *ngSwitchDefault class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+                  <div class="required" *ngIf="form.get(field.value).hasError('required')">
+                    This field is required.
+                  </div>
+                  <select *ngSwitchCase="'designation'" class="input select" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Select designation">
+                    <option class="select" *ngFor="let option of positions" [value]="option.name">{{option.name}}</option>
+                  </select>
+                  <input *ngSwitchCase="'primaryEmail'" class="input" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="{{userProfile?.email}}" [value]="userProfile?.email" readonly>
+                  <input *ngSwitchCase="'doj'" class="input" type="date" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+                  <div *ngSwitchCase="'phone'" class="phone">
+                    <input class="input w-10 mr-10" type="text" id="{{field.value1}}" formControlName="{{field.value1}}" placeholder="+91">
+                    <input class="input w-90" type="text" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+                  </div>
+                </ng-container> -->
+          <!-- </div> -->
+          <!-- <mat-form-field hintLabel="Max 10 characters" appearance="outline"> -->
+          <mat-form-field appearance="outline">
+            <mat-label>First name</mat-label>
+            <input
+              matInput
+              #input
+              class="bottom-bordered"
+              formControlName="firstName"
+              placeholder="Type here"
+            />
+            <!-- <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint> -->
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last name</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="lastName"
+              placeholder="Type here"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile number</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="phone"
+              placeholder="Type here"
+              required
+            />
+            <!-- <span matPrefix> +91&nbsp; </span>   -->
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Primary email</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="primaryEmail"
+              placeholder="Type here"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Secondary email</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="secondaryEmail"
+              placeholder="Type here"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Department name</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="departmentName"
+              placeholder="Type here"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Designation</mat-label>
+            <mat-select formControlName="designation">
+              <mat-option
+                *ngFor="let option of positions"
+                [value]="option.name"
+                >{{ option.name }}</mat-option
+              >
+            </mat-select>
+            <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
+          </mat-form-field>
+
+          <!-- <div *ngFor = "let field of formData.colOne.radio" class="form-group">
+                  <label for="{{field.value}}">{{field.label}}</label>
+                  <mat-radio-group formControlName="{{field.value}}">
+                    <mat-radio-button *ngFor = "let option of field.items" value="{{option.value}}">{{option.label}}</mat-radio-button>
+                  </mat-radio-group>
+              </div> -->
+        </div>
+
+        <!-- <div class="form-column">
+          <div *ngFor = "let field of formData.colTwo.fields" class="form-group">
+              <label for="{{field.value}}">{{field.label}}</label>
+              <input class="input" *ngIf="field.value!='postalAddress'&&field.value!='phone'" [type]="(field.value === 'telephone' || field.value === 'pincode') ? 'number' : 'text'" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+              <textarea class="input" type="text" *ngIf="field.value=='postalAddress'" formControlName="{{field.value}}" placeholder="Type here" rows="4"></textarea>
+              <div class="phone" *ngIf="field.value=='phone'">
+                  <input class="input w-10 mr-10" type="number" id="{{field.value1}}" formControlName="{{field.value1}}" placeholder="+91">
+                  <input class="input w-90" type="number" id="{{field.value}}" formControlName="{{field.value}}" placeholder="Type here">
+              </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="six wide column m-0 p-0">
+      <div class="form-container">
+        <!-- Second Column -->
+        <div class="form-column">
+          <!-- <mat-form-field class="example-chip-list" appearance="outline">
+          <mat-label>Areas of interest</mat-label>
+          <mat-chip-list #chipList aria-label="Area selection">
+            <mat-chip *ngFor="let area of areas" (removed)="remove(area)">
+              {{ area }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="Type here"
+              #areaInput
+              [formControl]="areasOfIntrestCtrl"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-list>
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="selected($event)"
+          >
+            <mat-option *ngFor="let area of filteredAreas | async" [value]="area">
+              {{ area }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field> -->
+          <mat-form-field appearance="outline">
+            <mat-label>Domicile Medium (Mother Tongue)</mat-label>
+            <input
+              matInput
+              #input
+              class="bottom-bordered"
+              formControlName="domicileMedium"
+              placeholder="Type here"
+            />
+            <!-- <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint> -->
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Other languages known</mat-label>
+            <input
+              matInput
+              #input
+              class="bottom-bordered"
+              formControlName="otherLanguages"
+              placeholder="Type here"
+            />
+            <!-- <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint> -->
+          </mat-form-field>
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Mobile number</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="phone"
+              placeholder="Type here"
+              required
+            />
+            <span matPrefix> +91&nbsp; </span>
+          </mat-form-field> -->
+          <mat-form-field appearance="outline">
+            <mat-label>Telephone Number</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="telephone"
+              placeholder="Type here"
+              required
+            />
+            <!-- <span matPrefix> +91&nbsp; </span>   -->
+          </mat-form-field>
+          <mat-form-field class="example-chip-list" appearance="outline">
+            <mat-label>Areas of interest</mat-label>
+            <mat-chip-list #chipList aria-label="Area selection">
+              <mat-chip *ngFor="let area of areas" (removed)="remove(area)">
+                {{ area }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="Type here"
+                #areaInput
+                [formControl]="areasOfIntrestCtrl"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)"
+              />
+            </mat-chip-list>
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="selected($event)"
+            >
+              <mat-option
+                *ngFor="let area of filteredAreas | async"
+                [value]="area"
+              >
+                {{ area }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Date of joining</mat-label>
+            <input matInput formControlName="doj" [matDatepicker]="picker" />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Primary email</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="primaryEmail"
+              placeholder="Type here"
+            />
+          </mat-form-field> -->
+          <!-- <div class="form-group">
+          <label>Primary email</label>
+          <input class="input" type="text" placeholder="Type here" />
+          <div class="sb-checkbox sb-checkbox-primary sb-checkbox-leftaligned">
+            <input type="checkbox" tabindex="0" />
+            <label class="fsmall mt-10" role="img"
+              >This is my official email</label
+            >
+          </div>
+        </div> -->
+
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Secondary email</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="secondaryEmail"
+              placeholder="Type here"
+            />
+          </mat-form-field> -->
+          <mat-form-field appearance="outline">
+            <mat-label>Postal Address</mat-label>
+            <textarea
+              matInput
+              #input
+              formControlName="postalAddress"
+              placeholder="Type here"
+              rows="5"
+            ></textarea>
+            <!-- <span class="subscript m-3">0/300 characters</span> -->
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Pin Code</mat-label>
+            <input
+              matInput
+              #input
+              formControlName="pinCode"
+              placeholder="Type here"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="submitbtn">
+    <button class="com-primary-btn btn" type="submit">
+      {{ resourceService.frmelmnts.lbl.editProfile.submit }}
+    </button>
+  </div>
+</form>

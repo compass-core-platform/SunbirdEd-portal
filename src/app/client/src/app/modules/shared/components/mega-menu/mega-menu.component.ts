@@ -48,6 +48,8 @@ export class MegaMenuComponent implements OnInit {
 
   navigateTo(path){
       this.router.navigate([path]);
+      const elem:any = document.getElementsByClassName('mat-menu-trigger menu-trigger');
+      elem[0].click();
   }
   
 }

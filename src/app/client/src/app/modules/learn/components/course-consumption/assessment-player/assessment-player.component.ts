@@ -126,7 +126,8 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
   visitedData: any;
   selectedContentId: any;
   contentIds: any;
-  contentTitle: string = ''
+  contentTitle: string = '';
+  courseType: string = '';
 
   @HostListener('window:beforeunload')
   canDeactivate() {
@@ -139,7 +140,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
     this.previousContent = null;
     this.lastActiveContentBeforeModuleChange = this.activeContent;
       const navigationExtras: NavigationExtras = {
-        queryParams: { batchId: this.batchId, courseId: this.courseId, courseName: this.parentCourse.name, parent: collectionUnit?.identifier },
+        queryParams: { batchId: this.batchId, courseId: this.courseId, courseName: this.parentCourse.name, parent: collectionUnit?.identifier, selectedContent: collectionUnit?.children[0]?.identifier },
         state: { contentStatus: this._routerStateContentStatus }
       };
 
@@ -233,6 +234,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
         this.batchId = queryParams.batchId;
         this.courseId = queryParams.courseId;
         this.courseName = queryParams.courseName;
+        this.courseType = queryParams.courseType;
         this.groupId = _.get(queryParams, 'groupId');
         this.selectedContentId = queryParams.selectedContent;
         let isSingleContent = this.collectionId === this.selectedContentId;
@@ -397,7 +399,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
       .getContentState(req, { apiPath: '/content/course/v1' })
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((_res) => {
-        this.tocList = this.courseConsumptionService.attachProgresstoContent(_res);
+        this.tocList = this.courseConsumptionService.attachProgresstoContent(_res,this.courseConsumptionService.courseHierarchy.primaryCategory.toLowerCase());
         const res = this.CourseProgressService.getContentProgressState(req, _res);
         this.completedCount = res.completedCount;
         res.content?.forEach((content: any) => {
@@ -523,7 +525,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
   onQuestionScoreSubmitEvents(event) {
     /* istanbul ignore else */
     if (event) {
-      this.assessmentScoreService.handleSubmitButtonClickEvent(true);
+      this.assessmentScoreService.handleSubmitButtonClickEvent(true, this.courseType);
       this.contentProgressEvent(event);
     }
   }
@@ -866,15 +868,20 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
     this.playerConfig = serveiceRef.getConfig(contentDetails);
     this.publicPlayerService.getQuestionSetRead(id).subscribe((data: any) => {
       this.playerConfig['metadata']['instructions'] = _.get(data, 'result.questionset.instructions');
+      this.playerConfig['metadata']['outcomeDeclaration'] = _.get(data, 'result.questionset.outcomeDeclaration');
       this.showPlayer = true;
     }, (error) => {
       this.showPlayer = true;
     });
-    const _contentIndex = _.findIndex(this.contentStatus, { contentId: _.get(this.playerConfig, 'context.contentId') });
-    this.playerConfig['metadata']['maxAttempt'] = _.get(this.activeContent, 'maxAttempts');
-    const _currentAttempt = _.get(this.contentStatus[_contentIndex], 'score.length') || 0;
-    this.playerConfig['metadata']['currentAttempt'] = _currentAttempt == undefined ? 0 : _currentAttempt;
+    this.playerConfig['metadata']['maxAttempt'] = _.get(this.activeContent, 'maxAttempts'); 
     this.playerConfig['context']['objectRollup'] = this.objectRollUp;
+    if(this.questionSetEvaluable) {
+      let attemptKey = 'currentAttempt_'+this.courseId;
+      this.playerConfig['metadata']['currentAttempt'] = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey));
+    } else {
+      let attemptKey = 'currentAttempt_'+id;
+      this.playerConfig['metadata']['currentAttempt'] = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey));
+    }
   }
 
   private initPlayer(id: string) {
@@ -909,7 +916,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
       }
       if (this.activeContent?.mimeType === this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.questionset) {
         const serveiceRef = this.userService.loggedIn ? this.playerService : this.publicPlayerService;
-        this.courseEvaluable = this.serverValidationCheck(this.activeContent?.eval);
+        this.courseEvaluable = this.serverValidationCheck(this.activeContent?.evalMode);
         if(this.courseEvaluable){
           this.attemptID = this.assessmentScoreService.generateHash();
           const requestBody = {
@@ -926,7 +933,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
             takeUntil(this.unsubscribe))
             .subscribe((response) => {             
               //Call below method for sending questionSetToken in content state update api if eval mode is server
-              this.questionSetEvaluable = this.serverValidationCheck(response.questionset?.eval);
+              this.questionSetEvaluable = this.serverValidationCheck(response.questionset?.evalMode);
               this.assessmentScoreService.setServerEvaluableFields(this.questionSetEvaluable, response.questionset.questionSetToken, this.attemptID);
              this.updatePlayerWithResponse(response,id);
              this.showLoader = false;
@@ -938,7 +945,7 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
           this.publicPlayerService.getQuestionSetHierarchy(id).pipe(
             takeUntil(this.unsubscribe))
             .subscribe((response) => {
-               this.questionSetEvaluable = this.serverValidationCheck(response.questionset?.eval);
+               this.questionSetEvaluable = this.serverValidationCheck(response.questionset?.evalMode);
                this.assessmentScoreService.setServerEvaluableFields(this.questionSetEvaluable, response.questionset?.questionSetToken, '');
                this.updatePlayerWithResponse(response,id);
               this.showLoader = false;
@@ -986,14 +993,20 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
     }
   }
 
-  serverValidationCheck(obj: any) {
-    if(typeof obj == 'string') {
-      this.questionSetEvaluable = JSON.parse(obj);
-      this.questionSetEvaluable = this.questionSetEvaluable?.mode?.toLowerCase() == 'server'
+  serverValidationCheck(mode: any) {
+    // if(typeof obj == 'string') {
+    //   this.questionSetEvaluable = JSON.parse(obj);
+    //   this.questionSetEvaluable = this.questionSetEvaluable?.mode?.toLowerCase() == 'server'
+    // } else {
+    //   this.questionSetEvaluable = obj?.mode?.toLowerCase() == 'server'
+    // }
+    if(mode == 'server') {
+      this.questionSetEvaluable = true;
+      return this.questionSetEvaluable;
     } else {
-      this.questionSetEvaluable = obj?.mode?.toLowerCase() == 'server'
+      this.questionSetEvaluable = false;
+      return this.questionSetEvaluable
     }
-    return this.questionSetEvaluable;
   }
 
   onSelfAssessLastAttempt(event) {
@@ -1057,6 +1070,15 @@ export class AssessmentPlayerComponent implements OnInit, OnDestroy, ComponentCa
       },
       id: id
     };
+    if(this.courseConsumptionService.courseHierarchy.primaryCategory.toLowerCase() == 'assessment') {
+      let attemptKey = 'currentAttempt_'+this.courseId;
+      let getAttemptId = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey)); 
+      localStorage.setItem(attemptKey, getAttemptId+1);
+    } else if (event.content.mimeType == 'application/vnd.sunbird.questionset') {
+      let attemptKey = 'currentAttempt_'+event.content.selectedContent;
+      let getAttemptId = localStorage.getItem(attemptKey) == undefined ? 0 : JSON.parse(localStorage.getItem(attemptKey)); 
+      localStorage.setItem(attemptKey, getAttemptId+1);
+    }
     this.contentTitle = event.header.title;
     const module = this.courseConsumptionService.setPreviousAndNextModule(this.parentCourse, event.content.collectionId);
     this.nextModule = _.get(module, 'next');

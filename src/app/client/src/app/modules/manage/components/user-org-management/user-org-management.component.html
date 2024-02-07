@@ -1,6 +1,6 @@
 <app-landing-section [noTitle]="true" [layoutConfiguration]="layoutConfiguration">
 </app-landing-section>
-<div [ngClass]="layoutConfiguration ? 'sbt-container sbt-user-management relative9 sbt-inside-page-container':''">
+<div class="container ui">
 
   <div class="sb-manage-section" [appTelemetryImpression]="telemetryImpression">
     <div class="sb-multi-rows py-16">
@@ -12,7 +12,7 @@
         <button class="sb-btn sb-btn-normal sb-btn-primary" tabindex="0" type="button" (click)="assignUserRole()">Add User Role</button>
       </div>   
     </div>
-    <div class="sb-multi-rows py-16">
+    <!-- <div class="sb-multi-rows py-16">
       <div class="d-flex flex-ai-center flex-jc-space-between flex-w-wrap ui container">
         <h4 class="sb-manage-section-title m-0 font-weight-normal mr-auto">
           {{resourceService.frmelmnts?.lbl?.selfDeclaredDetails}}</h4>
@@ -22,9 +22,9 @@
           class="sb-btn sb-btn-secondary sb-btn-normal" (click)="downloadFile(userDeclaredDetailsUrl)">
           {{resourceService.frmelmnts?.btn?.download}}
         </button>
-        <!-- <span *ngIf="!userDeclaredDetailsUrl">{{resourceService.frmelmnts?.lbl?.noDataAvailable}}</span> -->
-        <!-- <button type="button" (click) = "openModel()" class="sb-btn sb-btn-outline-primary sb-btn-normal" appTelemetryInteract 
-      [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="openUploadModalInteractEdata">{{resourceService.frmelmnts?.lbl?.uploadValidationStatus}}</button> -->
+        <span *ngIf="!userDeclaredDetailsUrl">{{resourceService.frmelmnts?.lbl?.noDataAvailable}}</span> 
+        <button type="button" (click) = "openModel()" class="sb-btn sb-btn-outline-primary sb-btn-normal" appTelemetryInteract 
+      [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="openUploadModalInteractEdata">{{resourceService.frmelmnts?.lbl?.uploadValidationStatus}}</button>
       </div>
       <div class="d-flex flex-ai-center ui container" *ngIf="!userDeclaredDetailsUrl">
         <img src="./assets/images/icon-info.svg" height="16px">
@@ -35,9 +35,9 @@
           class="sb-color-primary cursor-pointer" appTelemetryInteract
           [telemetryInteractObject]="telemetryInteractObject" [telemetryInteractEdata]="adminPolicyDetailsInteractEdata"
           (click)=openAdminPolicyPopup()>{{resourceService?.frmelmnts?.lnk?.adminPolicy}}</a></p>
-    </div>
+    </div> -->
 
-    <div class="sb-pageSection sb-multi-rows py-16">
+    <!-- <div class="sb-pageSection sb-multi-rows py-16">
       <div class="ui container">
        <h4 class="sb-manage-section-title m-0 pb-16">User & Org Management</h4>
         <div class="sb-pageSection-content">
@@ -86,7 +86,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 <!-- Upload validation status modal -->

@@ -1,39 +1,146 @@
 <div class="ui container mt-48" *ngIf="courseDetails">
-    <div class="ui grid w-100 padded">
-      <div class="first_panel eight wide column pl-0 pt-0">
-        <div class="headline">
-          {{configContent.overview.title}}
-        </div>
-        <div class="description mt-48">
-          <div class="sub-heading-one">
-           {{configContent.overview.description}}
-          </div>
-          <p class="mt-16">{{courseDetails.description}}
-          </p>
-        </div>
-        <div class="course-members mt-48">
-          <div class="course-author">
-            <div class="sub-heading-one mb-16"> {{configContent.overview.author}}</div>
-            <div class="member ml-8">
-              <sb-avatar class="pl-0" [initial]="courseDetails.creator | nameIntials" [memberName]="courseDetails.creator" [memberRole]="'Author'" [instance]="'compass'"></sb-avatar>
-            </div>
-          </div>
-          <div class="course-curator mt-48" *ngIf="courseDetails.curator">
-            <div class="sub-heading-one mb-16">   {{configContent.overview.curator}}</div>
-            <div class="member ml-8">
-              <sb-avatar class="pl-0" [initial]="courseDetails.curator | nameIntials" [memberName]="courseDetails.curator" [memberRole]="'Curator'" [instance]="'compass'"></sb-avatar>
-            </div>
-          </div>
-          <div class="mt-48"  *ngIf="associatedCompetencies">
-            <div class="sub-heading-one mb-16 competency-levels">{{configContent.overview.competencyTitle}}</div>
-            <div class="competencies">
-              <sb-levels [levelsInfo]="levelsInfo"></sb-levels>
-             </div>
-          </div>
-        </div>
+  <div class="ui grid w-100 padded">
+    <div class="first_panel eight wide column pl-0 pt-3">
+      <div class="headline">
+        {{configContent.overview.title}}
       </div>
-      <div class="second_pannel four wide column">
-        <app-course-aside [courseHierarchy]="courseDetails" [configContent]="configContent" [params]="params"></app-course-aside>
+      <div class="description mt-48">
+        <div class="sub-heading-one">
+          {{configContent.overview.description}}
+        </div>
+        <p class="mt-16">{{courseDetails.description}}
+        </p>
+      </div>
+      <div class="course-members mt-48">
+        <div class="course-author">
+          <div class="sub-heading-one mb-16"> {{configContent.overview.author}}</div>
+          <div class="member ml-8">
+            <sb-avatar class="pl-0" [initial]="courseDetails.creator | nameIntials" [memberName]="courseDetails.creator"
+              [memberRole]="'Author'" [instance]="'compass'"></sb-avatar>
+          </div>
+        </div>
+        <div class="course-curator mt-48" *ngIf="courseDetails.curator">
+          <div class="sub-heading-one mb-16"> {{configContent.overview.curator}}</div>
+          <div class="member ml-8">
+            <sb-avatar class="pl-0" [initial]="courseDetails.curator | nameIntials" [memberName]="courseDetails.curator"
+              [memberRole]="'Curator'" [instance]="'compass'"></sb-avatar>
+          </div>
+        </div>
+        <div class="mt-48" *ngIf="associatedCompetencies">
+          <div class="sub-heading-one mb-16 competency-levels">{{configContent.overview.competencyTitle}}</div>
+          <div class="competencies">
+            <sb-levels [levelsInfo]="levelsInfo"></sb-levels>
+          </div>
+        </div>
+        <div class="mt-48">
+          <div class="sub-heading-one mb-16 competency-levels">{{resourceService?.frmelmnts?.toc?.overview?.onlyRating}}</div>
+          <div class="ui grid">
+            <div class="four wide column">
+              <p class="rating-container">
+                <span class="rating">{{rating}}</span><span class="out-of"> {{resourceService?.frmelmnts?.toc?.overview?.outOf}} 5</span>
+              </p>
+              <p>
+                <span *ngFor="let item of [].constructor(getPositiveRating(rating)); let i = index">
+                  <mat-icon class="star-icon active">star</mat-icon>
+                </span>
+                <span *ngIf="isHalfRating(rating)">
+                  <mat-icon class="star-icon active">star_half</mat-icon>
+                </span>
+                <span *ngFor="let item of [].constructor(getNegativeRating(rating)); let i = index">
+                  <mat-icon class="star-icon">star</mat-icon>
+                </span>
+                <span class="total-ratings">{{reviews.length}} {{resourceService?.frmelmnts?.toc?.overview?.ratings}}</span>
+              </p>
+            </div>
+            <div class="eight wide column">
+              <div class="ui grid mb-minus-2 rating-bar">
+                <div class="two wide column rating-label">5 {{resourceService?.frmelmnts?.toc?.overview?.star}}</div>
+                <div class="progress eight wide column">
+                  <div class="mat-card__progressbar">
+                    <span
+                      [ngStyle]="{'width': getProgressbarWidth(fiveStarPercentage),'background-color': 'rgb(254, 45, 155)'}"></span>
+                  </div>
+                </div>
+                <div class="two wide column rating-label">{{fiveStarPercentage}}%</div>
+              </div>
+              <div class="ui grid mb-minus-2 rating-bar">
+                <div class="two wide column rating-label">4 {{resourceService?.frmelmnts?.toc?.overview?.star}}</div>
+                <div class="progress eight wide column">
+                  <div class="mat-card__progressbar">
+                    <span
+                      [ngStyle]="{'width': getProgressbarWidth(fourStarPercentage),'background-color': 'rgb(254, 45, 155)'}"></span>
+                  </div>
+                </div>
+                <div class="two wide column rating-label">{{fourStarPercentage}}%</div>
+              </div>
+              <div class="ui grid mb-minus-2 rating-bar">
+                <div class="two wide column rating-label">3 {{resourceService?.frmelmnts?.toc?.overview?.star}}</div>
+                <div class="progress eight wide column">
+                  <div class="mat-card__progressbar">
+                    <span
+                      [ngStyle]="{'width': getProgressbarWidth(threeStarPercentage),'background-color': 'rgb(254, 45, 155)'}"></span>
+                  </div>
+                </div>
+                <div class="two wide column rating-label">{{threeStarPercentage}}%</div>
+              </div>
+              <div class="ui grid mb-minus-2 rating-bar">
+                <div class="two wide column rating-label">2 {{resourceService?.frmelmnts?.toc?.overview?.star}}</div>
+                <div class="progress eight wide column">
+                  <div class="mat-card__progressbar">
+                    <span
+                      [ngStyle]="{'width': getProgressbarWidth(twoStarPercentage),'background-color': 'rgb(254, 45, 155)'}"></span>
+                  </div>
+                </div>
+                <div class="two wide column rating-label">{{twoStarPercentage}}%</div>
+              </div>
+              <div class="ui grid mb-minus-2 rating-bar">
+                <div class="two wide column rating-label">1 {{resourceService?.frmelmnts?.toc?.overview?.star}}</div>
+                <div class="progress eight wide column">
+                  <div class="mat-card__progressbar">
+                    <span
+                      [ngStyle]="{'width': getProgressbarWidth(oneStarPercentage),'background-color': 'rgb(254, 45, 155)'}"></span>
+                  </div>
+                </div>
+                <div class="two wide column rating-label">{{oneStarPercentage}}%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-48">
+          <div class="rating-card ui grid" *ngFor="let review of reviews.slice(0, slicedItems); let i = index">
+            <div class="two wide column">
+              <p><span class="rating-avatar">{{review['firstName'].substring(0,2)}}</span></p>
+            </div>
+            <div class="ten wide column">
+              <p class="user-name">{{review['firstName']}}</p>
+              <p class="rating-block">
+                <span class="rating-count">{{review['rating']}}</span>
+                <span *ngFor="let item of [].constructor(getPositiveRating(review['rating'])); let j = index">
+                  <mat-icon class="star-icon active">star</mat-icon>
+                </span>
+                <span *ngIf="isHalfRating(review['rating'])">
+                  <mat-icon class="star-icon active">star_half</mat-icon>
+                </span>
+                <span *ngFor="let item of [].constructor(getNegativeRating(review['rating'])); let j = index">
+                  <mat-icon class="star-icon">star</mat-icon>
+                </span>
+                <span class="rating-date"><div timeago [date]="review['updatedon']" [live]="live"></div></span>
+              </p>
+              <p class="rating-description">{{review['review']}}</p>
+            </div>
+            <div class="twelve wide column" *ngIf="i != reviews.slice(0, slicedItems).length - 1">
+              <hr>
+            </div>
+          </div>
+          <div class="ui container" *ngIf="reviews.length > 0">
+            <button class="more-btn com-secondary-btn" (click)="updatedSlicing()">{{moreBtnText}}</button>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="second_pannel four wide column">
+      <app-course-aside [courseHierarchy]="courseDetails" [configContent]="configContent" [params]="params">
+      </app-course-aside>
+    </div>
   </div>
+</div>

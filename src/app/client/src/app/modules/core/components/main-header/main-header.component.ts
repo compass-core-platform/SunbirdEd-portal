@@ -170,6 +170,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   showReportMenu = false;
   showingDescription: string;
   showSwitchTheme = false
+  channelId: any;
   constructor(public config: ConfigService, public resourceService: ResourceService, public router: Router,
     public permissionService: PermissionService, public userService: UserService, public tenantService: TenantService,
     public orgDetailsService: OrgDetailsService, public formService: FormService,
@@ -650,6 +651,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
           this.managedUserService.fetchManagedUserList();
           this.fetchManagedUsers();
           this.userProfile = user.userProfile;
+          this.channelId = this.userService.channel;
           this.getLanguage(this.userService.channel);
           this.isCustodianOrgUser();
         }

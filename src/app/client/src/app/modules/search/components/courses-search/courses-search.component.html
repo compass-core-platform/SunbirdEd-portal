@@ -1,3 +1,4 @@
+
 <compass-breadcrumb [data]="breadCrumbData"></compass-breadcrumb>
 
 <div class="ui container grid mt-4rem">
@@ -7,9 +8,7 @@
         </h4>
         <h4 class="sb-pageSection-title mb-10 mr-5" *ngIf="activatedRoute.snapshot.queryParams.competency">
             {{resourceService.frmelmnts?.lbl?.showingResults | translate}}
-            "{{activatedRoute.snapshot.queryParams.competency ??
-            activatedRoute.snapshot.queryParams.competency[0].toUpperCase() +
-            activatedRoute.snapshot.queryParams.competency.slice(1)}}"
+            "{{selectedCompetency}}"
         </h4>
         <h4 class="sb-pageSection-title mb-10 mr-5" *ngIf="activatedRoute.snapshot.queryParams.keyword">
             {{resourceService.frmelmnts?.lbl?.showingResults | translate}}
@@ -24,9 +23,68 @@
     </div>
 </div>
 
-<div class="container ui grid">
-    <div class="three wide column" *ngFor="let course of courses">
-        <compass-course-card [routerLink]="['/learn/course', course['identifier']]" [data]="course">
-        </compass-course-card>
+<div class="container ui grid stackable">
+    <div class="nine wide column">
+        <div class="ui grid stackable">
+            <div class="four wide column" *ngFor="let course of courses"  infiniteScroll
+            [infiniteScrollDistance]="0"
+            [infiniteScrollThrottle]="500"
+            [infiniteScrollDisabled]="scrollCheck"
+            [scrollWindow]="true"
+            (scrolled)="onScroll()"
+            (scrolledUp)="scrolledUp()"
+            >
+                <compass-course-card (click)="courseCardClicked(course)" [data]="course" (favoriteIconClicked)="favoriteIconClicked($event, course['identifier'] || course['contentId'])">
+                </compass-course-card>
+            </div>
+        </div>
+    </div>
+    <div class="three wide column">
+        <div class="ui container grid">
+            <div class="twelve wide column">
+                <div class="filter">
+                    <h3 class="top-heading">Filter by</h3>
+                    <h5 class="sub-heading">Type</h5>
+                    <mat-list>
+                        <mat-list-item>
+                            <mat-checkbox [name]="'assessment'" checked="primaryCategories.indexOf('assessment') != -1"
+                            (change)="updateCoursesType($event)">
+                            Assessments
+                            </mat-checkbox>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-checkbox [name]="'course'" checked="primaryCategories.indexOf('course') != -1"
+                            (change)="updateCoursesType($event)">
+                            Courses
+                            </mat-checkbox>
+                        </mat-list-item>
+                    </mat-list>
+
+                    <h5 class="sub-heading">Recent</h5>
+                    <div class="star-rated">
+                        <mat-list>
+                           <mat-list-item> 
+                               <mat-checkbox  [(ngModel)]="recentlyPublished" (ngModelChange)="recentlyAddCourses()">
+                                        Recently added courses
+                             </mat-checkbox>
+                           </mat-list-item>
+                         </mat-list>
+                   </div>
+
+                    <h5 class="sub-heading">Rating</h5>
+                    <div class="star-rated">
+                        <mat-list>
+                           <mat-list-item *ngFor="let star of startRates"> 
+                               <mat-checkbox [(ngModel)]="star.selected"
+                                          (ngModelChange)="updateAllSelected()">
+                               <mat-icon *ngFor="let s of getRatingText(star.label)" color="primary">star</mat-icon>
+                             </mat-checkbox>
+                           </mat-list-item>
+                         </mat-list>
+                   </div>
+                   
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,0 +1,40 @@
+.network-lib {
+    padding: 20px 0;
+    background: #eff3f9;
+    display: flex;
+    &__side-content{
+            width: 24%;
+            margin-right: 15px;;
+                a {
+                    text-decoration: none;
+                    padding: 12px 10px;
+                    position: relative;
+                    display: block;
+                    color: rgba(0,0,0,.87);
+                    &.active {
+                        font-weight: 500;
+                        &::before {
+                            content: "";
+                            position: absolute;
+                            left: 0;
+                            height: 44px;
+                            top: 0;
+                            border-left: 5px solid #347bb6;
+                            z-index: 2;
+                            width: 2px;
+                        }
+                        background-color: #eee;
+                        width: 100%;
+                    }
+                }
+       @media screen and (max-width:600) {
+            width: 100%;
+       }
+    }
+    &__main-content{
+        width: 74%;
+        @media screen and (max-width:600) {
+            width: 100%;
+       }
+    }
+}

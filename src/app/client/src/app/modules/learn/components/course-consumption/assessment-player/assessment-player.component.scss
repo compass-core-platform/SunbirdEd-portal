@@ -125,6 +125,7 @@
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          margin-left: 1rem;
       }
   }
 
@@ -174,6 +175,8 @@
 .left-right-navigation{
   flex-direction: row;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
   .right-button, .left-button {
     background-color: var(--com-grey-14);
     min-width: 2rem !important;
@@ -215,5 +218,13 @@
 @media (min-width: 1920px) {
   .playerPageContainer .sb-g {
     grid-template-columns: repeat(12,1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .ui.grid .four.wide.column, .ui.grid .eight.wide.column{
+    width: 100%!important;
+    margin-left: auto!important;
+    margin-right: auto!important;
   }
 }

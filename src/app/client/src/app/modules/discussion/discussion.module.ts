@@ -3,7 +3,7 @@ import { SuiModalModule } from 'ng2-semantic-ui-v9';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ForumComponent } from './components/forum/forum.component';
-import { DiscussionUiModule, DiscussionEventsService } from '@project-sunbird/discussions-ui';
+import { DiscussionUiModule, DiscussionEventsService } from 'compass-discussions-ui-v8';
 import { DiscussionTelemetryService } from '../shared/services/discussion-telemetry/discussion-telemetry.service';
 import { NavigationHelperService, SharedModule } from '@sunbird/shared';
 import { AccessDiscussionComponent } from './components/access-discussion/access-discussion.component';

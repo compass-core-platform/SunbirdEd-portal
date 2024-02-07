@@ -101,7 +101,8 @@
         }
       }
       .logout{
-        margin-top: auto;
+        position: absolute;
+        bottom: 24px;
         width: 90%;
         margin-left: 16px;
         border: calculateRem(1px) solid var(--com-grey-border);

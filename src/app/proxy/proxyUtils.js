@@ -24,6 +24,7 @@ const cacheConfig = {
   ttl: envHelper.sunbird_cache_ttl
 }
 
+
 const apiInterceptor = new ApiInterceptor(keyCloakConfig, cacheConfig, [`${envHelper.PORTAL_AUTH_SERVER_URL}/realms/${envHelper.KEY_CLOAK_REALM}`])
 
 const decorateRequestHeaders = function (upstreamUrl = "") {
@@ -106,6 +107,7 @@ const decoratePublicRequestHeaders = function () {
     return proxyReqOpts
   }
 }
+
 /**
  * Add request info into logger for debug perpose
  */

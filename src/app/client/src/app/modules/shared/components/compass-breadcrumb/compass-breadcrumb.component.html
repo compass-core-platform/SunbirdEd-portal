@@ -6,7 +6,7 @@
             <span class="in-line-flex" *ngFor="let breadcrumb of data">
                 <mat-icon class="arrow-forward">keyboard_arrow_right</mat-icon>
                 <!-- <img *ngIf="breadcrumb['showIcon']" (click)="navigateTo(breadcrumb['link'])" [ngClass]="{'pointing' : breadcrumb['link'] !== ''}" src="assets/images/learn-{{breadcrumb['status']}}-breadcrumb.svg" /> -->
-                <mat-icon [ngClass]="{'pointing' : breadcrumb['link'] !== '', 'active' : breadcrumb['link'] == ''}">{{breadcrumb['icon']}}</mat-icon>
+                <mat-icon *ngIf="breadcrumb['icon'] !== ''" [ngClass]="{'pointing' : breadcrumb['link'] !== '', 'active' : breadcrumb['link'] == ''}">{{breadcrumb['icon']}}</mat-icon>
                 <span (click)="navigateTo(breadcrumb['link'])" [ngClass]="{'pointing' : breadcrumb['link'] !== '', 'active' : breadcrumb['link'] == ''}" class="breadcrumb-label">{{breadcrumb['label']}}</span>
             </span>
         </div>

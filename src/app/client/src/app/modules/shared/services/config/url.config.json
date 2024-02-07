@@ -36,7 +36,7 @@
       "fields": "rootOrgId,rootOrgName"
     },
     "contentGet": "transcripts,ageGroup,appIcon,artifactUrl,attributions,attributions,audience,author,badgeAssertions,board,body,channel,code,concepts,contentCredits,contentType,contributors,copyright,copyrightYear,createdBy,createdOn,creator,creators,description,displayScore,domain,editorState,flagReasons,flaggedBy,flags,framework,gradeLevel,identifier,itemSetPreviewUrl,keywords,language,languageCode,lastUpdatedOn,license,mediaType,medium,mimeType,name,originData,osId,owner,pkgVersion,publisher,questions,resourceType,scoreDisplayConfig,status,streamingUrl,subject,template,templateId,totalQuestions,totalScore,versionKey,visibility,year,primaryCategory,additionalCategories,interceptionPoints,interceptionType",
-    "questionSetRead": "instructions",
+    "questionSetRead": "instructions,outcomeDeclaration",
     "enrolledCourses": {
       "fields": "contentType,topic,name,channel,mimeType,appIcon,posterImage,Duration,gradeLevel,resourceType,identifier,medium,pkgVersion,board,subject,trackable,primaryCategory,organisation",
       "batchDetails": "name,endDate,startDate,status,enrollmentType,createdBy,certificates"
@@ -95,7 +95,7 @@
       "CREATE": "review/comment/v1/create/comment"
     },
     "USER": {
-      "SIGNUP": "user/v1/create",
+      "SIGNUP": "user/v2/signup",
       "TNC_ACCEPT": "user/v1/tnc/accept",
       "UPDATE_USER_PROFILE": "user/v3/update",
       "GET_PROFILE": "user/v5/read/",
@@ -109,7 +109,7 @@
       "GET_USER_BY_KEY": "user/v1/get",
       "CHECK_USER_EXISTS": "user/v1/exists",
       "CREATE_V2": "user/v2/create",
-      "SIGN_UP_V1": "user/v2/signup",
+      "SIGN_UP_V1": "user/v1/signup",
       "LOCATION_SEARCH": "data/v1/location/search",
       "TYPE": "user/v1/type/list",
       "VALIDATE_CERTIFICATE": "certreg/v1/certs/validate",
@@ -125,7 +125,8 @@
       "USER_EXISTS_GET_USER_BY_KEY": "isUserExists/user/v1/get",
       "USER_DECLARATION": "user/v1/declarations",
       "GET_SESSION": "get/user/sessionId",
-      "USER_SEARCH": "user/v1/search"
+      "USER_SEARCH": "user/v1/search",
+      "UPDATE_PROFILE": "api/user/private/v1/update"
     },
     "CERTIFICATE": {
       "FETCH_CERTIFICATES": "v1/certs/search",
@@ -138,7 +139,8 @@
     },
     "COMPOSITE": {
       "SEARCH": "composite/v1/search",
-      "SEARCH_IMAGES": "composite/v3/search"
+      "SEARCH_IMAGES": "composite/v3/search",
+      "SEARCH_METRIC": "composite/v1/search/metric"
     },
     "SYSTEM_SETTING": {
       "CUSTODIAN_ORG": "data/v1/system/settings/get/custodianOrgId",
@@ -166,7 +168,9 @@
       "RECOMMENDED_COURSE": "recommended/courses",
       "UNENROLL_USER_COURSE": "course/v1/unenrol",
       "GET_QR_CODE_FILE": "course/v1/qrcode/download",
-      "GET_REPORTS_METADATA": "course-reports/metadata"
+      "GET_REPORTS_METADATA": "course-reports/metadata",
+      "COURSE_USERS":"course/v2/users/list",
+      "COURSE_BATCH_PROGRESS": "course/v1/batch/progress"
     },
     "CONTENT": {
       "SEARCH": "content/v1/search",
@@ -209,6 +213,7 @@
       "ADD_USERS": "course/v1/batch/user/add",
       "GET_DETAILS": "course/v1/batch/read",
       "GET_PARTICIPANT_LIST": "course/v1/batch/participants/list",
+      "GET_All_PARTICIPANT_LIST": "course/v1/batch/allparticipants/list",
       "GET_BATCHS": "course/v1/batch/list",
       "REMOVE_USERS": "course/v1/batch/user/remove"
     },
@@ -347,7 +352,8 @@
       "CREATE": "questionset/v2/create",
       "READ": "questionset/v2/read",
       "HIERARCHY_READ": "questionset/v2/hierarchy",
-      "COPY": "questionset/v2/copy"
+      "COPY": "questionset/v2/copy",
+      "RETIRE": "questionset/v2/retire"
     },
     "OBJECTCATEGORY": {
       "READ": "object/category/definition/v1/read"
@@ -376,6 +382,11 @@
     "DHITI":{
       "GENERIC_REPORTS": "reports/mlreports/v1/fetch",
       "ALL_EVIDENCE":"observations/mlreports/v1/listAllEvidences"
+    },
+    "WISHLIST": {
+      "GET_LIST": "wishlist/v1/get",
+      "ADD": "wishlist/v1/add",
+      "REMOVE": "wishlist/v1/remove"
     },
     "UCI": "/uci"
 

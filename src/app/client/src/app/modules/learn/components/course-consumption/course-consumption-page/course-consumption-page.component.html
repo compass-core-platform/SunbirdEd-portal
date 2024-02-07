@@ -22,7 +22,7 @@
 </ng-container>
 <div *ngIf="courseTabs&&courseHierarchy" class="courseTab">
     <mat-tab-group animationDuration="0ms">
-        <mat-tab label={{resourceService.frmelmnts.toc.tab.overview}}>
+        <mat-tab label={{resourceService.frmelmnts.toc.tab.overview}} #tab1>
            <!-- <router-outlet *ngIf="!showLoader && !showError"></router-outlet>
             <div *ngIf="showLoader" class="ui container">
                 <div class="ui grid">
@@ -32,15 +32,17 @@
                 </div>
             </div> -->
 
-        <app-course-overview [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [params]="batchId"></app-course-overview>
+        <app-course-overview [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [params]="batchId" [isActive]="tab1.isActive"></app-course-overview>
         </mat-tab>
-        <mat-tab label={{resourceService.frmelmnts.toc.tab.content}}>
+        <mat-tab label={{contentTabLabel}} #tab2>
             <app-course-content [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc"
-             [params]="batchId" [tocList]="tocList" (contentClicked)="contentClicked($event)"></app-course-content>
+             [params]="batchId" [tocList]="tocList" (contentClicked)="contentClicked($event)" [isActive]="tab2.isActive"></app-course-content>
         </mat-tab>
-        <mat-tab label={{resourceService.frmelmnts.toc.tab.discussion}}>{{resourceService.frmelmnts.toc.tab.discussion}}</mat-tab>
-        <mat-tab label={{resourceService.frmelmnts.toc.tab.members}}>
-            <app-batch-list [courseHierarchy]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc"></app-batch-list>
+        <mat-tab label={{resourceService.frmelmnts.toc.tab.discussion}} #tab3>
+            <course-discussion-forum [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [isActive]="tab3.isActive"></course-discussion-forum>
+        </mat-tab>
+        <mat-tab label={{resourceService.frmelmnts.toc.tab.members}} #tab4>
+            <app-batch-list [courseHierarchy]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [isActive]="tab4.isActive"></app-batch-list>
         </mat-tab>
     </mat-tab-group>
 </div>

@@ -1,0 +1,129 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+    <div class="ui grid stackable m-0 p-0">
+      <!-- First Column -->
+      <div class="six wide column m-0 p-0">
+        <div class="form-container">
+          <div class="form-column">
+            <div class="form-group">
+              <label>Type of Organisation</label>
+              <mat-radio-group formControlName="organisationType">
+                <mat-radio-button value="Government"
+                  >Government Organisation</mat-radio-button
+                >
+                <mat-radio-button value="Non-Government"
+                  >Non-government Organisation</mat-radio-button
+                >
+              </mat-radio-group>
+            </div>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Organisation Name</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="organisationName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Industrty</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="industry"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Location</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="location"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="form-container">
+          <div class="form-column">
+            <p>Other Details For Government employees (If Applicable)</p>
+            <mat-form-field appearance="outline">
+              <mat-label>Organisation Name</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="govOrganisationName"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Service</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="service"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <!-- Second Column -->
+      <div class="six wide column m-0 p-0">
+        <div class="form-container test">
+          <div class="form-column">
+            <mat-form-field appearance="outline">
+              <mat-label>Cadre</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="cadre"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Allotement year of service</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="allotmentYear"
+                [matDatepicker]="picker"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Civil List Number</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="civilListNumber"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Employee Code</mat-label>
+              <input
+                matInput
+                #input
+                formControlName="employeeCode"
+                placeholder="Type here"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="submitbtn">
+      <button class="com-primary-btn btn" type="submit">
+        {{ resourceService.frmelmnts.lbl.editProfile.submit }}
+      </button>
+    </div>
+  </form>
+  

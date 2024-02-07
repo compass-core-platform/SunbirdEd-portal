@@ -58,6 +58,7 @@ export class TenantService extends DataService {
   private _defaultTenant = '';
   // TODO refactor the igot specific changes
   slugForIgot = '';
+  initialized = false;
   /**
    * The constructor
    * @param {HttpClient} http Reference of HttpClient.
@@ -82,7 +83,7 @@ export class TenantService extends DataService {
   }
 
   public initialize() {
-    if (this.cacheService.exists('orgSettings')) {
+    if (this.cacheService.exists('orgSettings') && !this.initialized) {
       const orgSettings = this.cacheService.get('orgSettings');
       const slug = this.userService.slug !== '' ? this.userService.slug : this._defaultTenant;
       if (orgSettings.id === slug) {
@@ -93,6 +94,7 @@ export class TenantService extends DataService {
     } else {
       this.getSlugDefaultTenantInfo(this.userService.slug).subscribe();
     }
+    this.initialized = true;
   }
 
   /**

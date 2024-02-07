@@ -1,6 +1,6 @@
 <div class="container ui">
     <h3 class="	sub-heading-mobile" (click)="$event.stopPropagation();">Spaces</h3> 
-    <ul class="list" (click)="$event.stopPropagation();">
+    <ul class="list">
         <li>
             <a href="javascript:void(0);" (click)="navigateToHomepage()" mat-menu-item>
                 <mat-icon>school</mat-icon>
@@ -9,6 +9,33 @@
                     <p>Learn space</p>
                  </div>
               </a>
+        </li>
+        <li>
+          <a href="javascript:void(0);"  (click)="navigateTo('/discussion')" mat-menu-item>
+            <mat-icon>settings_brightness</mat-icon>
+             <div class="display">
+                <h3 class="	sub-heading-two">Discussion</h3>
+                <p>Discussion space</p>
+             </div>
+         </a>
+        </li>
+        <li>
+          <a href="javascript:void(0);"  (click)="navigateTo('/competency-passbook')" mat-menu-item>
+            <mat-icon>extension</mat-icon>
+             <div class="display">
+                <h3 class="	sub-heading-two">Competency passbook</h3>
+                <p>Competency passbook space</p>
+             </div>
+         </a>
+        </li>
+        <li>
+          <a href="javascript:void(0);"  [routerLink]="['/network-hub/home']" mat-menu-item>
+            <mat-icon>extension</mat-icon>
+             <div class="display">
+                <h3 class="	sub-heading-two">Network Hub</h3>
+                <p>Network hub</p>
+             </div>
+         </a>
         </li>
     </ul>
     <h3 class="	sub-heading-mobile" (click)="$event.stopPropagation();"
@@ -32,6 +59,38 @@
               <p>Workspace space access</p>
            </div>
        </a>
+      </li>
+      <li>
+        <a href="javascript:void(0);"  (click)="navigateTo('search/wishlist')" mat-menu-item>
+          <mat-icon class="favourite-icon">favorite</mat-icon>
+           <div class="display">
+              <h3 class="	sub-heading-two">Wishlist</h3>
+              <p>Effortlessly save and organise your must-haves</p>
+           </div>
+       </a>
+      </li>
+    </ul>
+    <h3 class="	sub-heading-mobile" (click)="$event.stopPropagation();"
+    *ngIf="permissionService.checkRolesPermissions(adminDashboard)"
+   >Report and Analysis</h3>
+   <ul class="list">
+      <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
+        <a href="javascript:void(0);"  (click)="navigateTo('/learn/batch-progress')" mat-menu-item>
+          <mat-icon> list_alt</mat-icon>
+          <div class="display">
+              <h3 class="sub-heading-two">Course and Assessment progress</h3>
+              <p>Course and Assessment progress</p>
+          </div>
+        </a>
+      </li>
+      <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
+        <a href="javascript:void(0);"  (click)="navigateTo('/manage')" mat-menu-item>
+          <mat-icon>perm_data_setting</mat-icon>
+          <div class="display">
+              <h3 class="sub-heading-two">Manage Users</h3>
+              <p>Manage Users: add, update roles to users</p>
+          </div>
+        </a>
       </li>
     </ul>
   </div>

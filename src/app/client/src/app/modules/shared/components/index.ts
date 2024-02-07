@@ -27,3 +27,4 @@ export * from './alert-modal/alert-modal.component';
 export * from './full-page-loader/full-page-loader.component';
 export * from './modal-wrapper/modal-wrapper.component';
 export * from './slick/slick.component';
+export * from './snack-bar/snack-bar.component';

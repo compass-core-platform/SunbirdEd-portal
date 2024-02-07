@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, HostListener, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationServiceImpl } from '../../services/notification/notification-service-impl';
 import * as _ from 'lodash-es';
@@ -26,13 +26,21 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
   isConnected = false;
   unsubscribe$ = new Subject<void>();
 
+  @HostListener('document:click', ['$event'])
+  clickOutside(event) {
+    if(!this.eleRef.nativeElement.contains(event.target)) {
+      this.showNotificationModel = false;
+    } 
+  }
+
   constructor(
     @Inject('SB_NOTIFICATION_SERVICE') private notificationService: NotificationServiceImpl,
     private router: Router,
     public resourceService: ResourceService,
     private telemetryService: TelemetryService,
     private activatedRoute: ActivatedRoute,
-    private connectionService: ConnectionService
+    private connectionService: ConnectionService,
+    private eleRef: ElementRef
   ) {
     this.inAppNotificationConfig = {
       title: _.get(this.resourceService, 'frmelmnts.lbl.notification'),
@@ -52,7 +60,6 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
         this.notificationService.fetchNotificationList();
       }
     });
-
     this.fetchNotificationList();
   }
 
@@ -71,6 +78,7 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
 
   toggleInAppNotifications() {
     if (!this.showNotificationModel && !this.notificationList.length) {
+      this.showNotificationModel = !this.showNotificationModel;
       return;
     }
     this.generateInteractEvent('show-in-app-notifications');
@@ -108,4 +116,5 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
       this.generateInteractEvent('see-less');
     }
   }
+  
 }

@@ -1,0 +1,112 @@
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+
+.table-wrap{
+  background: var(--white);
+  padding:20px;
+}
+::ng-deep .mat-table {
+  
+  .mat-column-initials{
+    display: none;
+  }
+  .mat-header-cell{
+    border:none;
+
+  }
+  .mat-row {
+    .mat-cell {
+     border: none;
+    &:first{
+      display: none;
+    }
+      img{
+        width: 34px;
+        height: auto;
+        border-radius: 4px;
+        margin-right: 5px;
+      }
+    &.mat-column-link{
+      width: 200px;
+      text-align: right;
+      a {
+        font-weight: 600;
+      }
+    }
+   }
+   &:nth-child(odd){
+    .mat-cell {
+        background-color: var(--primary-0);
+      }
+    }
+  }
+  .mat-header-cell{
+    text-align: center;
+    text-transform: capitalize;
+  }
+}
+
+.initials {
+    border-radius: 0.375rem;
+    opacity: 1;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 0.4rem;
+    margin-right: 5px;
+    text-transform: uppercase;
+    display: inline-flex;
+    justify-content: center;
+    min-width: 30px;
+}
+
+.progress-bar{
+  display: inline-flex;
+  width: 60%;
+ 
+}
+.members-status {
+  background-color: rgb(218, 219, 217) !important;
+}
+
+// ::ng-deep .mat-progress-bar {
+
+//   .mat-progress-bar-background{
+//     background-color: var(--grey);
+//   }
+//   .mat-progress-bar-buffer {
+//     background: var(--green);
+//   }
+
+// }
+
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: var(--green);
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #E4E8EB;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 4px;
+  height: 8px !important;
+}
+
+.progress {
+  &-red {
+    color:var(--accessibility-red2);
+    font-weight: 600;
+  }
+  &-green{
+    color:var(--com-progress-green);
+    font-weight: 600;
+  }
+}

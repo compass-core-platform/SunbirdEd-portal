@@ -1,6 +1,6 @@
 import {
   PaginationService, ResourceService, ConfigService, ToasterService, INoResultMessage, ILoaderMessage, UtilService, BrowserCacheTtlService, NavigationHelperService, IPagination,
-  LayoutService, COLUMN_TYPE, OfflineCardService
+  LayoutService, COLUMN_TYPE, OfflineCardService, SnackBarComponent
 } from '@sunbird/shared';
 import { SearchService, PlayerService, CoursesService, UserService, ISort, OrgDetailsService, SchemaService } from '@sunbird/core';
 import { combineLatest, Subject, of, Observable } from 'rxjs';
@@ -16,6 +16,9 @@ import * as publicService from '../../../public/services';
 import { TaxonomyService } from '../../../../service/taxonomy.service';
 import { FrameworkService } from '../../../core/services/framework/framework.service';
 import { ContentSearchService } from '@sunbird/content-search';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { WishlistedService } from '../../../../service/wishlisted.service';
+
 interface Competency {
   title?: string,
   type?: string,
@@ -84,6 +87,7 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   categoryDetails: any = [];
   facetNames: any =[];
   breadCrumbData = [];
+  allWishlistedIds = [];
 
   constructor(public searchService: SearchService, public router: Router,
     public activatedRoute: ActivatedRoute, public paginationService: PaginationService,
@@ -94,7 +98,7 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
     public navigationhelperService: NavigationHelperService, public layoutService: LayoutService, private schemaService: SchemaService,
     public contentManagerService: ContentManagerService, public telemetryService: TelemetryService,
     private offlineCardService: OfflineCardService, private taxonomyService: TaxonomyService, private learnPageContentService : publicService.LearnPageContentService, private contentSearchService : ContentSearchService,
-    private frameworkService: FrameworkService) {
+    private frameworkService: FrameworkService, private snackBar: MatSnackBar, private wishlistedService: WishlistedService) {
     this.paginationDetails = this.paginationService.getPager(0, 1, this.configService.appConfig.SEARCH.PAGE_LIMIT);
     this.filterType = this.configService.appConfig.home.filterType;
     // this.redirectUrl = this.configService.appConfig.courses.searchPageredirectUrl;
@@ -105,6 +109,7 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.isDesktopApp = this.utilService.isDesktopApp;
     this.listenLanguageChange();
+    this.getWishlisteddoIds();
     this.fetchContentOnParamChange();
     this.contentManagerService.contentDownloadStatus$
     .pipe(takeUntil(this.unsubscribe$))
@@ -152,6 +157,21 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       ];
   }
+
+  public getWishlisteddoIds() {
+    let payload = {
+        "request": {
+          "userId": this.userService._userid
+        }
+      }
+  
+      this.wishlistedService.getWishlistedCourses(payload).subscribe((res: any) => {
+        if (res.result.wishlist.length > 0) {
+          this.allWishlistedIds = res.result.wishlist;
+        }
+      });
+  }
+
 
   public findCategory(frameworkId:any){
     this.frameworkService.getSelectedFrameworkCategories(frameworkId)
@@ -328,6 +348,7 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.contentList = get(data, 'result.QuestionSet');
         }
+        this.appendWishlistToCourse();
         this.addHoverData();
           const channelFacet = _.find(_.get(data, 'result.facets') || [], facet => _.get(facet, 'name') === 'channel');
           if (channelFacet) {
@@ -705,6 +726,72 @@ getInteractEdata(event) {
   };
   this.telemetryService.interact(cardClickInteractData);
 }
+
+  redirectToToc(content: any) {
+    this.router.navigate(['/learn/course', content['identifier']])
+  }
+
+  appendWishlistToCourse() {
+    this.contentList = this.contentList.map((course: any) => {
+      let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
+      if(isWhishListed) {
+          course['isWishListed'] = true;
+      } else {
+          course['isWishListed'] = false;
+      }
+      return course
+    })
+  }
+
+  favoriteIconClicked(option: string, courseId: any) {
+    console.log("Icon: ", option);
+
+    let payload = {
+      "request": {
+          "userId": this.userService._userid,
+          "courseId": courseId
+      }
+    }
+
+    if(option === 'selected') {
+      this.wishlistedService.addToWishlist(payload).subscribe((res: any) => {
+          if(res) {
+              this.updateWishlistedCourse(option, courseId);
+              this.wishlistedService.updateData({ message: 'Added to Wishlist' });
+              this.snackBar.openFromComponent(SnackBarComponent, {
+                  duration: 2000,
+                  panelClass: ['wishlist-snackbar']
+              });
+          }
+      });
+    } else {
+        this.wishlistedService.removeFromWishlist(payload).subscribe((res: any) => {
+            if(res) {
+                this.wishlistedService.updateData({ message: 'Removed from Wishlist' });
+                this.snackBar.openFromComponent(SnackBarComponent, {
+                    duration: 2000,
+                    panelClass: ['wishlist-snackbar']
+                });
+            }
+        });
+    }
+  }
+
+  updateWishlistedCourse(option: string, courseId: any) {
+    if(option === 'selected') {
+      this.contentList.forEach((course: any) => {
+        if (course.identifier == courseId) {
+          course['isWishListed'] = true;
+        }
+    });
+    } else {
+      this.contentList.forEach((course: any) => {
+        if (course.identifier == courseId) {
+          course['isWishListed'] = false;
+        }
+    });
+    }
+  }
 
 }
 

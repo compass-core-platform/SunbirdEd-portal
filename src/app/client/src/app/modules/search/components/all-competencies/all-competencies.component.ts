@@ -5,6 +5,10 @@ import { SearchService } from '../../../core/services/search/search.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ContentSearchService } from '@sunbird/content-search';
+import { UserService } from '@sunbird/core';
+import { WishlistedService } from '../../../../service/wishlisted.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarComponent } from '@sunbird/shared';
 
 interface Competency {
   title?: string,
@@ -16,7 +20,8 @@ interface Competency {
   name?: string,
   btnText?: string,
   expand?: boolean,
-  expandData?: any
+  expandData?: any,
+  identifier?: string
 }
 
 @Component({
@@ -34,17 +39,20 @@ export class AllCompetenciesComponent implements OnInit {
   popularCompetenciesData: any = [];
   breadCrumbData = [];
   batchId = "";
+  allWishlistedIds = [];
 
   constructor(private frameworkService: FrameworkService, public activatedRoute: ActivatedRoute, public searchService: SearchService,
-    private router: Router, private contentSearchService: ContentSearchService) { }
+    private router: Router, private contentSearchService: ContentSearchService, private userService: UserService, private wishlistedService: WishlistedService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     let custodianOrg;
     let defaultBoard;
-    this.contentSearchService.initialize(this.activatedRoute.snapshot.queryParams.channel,custodianOrg, defaultBoard)
-    .subscribe((res: any) =>{
-      this.fetchpopularCompetencies();
-    })
+    this.contentSearchService.initialize(this.activatedRoute.snapshot.queryParams.channel, custodianOrg, defaultBoard)
+      .subscribe((res: any) => {
+        this.fetchpopularCompetencies();
+        this.getWishlisteddoIds();
+      })
   }
 
   public setBreadCrumbData() {
@@ -122,6 +130,7 @@ export class AllCompetenciesComponent implements OnInit {
                 this.allCompetenciesData.push(competency);
               }
               this.allCompetencies.data = this.allCompetenciesData;
+              this.appendWishlistToCourse();
               console.log(this.allCompetencies);
 
               this.popularCompetencies.map((comp) => {
@@ -130,6 +139,7 @@ export class AllCompetenciesComponent implements OnInit {
                     for (let term of category.terms) {
                       let competency: Competency = {};
                       if (comp.name == term.identifier) {
+                        competency.identifier = term.identifier;
                         competency.title = term.name;
                         competency.type = ""; //hardcoded
                         competency.noOfCourses = comp.count;
@@ -196,9 +206,93 @@ export class AllCompetenciesComponent implements OnInit {
     } else {
       this.router.navigateByUrl(`learn/course/` + event.identifier);
     }
+  }
 
+  loadCompetencyCourses(identifier: any) {
+    // console.log('identifier', identifier)
+    this.router.navigateByUrl(`search/Courses/1?channel=${this.activatedRoute.snapshot.queryParams.channel}&competency=${identifier}&framework=${this.contentSearchService.frameworkId}`)
+    console.log('loadCompetencyCourses', identifier);
+  }
 
+  getWishlisteddoIds() {
+    let payload = {
+      "request": {
+        "userId": this.userService._userid
+      }
+    }
 
+    this.wishlistedService.getWishlistedCourses(payload).subscribe((res: any) => {
+      if (res.result.wishlist.length > 0) {
+        this.allWishlistedIds = res.result.wishlist;
+      }
+    });
+  }
+
+  appendWishlistToCourse() {
+    this.allCompetencies?.data?.forEach((competency: any) => {
+        if(competency?.expandData.length > 0) {
+          competency.expandData.forEach((course: any) => {
+            let isWhishListed;
+            if(course.identifier) {
+              isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
+            }
+            isWhishListed ? course['isWishListed'] = true: course['isWishListed'] = false;
+          })
+        }
+    })
+  }
+
+  favoriteIconClicked(data: any) {
+    console.log("Icon: ", data);
+
+    let option = data.option;
+    let courseId = data.identifier;
+
+    let payload = {
+      "request": {
+          "userId": this.userService._userid,
+          "courseId": courseId
+      }
+    }
+    if(option === 'selected') {
+      this.wishlistedService.addToWishlist(payload).subscribe((res: any) => {
+          if(res) {
+              this.updateWishlistedCourse(option, courseId);
+              this.wishlistedService.updateData({ message: 'Added to Wishlist' });
+              this.snackBar.openFromComponent(SnackBarComponent, {
+                  duration: 2000,
+                  panelClass: ['wishlist-snackbar']
+              });
+          }
+      });
+    } else {
+        this.wishlistedService.removeFromWishlist(payload).subscribe((res: any) => {
+            if(res) {
+                this.updateWishlistedCourse(option, courseId);
+                this.wishlistedService.updateData({ message: 'Removed from Wishlist' });
+                this.snackBar.openFromComponent(SnackBarComponent, {
+                    duration: 2000,
+                    panelClass: ['wishlist-snackbar']
+                });
+            }
+        });
+    }
+  }
+
+  updateWishlistedCourse(option: string, courseId: any) {
+    if(option === 'selected') {
+      this.courses.forEach((course: any) => {
+        if (course?.identifier == courseId || course?.contentId == courseId) {
+          course['isWishListed'] = true;
+        }
+    });
+    } else {
+      this.courses.forEach((course: any) => {
+        if (course?.identifier == courseId || course?.contentId == courseId) {
+          course['isWishListed'] = false;
+        }
+    });
+    }
   }
 
 }

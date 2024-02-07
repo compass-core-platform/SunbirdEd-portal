@@ -1,0 +1,20 @@
+<compass-breadcrumb [data]="breadCrumbData"></compass-breadcrumb>
+
+<div class="ui container grid mt-32">
+    <div class="sb-pageSection-header mb-10">
+        <h4 class="sb-pageSection-title mb-10 mr-5 headline">
+            Wishlist
+        </h4>
+    </div>
+</div>
+
+<div class="container ui grid stackable">
+    <div class="twelev wide column">
+        <div class="ui grid stackable">
+            <div class="four wide column" *ngFor="let course of wishListedCourses">
+                <compass-course-card (click)="redirectToToc(course)" [data]="course" (favoriteIconClicked)="favoriteIconClicked($event, course['identifier'])">
+                </compass-course-card>
+            </div>
+        </div>
+    </div>
+</div>

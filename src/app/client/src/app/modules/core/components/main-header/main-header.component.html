@@ -353,7 +353,7 @@
       <div *ngIf="userService.loggedIn">
         <div class="mb-16 menu-card">
           <sb-member-card [config]=cardConfig [initial]="userProfile?.firstName[0]" tabindex="0"
-            [title]="userProfile?.firstName" [isMenu]="false">
+            [title]="userProfile?.firstName" [designation] = "userProfile?.profileDetails?.professionalDetails[0]?.designation" [isMenu]="false">
           </sb-member-card>
         </div>
         <!-- <div class="fsmall sb-color-gray-400 my-12 profile__info__desc text-left">
@@ -401,7 +401,7 @@
             </app-content-type>
           </div>
 
-          <li class="list-item" tabindex="0" role="link" (click)="toggleSideMenu(false)" routerLink="profile">
+          <li class="list-item" tabindex="0" role="link" (click)="toggleSideMenu(false)" routerLink="profile" [queryParams]="{ channel: channelId }">
             <i class="icon-svg icon-svg--sm icon-profileuser mr-8">
               <!-- <svg class="icon icon-svg--primary">
                 <use xlink:href="./assets/images/sprite.svg#profileuser"></use>

@@ -1,0 +1,169 @@
+<!-- <div class="ui container mt-48" *ngIf="courseDetails">
+    <div class="ui grid stackable w-100 padded">
+        <div class="first_panel eight wide column pl-0 pt-0">
+            <div class="headline">
+                Discussion forum
+            </div>
+
+            <div class="center aligned search-container">
+                <div class="ui input w-100">
+                    <input type="text" id="create-discussion" name="discussion" [(ngModel)]="discussionText"
+                        placeholder="Have questions, suggestions or, ideas in your mind? Post it.">
+                </div>
+            </div>
+            <div class="ui grid">
+                <div class="eight wide column">
+                    <div class="sb-field post-type">
+                        <mat-form-field appearance="fill" class="sb-mat__dropdown">
+                          <mat-select name="post-type" role="listbox" [(ngModel)]="selectedField">
+                            <mat-option class="mat-dropdown__options" role="option" *ngFor="let option of fields | sortBy:'name':'asc'" [value]="option"
+                            attr.aria-label="{{option}}">{{option}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="four wide column">
+                    <div class="right floated search-container">
+                        <div class="ui input w-100">
+                            <img src="assets/images/search_icon.svg" class="search-left-icon"/>
+                            <input type="text" id="search-discussion" name="search-discussion" [(ngModel)]="searchText"
+                                placeholder="Search">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui grid">
+                <div class="twelve wide column">
+                    <div class="discussion">
+                        <p class="title">
+                            We need status indicators for each items. There is no way to find out whether an item is in draft or sent for review.
+                        </p>
+                        <p class="section description">
+                            Rejected ones also need to be indicated with a different colour or image.
+                        </p>
+                        <p class="section">
+                            1 day ago <span class="dot">.</span> By Rajendra Krishnamoorthi <span class="dot">.</span> 2 comments
+                        </p>
+                        <p class="section">
+                            <span class="tag">Tag 1</span>
+                            <span class="tag">Tag 1</span>
+                        </p>
+                        <p class="section">
+                            <span class="inline-flex">
+                                <mat-icon class="icon">import_export</mat-icon> 91 votes 
+                                <span class="spacing"></span>
+                            </span>
+                            <span class="inline-flex">
+                                <mat-icon class="icon">trending_up</mat-icon> 91 views
+                            </span>
+                            <span class="comments right floated">No Comments</span>
+                        </p>
+                        <hr>
+                        <p class="section">
+                            <span class="inline-flex">
+                                <mat-icon class="icon">arrow_upward</mat-icon> 56
+                            </span>
+                            <span class="spacing"></span>
+                            <span class="inline-flex">
+                                <mat-icon class="icon">arrow_downward</mat-icon> 21
+                            </span>
+                            <span class="comments right floated" *ngIf="!writeComment">
+                                <span class="inline-flex"><mat-icon class="icon">message</mat-icon> 
+                                    <span (click)="writeComment = true" class="text cursor-pointer">Write comment</span>
+                                </span> 
+                            </span>
+                        </p>
+                        <div class="center aligned search-container no-padding-top" *ngIf="writeComment">
+                            <div class="ui input w-100">
+                                <input type="text" id="create-comment" name="comment" [(ngModel)]="postText"
+                                    placeholder="Write your comment & post it." />
+                            </div>
+                            <p class="inline-flex">
+                                <button class="com-secondary-btn">Post</button>
+                                <button (click)="writeComment = false" class="com-secondary-btn cancel">Cancel</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="twelve wide column">
+                    <div class="discussion">
+                        <p class="title">
+                            How are competency areas determined?
+                        </p>
+                        <p class="section description">
+                            Can we create competency areas as we like? Or are we allowed to use exisiting ones only? If 2nd is true, who is responsible for maintaining competency areas?
+                        </p>
+                        <p class="section">
+                            1 day ago <span class="dot">.</span> By Rajendra Krishnamoorthi <span class="dot">.</span> 2 comments
+                        </p>
+                        <p class="section">
+                            <span class="tag">Tag 1</span>
+                            <span class="tag">Tag 1</span>
+                        </p>
+                        <p class="section">
+                            <span class="inline-flex">
+                                <mat-icon class="icon">import_export</mat-icon> 91 votes 
+                                <span class="spacing"></span>
+                            </span>
+                            <span class="inline-flex">
+                                <mat-icon class="icon">trending_up</mat-icon> 91 views
+                            </span>
+                            <span class="comments right floated">No Comments</span>
+                        </p>
+                        <hr>
+                        <p class="section">
+                            <span class="inline-flex">
+                                <mat-icon class="icon">arrow_upward</mat-icon> 56
+                            </span>
+                            <span class="spacing"></span>
+                            <span class="inline-flex">
+                                <mat-icon class="icon">arrow_downward</mat-icon> 21
+                            </span>
+                            <span class="comments right floated">
+                                <span class="inline-flex"><mat-icon class="icon">message</mat-icon> 
+                                    <span class="text cursor-pointer">Write comment</span>
+                                </span> 
+                            </span>
+                        </p>
+
+                        <div class="twelve wide column">
+                            <div class="discussion comment">
+                                <p class="section description no-margin-top">
+                                    IFU members can create competency areas. System does not prevent creating competency areas with just one competency also. However it’s the responsibility of the IFU member to search before trying to create a new one.
+                                </p>
+                                <p class="section">
+                                    1 day ago <span class="dot">.</span> By Kumar Vishnu <span class="dot">.</span> 2 comments
+                                </p>
+                                <p class="section">
+                                    <span class="inline-flex">
+                                        <mat-icon class="icon">arrow_upward</mat-icon> 56
+                                    </span>
+                                    <span class="spacing"></span>
+                                    <span class="inline-flex">
+                                        <mat-icon class="icon">arrow_downward</mat-icon> 21
+                                    </span>
+                                    <span class="right floated">
+                                        <span class="inline-flex">
+                                            <span class="text mr-10 cursor-pointer">Reply</span>
+                                            <mat-icon>more_vert</mat-icon>
+                                        </span>
+                                    </span>
+                                </p>
+                                <p class="replies cursor-pointer">
+                                    <mat-icon class="reply-icon mr-10">reply</mat-icon>
+                                    2 replies
+                                </p>
+                            </div>
+                            <p class="section ui w-100">
+                                <button class="center aligned com-secondary-btn">Expand full question</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="second_pannel four wide column">
+            <app-course-aside [courseHierarchy]="courseDetails" [configContent]="configContent"></app-course-aside>
+        </div>
+    </div> -->
+    <app-access-discussion [fetchForumIdReq]="fetchForumIdReq"> </app-access-discussion>

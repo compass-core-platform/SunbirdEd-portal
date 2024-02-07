@@ -19,3 +19,13 @@
         }
     }
 }
+@media screen and (max-width: 768px) {
+    .ui.grid{
+        flex-direction: column-reverse;
+        .four.wide.column, .eight.wide.column{
+            width: 90%!important;
+            margin-left: auto!important;
+            margin-right: auto!important;
+        }
+    }
+}

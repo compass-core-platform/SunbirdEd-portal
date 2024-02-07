@@ -100,6 +100,12 @@
               <input type="email" id="email" name="email" placeholder="Enter your email id here">
             </div>
           </div>
+          <div class="phone-field field" [ngClass]="{'error' : phoneFieldError}">
+            <label class="label">Phone</label>
+            <div class="ui input">
+              <input type="phone" id="phone" name="phone" placeholder="Enter your phone number here">
+            </div>
+          </div>
           <!-- <div class="username-field field" [ngClass]="{'error' : usernameFieldError}">
             <label class="label">Username</label>
             <div class="ui input">
@@ -126,7 +132,7 @@
             </div>
           </div>
           <button (click)="register()" class="ui blue button">Sign Up</button>
-          <a id="login-btn" routerLink="/resources" class="login-link">Login</a>
+          <a id="login-btn" href="/resources" class="login-link">Login</a>
         </div>
       </div>
     </div>

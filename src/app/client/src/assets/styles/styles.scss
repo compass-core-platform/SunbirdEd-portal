@@ -25,3 +25,10 @@
 .leader-line{
     z-index: 100;
 }
+
+.custom-dialog-container {
+    .cdk-dialog-container{
+        background: #fff;
+        padding: 20px;
+    }
+}

@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LayoutService } from '@sunbird/shared';
-import * as publicService from '../../services';
-// import { SearchService } from './../../../core/services/search/search.service';
 import { UserService, SearchService } from '@sunbird/core';
-
 import { ResourceService } from '@sunbird/shared';
-import { CoursesService } from '@sunbird/core';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
@@ -20,13 +16,13 @@ export class LandingPageComponent implements OnInit {
   courses: any = {};
 
   layoutConfiguration;
+  showIcon: boolean = false;
 
-  constructor(public layoutService: LayoutService, private landingPageContentService: publicService.LandingPageContentService,
-    public searchService: SearchService, private router: Router, public resourceService: ResourceService, private coursesService: CoursesService,
+  constructor(public layoutService: LayoutService, public searchService: SearchService,
+    private router: Router, public resourceService: ResourceService,
     public userService: UserService) { }
 
   ngOnInit() {
-    // alert()
     this.layoutConfiguration = this.layoutService.initlayoutConfig();
     let searchRequest = {
       "request": {
@@ -39,7 +35,7 @@ export class LandingPageComponent implements OnInit {
         "sort_by": {
           "lastPublishedOn": "desc"
         },
-        "fields": ["name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "primaryCategory", "contentType", "channel", "organisation", "trackable", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory"],
+        "fields": ["name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "primaryCategory", "contentType", "channel", "organisation", "trackable", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory", "avgRating"],
         "offset": 0
       }
     };
@@ -49,33 +45,33 @@ export class LandingPageComponent implements OnInit {
     option['params'] = params;
     this.searchService.contentSearch(option).subscribe((res: any) => {
       this.courses = res["result"]["content"];
-      console.log('Courses', this.courses);
+      // console.log('Courses', this.courses);
     });
   }
-  slideConfig = { 
-    slidesToShow: 4, 
+  slideConfig = {
+    slidesToShow: 4,
     slidesToScroll: 4,
     responsive: [{
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 4 
-                  }
-                },
-                {
-                  breakpoint: 768,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2 
-                  }
-                },
-                {
-                  breakpoint: 520,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                  }
-                }]
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 520,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }]
   };
 
   slickInit(e: any) {

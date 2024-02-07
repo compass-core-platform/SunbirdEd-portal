@@ -18,6 +18,10 @@ import { CommonConsumptionModule } from 'compass-common-consumption';
 import { CardModule } from 'compass-common-consumption';
 import { AllTopicsComponent } from './components/all-topics/all-topics.component';
 import { CoursesSearchComponent } from './components/courses-search/courses-search.component';
+import { WhishlistCoursesComponent } from './components/whishlist-courses/whishlist-courses.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 @NgModule({
   imports: [
@@ -33,11 +37,14 @@ import { CoursesSearchComponent } from './components/courses-search/courses-sear
     ReactiveFormsModule,
     CommonConsumptionModule,
     ContentSearchModule,
-    CardModule
+    CardModule,
+    MatCheckboxModule,
+    MatListModule,
+    InfiniteScrollModule
   ],
   declarations: [ UserSearchComponent,
   UserFilterComponent, UserEditComponent, UserDeleteComponent,
-  UserProfileComponent, HomeSearchComponent, AllCompetenciesComponent, AllTopicsComponent, CoursesSearchComponent ],
+  UserProfileComponent, HomeSearchComponent, AllCompetenciesComponent, AllTopicsComponent, CoursesSearchComponent, WhishlistCoursesComponent ],
   providers: [UserSearchService]
 })
 export class SearchModule { }

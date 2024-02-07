@@ -19,7 +19,7 @@ export class BatchListComponent implements OnInit {
    this.getEnrollerMembers();
   }
   
-  getEnrollerMembers(){
+  getEnrollerMembers() {
         let batchId = this.courseHierarchy.batches[0].batchId;
         const requestBody = {
           request: {
@@ -42,7 +42,7 @@ export class BatchListComponent implements OnInit {
             }
             this.userSerivce.getEnrolledUsers(requestBody).subscribe((memResponse:any) => {
                   if(memResponse.length>0){
-                    this.batchList = memResponse.map((mem:any) =>{
+                    this.batchList = memResponse.map((mem:any) => {
                       mem.fullName = mem.firstName+' '+mem.lastName;
                       return mem;
                     })
@@ -50,5 +50,5 @@ export class BatchListComponent implements OnInit {
             })
         }
       })
-  }
+    }
 }

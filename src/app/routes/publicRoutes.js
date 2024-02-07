@@ -16,9 +16,10 @@ module.exports = function (app) {
     }
 
     app.all('/api/content/v1/search', proxyObj());
-
     app.all('/api/composite/v1/search', proxyObj());
-
+    app.all('/api/ratings/v1/*', proxyObj());
+    app.all('/api/course/v2/users/list', proxyObj());
+    
     // app.all('/api/content/v1/create', proxyObj());
 
     // app.all('/api/content/v1/upload/:id', proxyObj());

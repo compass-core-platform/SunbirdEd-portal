@@ -1,12 +1,13 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ResourceService, ConfigService, NavigationHelperService } from '@sunbird/shared';
-import { FrameworkService, PermissionService, UserService } from '@sunbird/core';
+import { FrameworkService, PermissionService, UserService,SearchService } from '@sunbird/core';
 import { IImpressionEventInput } from '@sunbird/telemetry';
 import { WorkSpaceService } from './../../services';
 @Component({
   selector: 'app-create-content',
-  templateUrl: './create-content.component.html'
+  templateUrl: './create-content.component.html',
+  styleUrls: ['./create-content.component.scss']
 })
 export class CreateContentComponent implements OnInit, AfterViewInit {
 
@@ -67,11 +68,15 @@ export class CreateContentComponent implements OnInit, AfterViewInit {
 
   * @param {ResourceService} resourceService Reference of ResourceService
  */
+  metricsData: any[];
+  sequence = ['Course', 'Assessment', 'Learning Resource', 'Practice Question Set'];
+
   constructor(configService: ConfigService, resourceService: ResourceService,
     frameworkService: FrameworkService, permissionService: PermissionService,
     private activatedRoute: ActivatedRoute, public userService: UserService,
     public navigationhelperService: NavigationHelperService,
-    public workSpaceService: WorkSpaceService) {
+    public workSpaceService: WorkSpaceService,
+    private searchService: SearchService) {
     this.resourceService = resourceService;
     this.frameworkService = frameworkService;
     this.permissionService = permissionService;
@@ -92,6 +97,7 @@ export class CreateContentComponent implements OnInit, AfterViewInit {
         this.enableQuestionSetCreation = response.questionSetEnablement;
       }
     );
+    this.getInsightDashboardData();
   }
 
 
@@ -109,6 +115,51 @@ export class CreateContentComponent implements OnInit, AfterViewInit {
           duration: this.navigationhelperService.getPageLoadTime()
         }
       };
+    });
+  }
+
+  getInsightDashboardData() {
+    const payload= {
+      "request": {
+          "limit": 10000,
+          "filters": {
+              "status": [
+                  "Draft",
+                  "Review",
+                  "Live"
+              ],
+              "createdBy": this.userService.userid,
+              "primaryCategory": [
+                  "Learning Resource",
+                  "Practice Question Set",
+                  "Course",
+                  "Assessment"
+              ]
+           }
+      }
+    }
+    this.searchService.getInsightsMetric(payload).subscribe((res: any) => {
+      if(res.result.metrics?.length > 0) {
+        let response = res.result.metrics;
+
+        //Sort array in required format
+        this.metricsData = response.sort((a, b) => {
+          return this.sequence.indexOf(a.primaryCategory) - this.sequence.indexOf(b.primaryCategory);
+        });
+
+        //Replace names for title accordingly
+        response.forEach((data: any) => {
+          if(data.primaryCategory == 'Learning Resource') {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.resource;
+          } else if(data.primaryCategory == 'Practice Question Set') {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.questionset;
+          } else if(data.primaryCategory == 'Course') {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.course;
+          } else {
+            data.primaryCategory = this.resourceService?.frmelmnts?.workspace?.assessment;
+          }
+        });
+      }
     });
   }
 }

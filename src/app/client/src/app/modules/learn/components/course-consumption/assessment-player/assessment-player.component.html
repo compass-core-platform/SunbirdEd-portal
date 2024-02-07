@@ -20,7 +20,7 @@
             <!-- Textbook image -->
             <div class="d-flex flex-ai-center w-50">
               <!-- Back button -->
-              <div class="w-15">
+              <div>
                 <button type="button" class="com-primary-btn " tabindex="0"
                   (click)="goBack(); logTelemetry('back-track', courseHierarchy)"
                   attr.aria-label="{{resourceService?.frmelmnts?.btn?.back}}">
@@ -64,9 +64,9 @@
   [ngClass]="layoutConfiguration ? 'sbt-inside-page-container' : ''" class="text-left relative9">
   <!-- CC-Player Video -->
   <div class="playerPageContainer">
-    <div class="cc-player sb-g">
-      <section class="sb-g-col-xs-12 cc-player__video sb-toc-player-column"
-        [ngClass]="isSectionVisible ? 'sb-g-col-md-8 sb-g-col-lg-8' : 'sb-g-col-md-12 sb-g-col-lg-12'">
+    <div class="cc-player ui grid">
+      <section class="cc-player__video sb-toc-player-column"
+        [ngClass]="isSectionVisible ? 'eight wide column' : 'twelve wide column'">
 
         <div class="toc-content text-left">
           <div class="content-video">
@@ -81,7 +81,7 @@
                   (selfAssessLastAttempt)="onSelfAssessLastAttempt($event)"
                   (endEventReached)="endEventReached($event)"></app-player>
               </div>
-              <div class="left-right-navigation sb-g mt-16">
+              <div class="left-right-navigation mt-16">
                 <div class="sb-g-col-lg-4">
                   <button class="sb-btn sb-btn-link sb-btn-normal sb-left-icon-btn right-button"
                     aria-label="previous-module" *ngIf="prevModule" tabindex="0"
@@ -124,7 +124,7 @@
           </div> -->
         </div>
       </section>
-      <section [ngClass]="isSectionVisible ? 'sb-g-col-xs-4 sb-g-col-md-4 sb-g-col-lg-4' : 'd-none'">
+      <section [ngClass]="isSectionVisible ? 'four wide column' : 'd-none'">
         <div class="right-side-title my-24">
           <div class="title">{{resourceService?.frmelmnts?.player?.content}}</div>
           <div>

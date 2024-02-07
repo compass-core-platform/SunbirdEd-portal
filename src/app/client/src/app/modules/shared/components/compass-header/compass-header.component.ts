@@ -42,20 +42,20 @@ export class CompassHeaderComponent implements OnInit {
   isValidCustodianOrgUser = true;
   userListToShow = [];
   totalUsersCount: number;
-  searchText:string = '';
-  keyParam:string;
+  searchText: string = '';
+  keyParam: string;
 
   constructor(private managedUserService: ManagedUserService, public orgDetailsService: OrgDetailsService,
-    public formService: FormService, public router: Router, public toasterService: ToasterService, 
-    public route:ActivatedRoute,
+    public formService: FormService, public router: Router, public toasterService: ToasterService,
+    public route: ActivatedRoute,
     public deviceDetectorService: DeviceDetectorService,) {
 
-    this.route.queryParams.subscribe((param : Params) => {
+    this.route.queryParams.subscribe((param: Params) => {
       this.keyParam = param['key'];
-  });
-     }
+    });
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.userService.loggedIn) {
       this.searchText = this.keyParam ?? '';
       this.userService.userData$.subscribe((user: any) => {
@@ -73,6 +73,15 @@ export class CompassHeaderComponent implements OnInit {
           this.getLanguage(data.orgDetails.hashTagId);
         }
       });
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.tenantInfo.logo == undefined || this.tenantInfo.logo == null) {
+      setTimeout(() => {
+        const el = document.getElementById('compass-logo') as HTMLElement;
+        el.setAttribute('src', this.tenantInfo.logo);
+      }, 1000);
     }
   }
 

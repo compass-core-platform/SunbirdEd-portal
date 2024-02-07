@@ -23,7 +23,14 @@ import {LocationModule} from '../location';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CardModule } from 'compass-common-consumption';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
+import { MatButtonModule } from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatChipsModule} from '@angular/material/chips';
+import { AcademicDetailsComponent } from './components/academic-details/academic-details.component';
+import { ProfessionalDetailsComponent } from './components/professional-details/professional-details.component';
+import { CertificationAndSkillsComponent } from './components/certification-and-skills/certification-and-skills.component';
 
 export const csCourseServiceFactory = (csLibInitializerService: CsLibInitializerService) => {
   if (!CsModule.instance.isInitialised) {
@@ -59,13 +66,22 @@ export const csCertificateServiceFactory = (csLibInitializerService: CsLibInitia
     LocationModule,
     MatTooltipModule,
     CardModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatChipsModule,
   ],
   declarations: [ProfilePageComponent, ProfileBadgeComponent, UpdateContactDetailsComponent,
    AccountRecoveryInfoComponent,
    CreateUserComponent,
    ChooseUserComponent,
-   SubmitTeacherDetailsComponent],
+   SubmitTeacherDetailsComponent,
+   EditProfileComponent,
+   PersonalDetailsComponent,
+   AcademicDetailsComponent,
+   ProfessionalDetailsComponent,
+   CertificationAndSkillsComponent
+   ],
   providers: [
     {provide: 'CS_COURSE_SERVICE', useFactory: csCourseServiceFactory, deps: [CsLibInitializerService]},
     {provide: 'CS_CERTIFICATE_SERVICE', useFactory: csCertificateServiceFactory, deps: [CsLibInitializerService]}

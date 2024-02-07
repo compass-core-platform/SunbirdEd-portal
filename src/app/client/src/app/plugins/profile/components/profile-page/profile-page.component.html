@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="profile-header__buttons container ui">
-      <button class="com-secondary-btn mr-40" appTelemetryInteract appOnlineOnly
+      <button class="com-secondary-btn mr-20" appTelemetryInteract appOnlineOnly
         [telemetryInteractEdata]="editProfileInteractEdata"
-        attr.aria-label="{{resourceService?.frmelmnts?.lbl?.editPersonalDetails}}" tabindex="0"
-        (click)="showEditUserDetailsPopup=true">Edit Profile</button>
-      <button class="com-secondary-btn">Your dashboard</button>
+        attr.aria-label="{{resourceService?.frmelmnts?.lbl?.editProfileBtn}}" tabindex="0"
+        (click)="navigateToEditProfile()">{{resourceService?.frmelmnts?.lbl?.editProfileBtn}}</button>
+      <button class="com-secondary-btn disabled">{{resourceService?.frmelmnts?.lbl?.yourDashboardBtn}}</button>
     </div>
   </header>
   <section class="course-certificates container ui mt-4rem">
@@ -30,9 +30,9 @@
         <button (click)="showAllLearnings()"
           class="com-secondary-btn right-floated">{{resourceService?.frmelmnts?.lbl?.anncmntinboxseeall}}</button></div>
         <div class="ui grid middle aligned stackable">
-          <div class="three wide column" *ngFor="let data of attendedTraining"
-            [routerLink]="['/learn/course', data['content']['identifier']]">
-            <compass-course-card [data]="data"></compass-course-card>
+          <div class="three wide column" *ngFor="let data of attendedTraining.slice(0, 4)">
+            <compass-course-card (click)="redirectToToc(data['contentId'], data['batch']['batchId'])" [data]="data"
+            (favoriteIconClicked)="favoriteIconClicked($event,data['contentId'],'learnings')"></compass-course-card>
           </div>
         </div>
       </section>
@@ -356,8 +356,8 @@
               (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
               (beforeChange)="beforeChange($event)" responsive="breakpoints">
               <div ngxSlickItem class="slide" *ngFor='let course of contributions;'
-                [routerLink]="['/learn/course', course['identifier']]">
-                <compass-course-card [data]="course"></compass-course-card>
+                 (click)="contributionRedirectToToc(course['identifier'])">
+                <compass-course-card [data]="course" (favoriteIconClicked)="favoriteIconClicked($event,course['identifier'],'contributions')"></compass-course-card>
               </div>
             </ngx-slick-carousel>
           </div>
@@ -383,10 +383,10 @@
           <!--contributions view ends-->
 
           <!-- tarainings attended computer view strats-->
-          <!-- <div class="container my-16 sb-certificate-trained" *ngIf="attendedTraining && attendedTraining.length">
+          <div class="ui container my-16 sb-certificate-trained mt-4rem mb-4rem" *ngIf="attendedTraining && attendedTraining.length">
           <div class="list-heading">
-            <label class="mb-0">{{resourceService?.frmelmnts?.lbl?.myLearning}}({{attendedTraining.length}})&#x200E;</label>
-            <span class="fsmall mt-4 font-weight-bold">&nbsp;({{resourceService?.frmelmnts?.lbl?.refreshedDaily}})</span>
+            <label class="mb-0">{{resourceService.frmelmnts?.lbl?.learnerPassbook }}&#x200E;</label>
+            <!-- <span class="fsmall mt-4 font-weight-bold">&nbsp;({{resourceService?.frmelmnts?.lbl?.refreshedDaily}})</span> -->
           </div>
           <div class="list-item-parent">
             <div class="list-items sb-course-progress-status-label">
@@ -401,12 +401,12 @@
             <div class="list-items" *ngIf="data.courseName">
               <div class="list-items__item"><a tabindex="0" (click)="navigateToCourse(data)" class="sb__ellipsis mr-auto mb-0 text-left">{{data.courseName}}</a></div>
               <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{data.batch.name}}</span></div>
-              <div class="list-items__item list-date" *ngIf="data.completedOn">{{data.completedOn | date :'MMMM yyy' }}</div>
+              <div class="list-items__item list-date" *ngIf="data.completedOn">{{data.completedOn | date :'dd MMMM yyy' }}</div>
               <div class="list-items__item list-items__bar computer only" *ngIf="!data.completedOn">
                   <span class="bar mr-4"></span>
                   <span class="bar"></span>
               </div>
-              <div class="list-items__item status-progress fsmall font-weight-bold text-left" *ngIf="(data.status === 0 || data.status === 1) && (data.batch.status !== 2)" >{{resourceService?.frmelmnts?.lbl?.ongoing}}</div>
+              <div class="list-items__item status-progress fsmall font-weight-bold text-left" *ngIf="(data.status === 0 || data.status === 1) && (data.batch.status !== 2)" >{{resourceService?.frmelmnts?.lbl?.ongoing}} ({{data.completionPercentage}}%)</div>
               <div class="list-items__item status-progress fsmall font-weight-bold text-left" *ngIf="(data.status === 0 || data.status === 1) && (data.batch.status === 2)" >{{resourceService?.frmelmnts?.lbl?.expiredbatch}}</div>
               <div class="list-items__item status-completed fsmall font-weight-bold text-left" *ngIf="data.status === 2 " >{{resourceService?.frmelmnts?.lbl?.completed}}</div>
               <div class="list-items__item" *ngIf="data?.certificates?.length || data?.issuedCertificates?.length">
@@ -432,7 +432,7 @@
               (click)="toggleCourse(false, attendedTraining.length)" tabindex="0" *ngIf="!showMoreTrainings">{{resourceService.frmelmnts.lbl.viewless}}<i
                 class="chevron up icon"></i></button>
           </div>
-        </div> -->
+        </div>
           <!-- trainings attended computer view ends-->
 
           <!-- certificates - old layout-->
@@ -478,7 +478,7 @@
           <!-- certificates - old layout-->
 
           <!-- RC Certificates -->
-          <div class="ui container my-16 sb-certificate-trained mt-4rem" id="learner-passbook"
+          <!--div class="ui container my-16 sb-certificate-trained mt-4rem" id="learner-passbook"
             *ngIf="otherCertificates && otherCertificates.length">
             <div class="list-heading">
               <label class="mb-0">{{resourceService.frmelmnts?.lbl?.learnerPassbook }}&#x200E;</label>
@@ -489,7 +489,7 @@
                 <label class="list-items__item mb-0 text-left">{{resourceService?.frmelmnts?.lbl?.certgivenby}}</label>
                 <label class="list-items__item mb-0 last-date">{{resourceService?.frmelmnts?.lbl?.certissuedon}}</label>
                 <label class="list-items__item mb-0 text-left"></label>
-                <label class="list-items__item mb-0 text-left"></label>
+                <label class="list-items__item mb-0 text-left">Progress</label>
               </div>
             </div>
             <div class="list-item-parent" *ngFor="let data of otherCertificates | slice:0:otherCertificateLimit">
@@ -506,7 +506,7 @@
                 </div>
                 <div class="list-items__item list-items__bar computer only" *ngIf="!data?.length">
                   <span class="bar"></span>
-                  <span class="bar"></span>
+                  <label class="list-items__item mb-0 text-left">100%</label>
                 </div>
               </div>
             </div>

@@ -93,7 +93,7 @@ export class SearchService {
             lastUpdatedOn: requestParam.params.lastUpdatedOn || 'desc'
           },
           fields: [
-            "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids"
+            "name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids","avgRating", "primaryCategory"
           ],
           facets: [
             "taxonomyCategory4Ids"
@@ -616,5 +616,13 @@ export class SearchService {
       }
     };
     return this.learnerService.post(option);
+  }
+
+  getInsightsMetric(payload: any) {
+    const option = {
+      url: this.config.urlConFig.URLS.COMPOSITE.SEARCH_METRIC,
+      data: payload
+    };
+    return this.content.post(option);
   }
 }

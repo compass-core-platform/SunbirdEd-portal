@@ -1,0 +1,31 @@
+.insight-card {
+    background-color: black;
+    color: white;
+    margin-top: 1rem;
+    padding: 1.5rem;
+}
+.insight-topic {
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+.insight-title {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    font-weight: 600;
+}
+.insight-status {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+}
+.status-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

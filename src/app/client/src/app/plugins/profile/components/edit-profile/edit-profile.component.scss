@@ -1,0 +1,32 @@
+@use "@project-sunbird/sb-styles/assets/mixins/mixins"as *;
+
+.headline{
+    color: rgba(0,0,0,0.87);
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: 0px;
+    text-align: left;
+    line-height: 36px;
+    margin: 48px 0 48px 0;
+}
+.mat-tab-label-content{
+    color: var(--primary-color);
+}
+::ng-deep {
+    .mat-tab-labels{
+        .mat-tab-label-active{
+            background-color: var(--com-grey-border);
+            .mat-tab-label-content{
+                opacity: 1;
+                color: rgba(0,0,0,0.87);
+                font-size: 14px;
+                font-weight: 700;
+                font-style: normal;
+                letter-spacing: 0.25px;
+                text-align: left;
+                line-height: 21px;
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@ import { of as observableOf, Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
 import { Injectable, EventEmitter } from '@angular/core';
 import { ConfigService, ServerResponse, ToasterService, ResourceService } from '@sunbird/shared';
-import { ContentService, UserService, CoursesService } from '@sunbird/core';
+import { ContentService, UserService, CoursesService, PublicDataService, LearnerService } from '@sunbird/core';
 import * as _ from 'lodash-es';
 import dayjs from 'dayjs';
 
@@ -27,6 +27,8 @@ export class CourseProgressService {
   progressdetails: any = {};
   mimeType: string = '';
   contentProgress: any = {};
+  lastReadContentId = new BehaviorSubject<any>('');
+  resultMessage: string;
 
   private courseStatus$ = new BehaviorSubject<Number>(0);
   courseStatus = this.courseStatus$.asObservable();
@@ -37,8 +39,8 @@ export class CourseProgressService {
 
 
   constructor(contentService: ContentService, configService: ConfigService,
-    userService: UserService, public coursesService: CoursesService, private toasterService: ToasterService,
-    private resourceService: ResourceService) {
+    userService: UserService, public coursesService: CoursesService, private toasterService: ToasterService, private publicService: PublicDataService,
+    private resourceService: ResourceService, private learnerService: LearnerService) {
     this.contentService = contentService;
     this.configService = configService;
     this.userService = userService;
@@ -70,6 +72,26 @@ export class CourseProgressService {
       }), catchError((err) => {
         this.courseProgressData.emit({ lastPlayedContentId: req.contentIds[0] });
         return err;
+      }));
+  }
+  public geCourseBatchState(req) {
+      const channelOptions = {
+        url: this.configService.urlConFig.URLS.COURSE.COURSE_BATCH_PROGRESS,
+        data: {
+          request: {
+            courseId: req.courseId,
+            batchId: req.batchId,
+            userId: req.userId
+          }
+        }
+      };
+      if (_.get(req, 'fields')) {
+        channelOptions.data.request['fields'] = _.get(req, 'fields');
+      }
+      return this.learnerService.post(channelOptions).pipe(map((res: ServerResponse) => {
+        return res;
+      }), catchError((err) => {
+           return err;
       }));
   }
 
@@ -175,6 +197,10 @@ export class CourseProgressService {
   updateContentStateToServer(data) {
     let req;
     if(this.mimeType !== 'application/vnd.sunbird.questionset') {
+      //Modify below condition if progress details available for youtube or scorm content
+      if(this.mimeType == 'application/vnd.ekstep.content-collection' || this.mimeType == 'application/vnd.ekstep.ecml-archive') {
+        this.progressdetails = {}
+      }
       if(data.status == 2) {
         req = {
           contentId: data.contentId,
@@ -202,7 +228,7 @@ export class CourseProgressService {
       req = {
         contentId: data.contentId,
         batchId: data.batchId,
-        status: data.status,
+        status: 1,
         courseId: data.courseId,
         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ')
       };
@@ -218,6 +244,38 @@ export class CourseProgressService {
     };
     return this.contentService.patch(channelOptions)
       .pipe(map((updateCourseStatesData: any) => ({ updateCourseStatesData })));
+  }
+
+  statusCompletion(res: any, userId: any) {
+    const methodType = 'PATCH';
+    const requestBody = {
+        "request": {
+            "userId": userId,
+            "contents": [
+                {
+                    "contentId": res.contentId,
+                    "batchId": res.batchId,
+                    "status": 2,
+                    "courseId": res.courseId
+                }
+            ],
+            // "assessments": [
+            //     {
+            //         "assessmentTs": assessmentTs,
+            //         "batchId": res.batchId,
+            //         "courseId": res.courseId,
+            //         "userId": userId,
+            //         "attemptId": attemptID,
+            //         "contentId": res.contentId,
+            //         "events": []
+            //     }
+            // ]
+        }
+    }
+    this.sendAssessment({requestBody, methodType}).subscribe((response: any) => {
+      console.log("Assessment status updated with 2");
+      window.location.href = '/learn/course/' + res.courseId + '/batch/' + res.batchId;
+    })
   }
 
   sendAssessment(data): Observable<any> {
@@ -238,130 +296,118 @@ export class CourseProgressService {
     this.mimeType = type;
   }
 
-  // endEventData(event: any) {
-  //   let telemetryEvent = _.get(event, 'detail.telemetryData');
-  //   if(telemetryEvent?.eid == "END") {
-  //     let edata = telemetryEvent?.edata;
-  //     edata?.summary?.forEach((val: any) => {
-  //       if(val?.progress) {
-  //         this.completionPercentage = val.progress
-  //       }
-  //       if(val?.totallength) {
-  //         this.progressdetails['max_size'] = val.totallength;
-  //       }
-  //       if(val?.visitedlength) {
-  //         this.progressdetails['current'] = [];
-  //         if(this.mimeType == 'application/pdf') {
-  //           let count = 1;
-  //           while(val.visitedlength > 0) {
-  //             this.progressdetails['current'].push(count)
-  //             count++;
-  //             val.visitedlength--;
-  //           }
-  //         } else {
-  //           this.progressdetails['current'].push(val.visitedlength);
-  //         }
-  //       }
-  //     });
-
-  //     console.log("progressdetails", this.progressdetails);
-  //   }
-  // }
-
-
-    endEventData(event: any) {
-      if(this.mimeType !== 'application/vnd.sunbird.questionset') {
-        if(event?.eid == "END") {
-          let edata = _.get(event, 'edata');
-          if(edata?.currentPage && edata?.totalPages) {
-            this.completionPercentage = this.calculateCompletedPercentage(edata.currentPage, edata.totalPages);
-            this.progressdetails['max_size'] = edata.totalPages;
-            let count = 1;
-            this.progressdetails['current'] = [];
-            if(edata.currentPage == edata.totalPages) {
-              this.progressdetails['current'].push(1);
-            } else {
-              while(edata.currentPage > 0) {
-                this.progressdetails['current'].push(count)
-                count++;
-                edata.currentPage--;
-              }
+  endEventData(event: any) {
+    this.progressdetails = {}
+    if(this.mimeType !== 'application/vnd.sunbird.questionset') {
+      if(event?.eid == "END") {
+        let edata = _.get(event, 'edata');
+        if(edata?.currentPage && edata?.totalPages) {
+          this.completionPercentage = this.calculateCompletedPercentage(edata.currentPage, edata.totalPages);
+          this.progressdetails['max_size'] = edata.totalPages;
+          let count = 1;
+          this.progressdetails['current'] = [];
+          if(edata.currentPage == edata.totalPages) {
+            this.progressdetails['current'].push(1);
+          } else {
+            while(edata.currentPage > 0) {
+              this.progressdetails['current'].push(count)
+              count++;
+              edata.currentPage--;
             }
-          } else if(edata?.currentTime && edata?.totalTime) {
-            this.completionPercentage = this.calculateCompletedPercentage(edata.currentTime, edata.totalTime);
-            this.progressdetails['max_size'] = edata.totalTime;
-            this.progressdetails['current'] = [];
+          }
+        } else if(edata?.currentTime && edata?.totalTime) {
+          this.completionPercentage = this.calculateCompletedPercentage(edata.currentTime, edata.totalTime);
+          this.progressdetails['max_size'] = edata.totalTime;
+          this.progressdetails['current'] = [];
+          if(edata.currentTime == edata.totalTime) {
+            this.progressdetails['current'].push(0)
+          } else {
             this.progressdetails['current'].push(edata.currentTime);
           }
-          console.log("progressdetails", this.progressdetails);
         }
       }
     }
+    console.log("progressdetails", this.progressdetails);
+  }
 
-    calculateCompletedPercentage(completed: any, total: any) {
-      let percentage: any;
+  calculateCompletedPercentage(completed: any, total: any) {
+    let percentage: any;
 
-      percentage = (completed / total) * 100
+    percentage = (completed / total) * 100
 
-      return Math.ceil(percentage) > 98 ? 100 : Math.ceil(percentage);
+    return Math.ceil(percentage) > 98 ? 100 : Math.ceil(percentage);
+  }
+
+  storeVisitedContent(response: any) {
+    if(response?.content.length > 0) {
+      response.content?.forEach((content: any) => {
+        this.contentProgress['content_'+`${content.contentId}`] = content.progressdetails?.current;
+      });
     }
+    this.setLastReadContent(response);
+  }
 
-    storeVisitedContent(response: any) {
-      if(response?.content.length > 0) {
-        response.content?.forEach((content: any) => {
-          this.contentProgress['content_'+`${content.contentId}`] = content.progressdetails?.current;
-        });
-      }
+  updateCourseStatus(response: any, noOfContents?: number){
+    //Emit 0 for starting the course, if content state read api fails
+    if(response == 0) {
+      this.courseStatus$.next(0);
+      return;
     }
-
-    updateCourseStatus(response: any, noOfContents?: number){
-      //Emit 0 for starting the course, if content state read api fails
-      if(response == 0) {
+    //Emit 1 for resuming the course, if response and contentId's are not matched.
+    if(response.length != noOfContents) {
+      this.courseStatus$.next(1);
+      return;
+    }
+    if(response.length > 0) {
+      let restart = 0 ;
+      let start = 0;
+      response.every((res: any) => {
+        if(res.status == 2){
+          restart++;
+          return true;
+        }
+        if (res.status == 1 && ((res.progress == 0) || (res.completionPercentage == 0)) && (res.progress == res.completedPercentage)) {
+          start++;
+          return true;
+        }
+        //Emit 1 for Resuming the course if any of the module has progress less than 100 and above 0 with status 1
+        if(res.status == 1 && ((res.progress > 0 && res.progress < 100) || (res.completionPercentage > 0 && res.completionPercentage < 100))) {
+          this.courseStatus$.next(1);
+          return false;
+        }
+      });
+      //Emit 0 for starting the course if none of the module has started
+      if(start == response.length) {
         this.courseStatus$.next(0);
         return;
       }
-      //Emit 1 for resuming the course, if response and contentId's are not matched.
-      if(response.length != noOfContents) {
+      //Emit 2 for Restarting the course if all modules completes with status 2
+      if(restart == response.length) {
+        this.courseStatus$.next(2);
+        return;
+      }
+      //Emit 1 if few courses consumed and other courses not consumed
+      if(start != 0 || restart !=0) {
         this.courseStatus$.next(1);
         return;
       }
-      if(response.length > 0) {
-        let restart = 0 ;
-        let start = 0;
-        response.every((res: any) => {
-          if(res.status == 2){
-            restart++;
-            return true;
-          }
-          if (res.status == 1 && ((res.progress == 0) || (res.completionPercentage == 0)) && (res.progress == res.completedPercentage)) {
-            start++;
-            return true;
-          }
-          //Emit 1 for Resuming the course if any of the module has progress less than 100 and above 0 with status 1
-          if(res.status == 1 && ((res.progress > 0 && res.progress < 100) || (res.completionPercentage > 0 && res.completionPercentage < 100))) {
-            this.courseStatus$.next(1);
-            return false;
-          }
-        });
-        //Emit 0 for starting the course if none of the module has started
-        if(start == response.length) {
-          this.courseStatus$.next(0);
-          return;
-        }
-        //Emit 2 for Restarting the course if all modules completes with status 2
-        if(restart == response.length) {
-          this.courseStatus$.next(2);
-          return;
-        }
-        //Emit 1 if few courses consumed and other courses not consumed
-        if(start != 0 || restart !=0) {
-          this.courseStatus$.next(1);
-          return;
-        }
-      } else {
-        //Emit 0 for for starting the course, if content state read api has empty results
-        this.courseStatus$.next(0);
-      }
+    } else {
+      //Emit 0 for for starting the course, if content state read api has empty results
+      this.courseStatus$.next(0);
     }
+  }
+
+  setLastReadContent(response: any) {
+    this.lastReadContentId.next(response.lastPlayedContentId);
+  }
+
+  getLastReadContent() {
+    return this.lastReadContentId.asObservable();
+  }
+
+  setResultMessage(message: string) {
+    this.resultMessage = message;
+  }
+
 
 }

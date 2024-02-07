@@ -1,14 +1,17 @@
 
-import { map} from 'rxjs/operators';
+import { map, switchMap} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { UserService, LearnerService, FormService } from '@sunbird/core';
 import { ConfigService, ServerResponse } from '@sunbird/shared';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
+  authToken:string;
+
   constructor(private learnerService: LearnerService,
-    public userService: UserService, public configService: ConfigService, public formService: FormService) { }
+    public userService: UserService, public configService: ConfigService, public formService: FormService, private http: HttpClient) {}
   /**
    * This method invokes learner service to update user profile
    */
@@ -34,10 +37,26 @@ export class ProfileService {
   public updatePrivateProfile(request) {
     const data = this.formatRequest(request);
     const options = {
-      url: 'portal/user/v2/update',
+      // url: 'portal/user/v2/update',
+      url: this.configService.urlConFig.URLS.USER.UPDATE_PROFILE,
       data: data
     };
-    return this.learnerService.patch(options);
+    return this.getPortalToken().pipe(
+      switchMap((res) => {
+        this.authToken = 'Bearer ' + res;
+        console.log("auth token", this.authToken);
+        const headers = new HttpHeaders({
+          'Authorization': this.authToken
+        });
+        return this.http.patch(options.url, options.data, {headers: headers});
+      })
+    );
+  }
+
+  getPortalToken() {
+    return this.http.get('/portalAuthToken').pipe(map((res:any) => {
+       return res.token;
+    }));
   }
 
   /**

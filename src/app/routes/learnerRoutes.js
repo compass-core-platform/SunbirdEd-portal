@@ -68,8 +68,8 @@ module.exports = function (app) {
   // Route to handle user registration
   app.all('/learner/user/v2/signup',
     healthService.checkDependantServiceHealth(['LEARNER', 'CASSANDRA']),
-    proxyUtils.checkForValidRedirect,
-    checkForValidUser()
+    // proxyUtils.checkForValidRedirect,
+    // checkForValidUser()
   );
 
   app.all('/learner/*',

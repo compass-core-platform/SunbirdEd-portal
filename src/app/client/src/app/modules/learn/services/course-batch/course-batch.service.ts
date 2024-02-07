@@ -92,7 +92,7 @@ export class CourseBatchService {
     if (this._updateBatchDetails && bathId === this._updateBatchDetails.identifier) {
       return observableOf(this._updateBatchDetails);
     } else {
-      return this.getBatchDetails(bathId).pipe(map((date) => {
+      return this.getBatchDetails(bathId).pipe(map((date:any) => {
         return date.result.response;
       }));
     }
@@ -105,6 +105,16 @@ export class CourseBatchService {
     };
     return this.learnerService.post(options).pipe(map((response: any) => {
       return _.get(response, 'result.batch.participants') || [];
+    }));
+  }
+
+  getAllParticipantList(data) {
+    const options = {
+      url: this.configService.urlConFig.URLS.BATCH.GET_All_PARTICIPANT_LIST,
+      data: data
+    };
+    return this.learnerService.post(options).pipe(map((response: any) => {
+      return _.get(response, 'result.batch') || [];
     }));
   }
 
@@ -161,7 +171,7 @@ export class CourseBatchService {
     if (this._enrolledBatchDetails && this._enrolledBatchDetails.identifier === batchId) {
       return observableOf(this._enrolledBatchDetails);
     } else {
-      return this.getBatchDetails(batchId).pipe(map((data) => {
+      return this.getBatchDetails(batchId).pipe(map((data:any) => {
         this._enrolledBatchDetails = data.result.response;
         return data.result.response;
       }));

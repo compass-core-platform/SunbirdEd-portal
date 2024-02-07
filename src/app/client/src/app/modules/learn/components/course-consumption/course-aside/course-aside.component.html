@@ -1,55 +1,115 @@
+<div class="progress-parent">
+    <!-- <ng-container>
+        <span class="completed-icon" title="Completed">
+            <svg class="icon icon-svg icon-svg--sm mr-8">
+                <use xlink:href="assets/images/sprite.svg#circle-with-check-symbol"></use>
+            </svg>
+        </span>
+        <span>Completed</span>
+    </ng-container> -->
+    <div class="avg-progress">
+        <div class="progress">
+            <span class="mr-8 progress-circle progress-circle--xs" title="{{getPercentageCompleted()}}" [attr.data-percentage]="100 - getPercentageCompleted()">
+                <svg class="progress-circle__svg" viewport="0 0 2000 2000">
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-size="12" fill="#333">
+                        {{getPercentageCompleted()}}%
+                    </text>
+                </svg>
+            </span>
+            <span class="sub-heading-one">Your Progress  &nbsp; &nbsp;</span>
+        </div>
+        
+        <div class="progress">
+            <span class="mr-8 progress-circle progress-circle--xs" title="Number of users enrolled/Number of user completed" [attr.data-percentage]="100 - courseBatchCompletetion">
+                <svg class="progress-circle__svg" viewport="0 0 2000 2000">
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <circle class="progress-circle__stroke" r="50%" cx="50%" cy="50%"></circle>
+                    <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-size="12" fill="#333">
+                        {{courseBatchCompletetion}}%
+                    </text>
+                </svg>
+            </span>
+            <span class="sub-heading-one">Course Completion rate </span>
+        </div>
+        
+    </div>
+
+    <div *ngIf="getResultMessage()" class="assessment-result">
+        <span class="sub-heading-one">Result </span>
+        <span [ngClass]="resultMessage == 'Fail'? 'failMessage':'passMessage'" class="sub-heading-one"> &nbsp; {{resultMessage}}</span>
+    </div>
+   
+</div>
 <aside class="aside">
     <div class="aside__top">
-    <button class="com-primary-btn" (click)="navigate()">
-        <ng-container *ngIf="courseStatus === 0">
-            {{configContent.courseAside.startCourse || 'Start this course'}}
-        </ng-container>
-        <ng-container *ngIf="courseStatus === 1">
-            {{configContent.courseAside.resume || 'Resume'}}
-        </ng-container>
+        <button class="com-primary-btn" (click)="navigate()">
+            <ng-container *ngIf="courseStatus === 0">
+                {{configContent.courseAside.start || 'Start'}}
+            </ng-container>
+            <ng-container *ngIf="courseStatus === 1">
+                {{configContent.courseAside.resume || 'Resume'}}
+            </ng-container>
+            <ng-container *ngIf="courseStatus === 2">
+                {{configContent.courseAside.restart || 'Restart'}}
+            </ng-container>
+        </button>
+        <p class="aside__share-rating">
+            <button class="com-secondary-btn" [ngClass]="{'disabled' : courseStatus != 2}" (click)="displayRatingModal()"><span class="button-icon">
+                    <mat-icon>star</mat-icon>
+                </span><label class="button-label">{{configContent.courseAside.rating}}</label></button>
+            <button class="com-secondary-btn disabled"><span class="button-icon">
+                    <mat-icon>share</mat-icon>
+                </span><label class="button-label">{{configContent.courseAside.share}}</label></button>
+        </p>
         <ng-container *ngIf="courseStatus === 2">
-            {{configContent.courseAside.restartCourse || 'Restart this course'}}
+            <p class="aside__share-rating">
+                <button class="com-secondary-btn download-cert-btn" (click)="downloadOldAndRCCert()"><span
+                        class="button-icon">
+                        <mat-icon>download</mat-icon>
+                    </span><label
+                        class="button-label">{{resourceService?.frmelmnts?.btn.downloadCertificate}}</label></button>
+            </p>
         </ng-container>
-    </button>
-    <p class="aside__share-rating">
-        <button class="com-secondary-btn"> <span class="button-icon"><mat-icon>star</mat-icon></span><label class="button-label">{{configContent.courseAside.rating}}</label></button>
-        <button class="com-secondary-btn"><span class="button-icon"><mat-icon>share</mat-icon></span><label class="button-label">{{configContent.courseAside.share}}</label></button>
-    </p>
-    <section class="aside__course-info">
-        <h4 class="sub-heading-one">{{configContent.courseAside.title}}</h4>
-        <ul>
-            <li *ngIf="courseHierarchy.Duration">
-                <mat-icon class="timer-icon">timer</mat-icon>
-                {{courseHierarchy.Duration}} {{configContent.courseAside.durationText}}
-                <!-- {{ courseHierarchy.duration }} -->
-            </li>
-            <li *ngIf="courseHierarchy.mimeTypeObjs['application/vnd.ekstep.content-collection']" class="nested">
-              <div>
-                <mat-icon>toc</mat-icon>
-                {{courseHierarchy.mimeTypeObjs['application/vnd.ekstep.content-collection']}} {{configContent.courseAside.modules}}
-              </div>
-                <!-- {{ courseHierarchy.duration }} -->
-                <ul>
-                    <li *ngIf="courseHierarchy.mimeTypeObjs['video/mp4']">
-                        <mat-icon>play_circle_filled</mat-icon>
-                        {{courseHierarchy.mimeTypeObjs['video/mp4']}} {{configContent.courseAside.videos}}
-                        <!-- {{ courseHierarchy.duration }} -->
-                    </li>
-                    <li *ngIf="courseHierarchy.mimeTypeObjs['application/pdf']">
-                        <mat-icon>picture_as_pdf</mat-icon>
-                       {{courseHierarchy.mimeTypeObjs['application/pdf']}} {{configContent.courseAside.pdfs}}
-                        <!-- {{ courseHierarchy.resources }} -->
-                    </li>
-                    <li *ngIf="courseHierarchy.mimeTypeObjs['application/vnd.sunbird.questionset']">
-                        <mat-icon>playlist_add_check</mat-icon>
-                       {{courseHierarchy.mimeTypeObjs['application/vnd.sunbird.questionset']}} {{configContent.courseAside.assessments}}
-                        <!-- {{ courseHierarchy.resources }} -->
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-   </div>
+        <section class="aside__course-info">
+            <h4 class="sub-heading-one">{{courseHierarchy.primaryCategory == "Course" ? configContent.courseAside.title
+                : configContent.courseAside.assessmentTitle}}</h4>
+            <ul>
+                <li *ngIf="courseHierarchy.Duration">
+                    <mat-icon class="timer-icon">timer</mat-icon>
+                    {{courseHierarchy.Duration}} {{configContent.courseAside.durationText}}
+                    <!-- {{ courseHierarchy.duration }} -->
+                </li>
+                <li *ngIf="courseHierarchy.mimeTypeObjs['application/vnd.ekstep.content-collection']" class="nested">
+                    <div>
+                        <mat-icon>toc</mat-icon>
+                        {{courseHierarchy.mimeTypeObjs['application/vnd.ekstep.content-collection']}}
+                        {{configContent.courseAside.modules}}
+                    </div>
+                    <!-- {{ courseHierarchy.duration }} -->
+                    <ul>
+                        <li *ngIf="courseHierarchy.mimeTypeObjs['video/mp4']">
+                            <mat-icon>play_circle_filled</mat-icon>
+                            {{courseHierarchy.mimeTypeObjs['video/mp4']}} {{configContent.courseAside.videos}}
+                            <!-- {{ courseHierarchy.duration }} -->
+                        </li>
+                        <li *ngIf="courseHierarchy.mimeTypeObjs['application/pdf']">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                            {{courseHierarchy.mimeTypeObjs['application/pdf']}} {{configContent.courseAside.pdfs}}
+                            <!-- {{ courseHierarchy.resources }} -->
+                        </li>
+                        <li *ngIf="courseHierarchy.mimeTypeObjs['application/vnd.sunbird.questionset']">
+                            <mat-icon>playlist_add_check</mat-icon>
+                            {{courseHierarchy.mimeTypeObjs['application/vnd.sunbird.questionset']}}
+                            {{configContent.courseAside.assessments}}
+                            <!-- {{ courseHierarchy.resources }} -->
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </div>
     <mat-divider></mat-divider>
     <div class="aside__bottom">
         <ul>
@@ -68,4 +128,116 @@
         </ul>
     </div>
 </aside>
-
+<!-- Join Course Table -->
+<app-modal-wrapper [config]="{disableClose: false}" (dismiss)="showRatingModal = false;" *ngIf="showRatingModal">
+    <ng-template sbModalContent let-data>
+        <div class="sb-modal">
+            <div class="transition ui dimmer page modals active visible">
+                <div class="ui modal transition active visible normal">
+                    <div class="sb-modal-header font-weight-normal">
+                        {{resourceService?.frmelmnts?.toc?.overview?.ratingHeader}}
+                        <button aria-label="close dialog" mat-dialog-close (click)="showRatingModal = false;"
+                        class="mat-close-btn">
+                        <span><mat-icon>close</mat-icon></span>
+                    </button>
+                    </div>
+                    
+                    
+                    <div class="rating-stars mt-2em">
+                        <p class="ratingQn">What would you rate the quality of the instructor?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 1, 'button-icon' : instructorRating < 1}" (click)="instructorRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 2, 'button-icon' : instructorRating < 2}" (click)="instructorRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 3, 'button-icon' : instructorRating < 3}" (click)="instructorRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 4, 'button-icon' : instructorRating < 4}" (click)="instructorRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : instructorRating >= 5, 'button-icon' : instructorRating < 5}" (click)="instructorRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-stars mt-2em">
+                        <p  class="ratingQn">What would you rate the relevence of the content?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 1,'button-icon' : contentRating < 1}" (click)="contentRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 2,'button-icon' : contentRating < 2}" (click)="contentRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 3,'button-icon' : contentRating < 3}" (click)="contentRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 4,'button-icon' : contentRating < 4}" (click)="contentRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : contentRating >= 5,'button-icon' : contentRating < 5}" (click)="contentRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-stars mt-2em">
+                        <p  class="ratingQn">What would you rate the engagement level of this course?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 1,'button-icon' : engagementRating < 1}" (click)="engagementRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 2,'button-icon' : engagementRating < 2}" (click)="engagementRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 3,'button-icon' : engagementRating < 3}" (click)="engagementRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 4,'button-icon' : engagementRating < 4}" (click)="engagementRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : engagementRating >= 5,'button-icon' : engagementRating < 5}" (click)="engagementRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-stars mt-2em">
+                        <p  class="ratingQn">What would you rate the quality of these assessments?</p>
+                        <p class="give-rating">
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 1,'button-icon' : assessmentRating < 1}" (click)="assessmentRating=1">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 2,'button-icon' : assessmentRating < 2}" (click)="assessmentRating=2">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 3,'button-icon' : assessmentRating < 3}" (click)="assessmentRating=3">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 4,'button-icon' : assessmentRating < 4}" (click)="assessmentRating=4">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                            <span class="button-icon" [ngClass]="{'active-star' : assessmentRating >= 5,'button-icon' : assessmentRating < 5}" (click)="assessmentRating=5">
+                                <mat-icon>star</mat-icon>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="rating-description mt-2em">
+                        <p>{{resourceService?.frmelmnts?.toc?.courseAside?.yourReview}}</p>
+                        <div class="sb-input">
+                            <textarea rows="5" class="false sb-textbox ng-pristine ng-valid valid ng-touched" name="review" id="review" placeholder="Type here" required #reviewInput="ngModel"
+                            [(ngModel)]="reviewValue" [class.error]="reviewInput.invalid && reviewInput.touched && !textareaValue"></textarea>
+                            <div *ngIf="reviewInput.invalid && reviewInput.touched" class="error-message">
+                                This field is mandatory.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-btn">
+                        <button class="com-primary-btn" (click)="saveCourseRating()">{{resourceService?.frmelmnts?.btn?.submit}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</app-modal-wrapper>

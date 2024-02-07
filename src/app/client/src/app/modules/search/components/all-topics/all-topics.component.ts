@@ -49,7 +49,7 @@ export class AllTopicsComponent implements OnInit {
         "name"
       ],
       "facets": [
-        "keywords"
+        this.activatedRoute.snapshot.queryParams.facets
       ],
       "sort_by": {
         "lastUpdatedOn": "desc"

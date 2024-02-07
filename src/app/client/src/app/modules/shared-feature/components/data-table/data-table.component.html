@@ -1,0 +1,57 @@
+ 
+  <div class="table-wrap">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container [matColumnDef]="col" *ngFor="let col of displayedColumns">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> <ng-container *ngIf="col !==  'link' && col !==  'appIcon' && col !==  'initials'">{{splitColumnName(col)}}</ng-container></th>
+        <td mat-cell *matCellDef="let row"> 
+            <ng-container *ngIf="col ===  'link'">
+                <a [routerLink]='row[col].path' [queryParams]="{name:row['name'], primaryCategory:row['primaryCategory']}">{{row[col].text}}</a>
+            </ng-container>
+            <ng-container *ngIf="col !==  'link'">
+                <!-- <img *ngIf="col === 'appIcon'" [src]="row['appIcon']" /> -->
+                <span *ngIf="col !== 'appIcon' && col !== 'initials'">
+                  <img *ngIf="col === 'name'" [src]="row['appIcon']" />
+                  <span *ngIf="col === 'name' && row['initials']" class="initials">{{row['initials']}}</span>
+                       <ng-container *ngIf="col === 'progress'">
+                        <ng-container *ngIf="row[col] > 0 && row[col] < 100">
+                          <span class="progress-bar">
+                            <mat-progress-bar class='members-status' mode="determinate" value="{{row[col]}}" color="none"></mat-progress-bar>
+                          </span> {{row[col]}} %
+                      </ng-container>
+                      <ng-container *ngIf="row[col] == 0">
+                        <span class="progress-red">Not started</span>
+                      </ng-container>
+                      <ng-container *ngIf="row[col] == 100">
+                          <span class="progress-green">Completed</span>
+                      </ng-container>
+                        </ng-container>
+                       <ng-container *ngIf="col !== 'progress'">
+                        {{row[col]}}
+                       </ng-container>
+
+                 </span>
+            </ng-container>
+        </td>
+      </ng-container>
+
+
+      <!-- <ng-container matColumnDef="viewProgress" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let element">
+         View progress
+        </td>
+      </ng-container> -->
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+  
+    <mat-paginator *ngIf="showPagination" #paginator [pageSizeOptions]="[15, 20, 30]" [length]="count" aria-label="Select page of users"></mat-paginator>
+  </div>
+  
+  

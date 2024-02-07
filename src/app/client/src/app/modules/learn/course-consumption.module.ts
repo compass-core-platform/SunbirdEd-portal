@@ -36,6 +36,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { BatchListComponent } from './components/batch/batch-list/batch-list.component';
 import { CourseContentComponent } from './components/course-consumption/course-content/course-content.component';
+import { CertificateDirectivesModule } from 'sb-svg2pdf-v13';
+import { CourseDiscussionForumComponent } from './components/course-consumption/course-discussion-forum/course-discussion-forum.component';
+import { TimeagoModule } from "ngx-timeago";
 
 export const csUserServiceFactory = (csLibInitializerService: CsLibInitializerService) => {
   if (!CsModule.instance.isInitialised) {
@@ -56,9 +59,17 @@ export const csNotificationServiceFactory = (csLibInitializerService: CsLibIniti
   return CsModule.instance.notificationService;
 };
 
+export const csCertificateServiceFactory = (csLibInitializerService: CsLibInitializerService) => {
+  if (!CsModule.instance.isInitialised) {
+    csLibInitializerService.initializeCs();
+  }
+  return CsModule.instance.certificateService;
+};
+
 @NgModule({
   imports: [
     CommonModule,
+    TimeagoModule.forRoot(),
     SharedModule,
     SharedFeatureModule,
     SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule,
@@ -73,17 +84,20 @@ export const csNotificationServiceFactory = (csLibInitializerService: CsLibIniti
     DiscussionModule,
     GroupsModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    CertificateDirectivesModule
   ],
   providers: [
     { provide: 'CS_USER_SERVICE', useFactory: csUserServiceFactory, deps: [CsLibInitializerService] },
     { provide: 'CS_COURSE_SERVICE', useFactory: csCourseServiceFactory, deps: [CsLibInitializerService] },
-    { provide: 'CS_NOTIFICATION_SERVICE', useFactory: csNotificationServiceFactory, deps: [CsLibInitializerService] },
+    {provide: 'CS_COURSE_SERVICE', useFactory: csCourseServiceFactory, deps: [CsLibInitializerService]},
+    {provide: 'CS_CERTIFICATE_SERVICE', useFactory: csCertificateServiceFactory, deps: [CsLibInitializerService]},
+    {provide: 'CS_NOTIFICATION_SERVICE', useFactory: csNotificationServiceFactory, deps: [CsLibInitializerService] },
     PendingchangesGuard
   ],
   declarations: [CoursePlayerComponent, CourseConsumptionHeaderComponent, AssessmentPlayerComponent,
     CourseConsumptionPageComponent, BatchDetailsComponent, CurriculumCardComponent, UnEnrollBatchComponent,
     AssessmentPlayerComponent, CourseCompletionComponent, CourseDetailsComponent, CertificateNameUpdatePopupComponent,
-     CourseOverviewComponent, IntialPipe, CourseAsideComponent, BatchListComponent, CourseContentComponent]
+     CourseOverviewComponent, IntialPipe, CourseAsideComponent, BatchListComponent, CourseContentComponent, CourseDiscussionForumComponent]
 })
 export class CourseConsumptionModule { }

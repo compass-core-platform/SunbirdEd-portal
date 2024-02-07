@@ -269,6 +269,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
 
   loadOldPlayer() {
     this.showNewPlayer = false;
+    this.contentId = _.get(this.playerConfig, 'metadata.identifier');
     if (this.isDesktopApp) {
       this.updateMetadataForDesktop();
       const downloadStatus = Boolean(_.get(this.playerConfig, 'metadata.desktopAppMetadata.isAvailable'));
@@ -377,9 +378,12 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     if (event.eid === 'END') {
       let metaDataconfig = event.metaData;
       const edataConfig = event.edata;
-      if(edataConfig?.currentPage == edataConfig?.totalPages) {
+      if(edataConfig?.currentPage && edataConfig?.totalPages && edataConfig?.currentPage == edataConfig?.totalPages) {
         metaDataconfig.pagesVisited = [];
         metaDataconfig.pagesVisited.push(1);
+      }
+      if(edataConfig?.currentDuration && edataConfig?.totalDuration && edataConfig?.currentDuration == edataConfig?.totalDuration) {
+        metaDataconfig.currentDuration = 0;
       }
       this.endEventReached.emit(event)
       if (this.userService.loggedIn) {
@@ -424,8 +428,7 @@ export class PlayerComponent implements OnInit, AfterViewInit, OnChanges, OnDest
     }
     const eid = _.get(eventCopy, 'detail.telemetryData.eid');
     const contentId = _.get(eventCopy, 'detail.telemetryData.object.id');
-    // this.contentId = contentId;
-    if (eid && (eid === 'END') && contentId === _.get(this.playerConfig, 'metadata.identifier')) {
+    if (eid && (eid === 'END') && contentId === this.contentId) {
       this.showRatingPopup(eventCopy);
       if (this.contentProgressEvents$) {
         this.contentProgressEvents$.next(eventCopy);

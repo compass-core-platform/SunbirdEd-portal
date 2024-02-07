@@ -20,11 +20,12 @@ export const taxonomyEnvironment = {
   production: false,
   url: '',
   token: '',
-  frameworkName: 'TLP_FW',
+  frameworkName: 'fracing_fw',
   channelId: 'tarento',
-  authToken: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNZHNjWU1xdDBTdU84UENuTUVCbVJyUjVkbzhKOFNXWiJ9.FKVUEfXXQXWrjex3n7jWFqgbgmHWjf66WXYW8P_XLec',
+  authToken: '',
   userToken:'',
-  isApprovalRequired: false
+  isApprovalRequired: false,
+  additionalProperties: ["taxonomyCategory4"]
 };
 
 export const taxonomyConfig = [

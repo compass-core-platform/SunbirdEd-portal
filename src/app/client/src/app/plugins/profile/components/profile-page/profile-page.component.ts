@@ -17,7 +17,8 @@ import {
   ServerResponse,
   ToasterService,
   UtilService,
-  ConnectionService
+  ConnectionService,
+  SnackBarComponent
 } from '@sunbird/shared';
 import * as _ from 'lodash-es';
 import { Subject, Subscription } from 'rxjs';
@@ -30,6 +31,8 @@ import { CsCourseService } from '@project-sunbird/client-services/services/cours
 import { FieldConfig, FieldConfigOption } from '@project-sunbird/common-form-elements-full';
 import { CsCertificateService } from '@project-sunbird/client-services/services/certificate/interface';
 import { TaxonomyService } from '../../../../service/taxonomy.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { WishlistedService } from '../../../../service/wishlisted.service';
 
 @Component({
   templateUrl: './profile-page.component.html',
@@ -116,6 +119,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   // CAROUSEL_BREAKPOINT = 768;
   CAROUSEL_BREAKPOINT = 1400;
   carouselDisplayMode = 'multiple';
+  allWishlistedIds = [];
 
   constructor(@Inject('CS_COURSE_SERVICE') private courseCService: CsCourseService, private cacheService: CacheService,
     public resourceService: ResourceService, public coursesService: CoursesService,
@@ -124,8 +128,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     private playerService: PlayerService, private activatedRoute: ActivatedRoute, public orgDetailsService: OrgDetailsService,
     public navigationhelperService: NavigationHelperService, public certRegService: CertRegService,
     private telemetryService: TelemetryService, public layoutService: LayoutService, private formService: FormService,
-    private certDownloadAsPdf: CertificateDownloadAsPdfService, private connectionService: ConnectionService,
-    @Inject('CS_CERTIFICATE_SERVICE') private CsCertificateService: CsCertificateService, private taxonomyService: TaxonomyService) {
+    private certDownloadAsPdf: CertificateDownloadAsPdfService, private connectionService: ConnectionService, private snackBar: MatSnackBar,
+    @Inject('CS_CERTIFICATE_SERVICE') private CsCertificateService: CsCertificateService, private taxonomyService: TaxonomyService, private wishlistedService: WishlistedService) {
     this.getNavParams();
   }
 
@@ -155,7 +159,20 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSubscription = this.userService.userData$.subscribe((user: IUserData) => {
       /* istanbul ignore else */
       this.showFullScreenLoader = false;
-      if (user.userProfile) {
+      
+      if (user.userProfile ) {
+        if(this.configService.appConfig.isProfileupdateMandatory) {
+          if (user.userProfile['profileDetails']['professionalDetails'].length > 0) {
+            if (user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == null || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == undefined || user.userProfile['profileDetails']['professionalDetails'][0]['designation'] == '') {
+              this.toasterService.warning("Please update your designation to proceed.");
+              this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
+            }
+          } else {
+            this.toasterService.warning("Please update your designation to proceed.");
+            this.router.navigate(['/profile/edit'], { queryParams: { channel: user.userProfile['rootOrgId'] }, relativeTo: this.activatedRoute });
+          }
+        }
+        this.getWishlistedDoids();
         this.userProfile = user.userProfile;
         const role: string = (!this.userProfile.profileUserType.type ||
           (this.userProfile.profileUserType.type && this.userProfile.profileUserType.type === 'OTHER')) ? '' : this.userProfile.profileUserType.type;
@@ -235,6 +252,11 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.layoutConfiguration = layoutConfig.layout;
       }
     });
+  }
+
+  navigateToEditProfile() {
+    const channel = this.activatedRoute.snapshot.queryParams.channel;
+    this.router.navigate(['profile/edit'], { queryParams: { channel } });
   }
 
   setNonCustodianUserLocation() {
@@ -317,18 +339,62 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.searchService.searchContentByUserId(searchParams, inputParams).subscribe((data: ServerResponse) => {
       // this.contributions = this.utilService.getDataForCard(data.result.content, constantData, dynamicFields, metaData);
       this.contributions = data.result.content;
+      this.appendWishlistToCourse();
       this.totalContributions = _.get(data, 'result.count') || 0;
       console.log('Contributions', this.contributions);
     });
   }
 
   getTrainingAttended() {
+
     this.coursesService.enrolledCourseData$.pipe().subscribe(data => {
       this.attendedTraining = _.reverse(_.sortBy(data.enrolledCourses, val => {
         return _.isNumber(_.get(val, 'completedOn')) ? _.get(val, 'completedOn') : Date.parse(val.completedOn);
       })) || [];
-      this.attendedTraining  = this.attendedTraining.slice(0, 4);
+      this.appendWishlistToCourse()
+      // this.attendedTraining  = this.attendedTraining.slice(0, 4);
     });
+  }
+
+  getWishlistedDoids() {
+    let payload = {
+      "request": {
+        "userId": this.userService._userid
+      }
+    }
+
+    this.wishlistedService.getWishlistedCourses(payload).subscribe((res: any) => {
+      if (res.result.wishlist.length > 0) {
+        this.allWishlistedIds = res.result.wishlist;
+        this.appendWishlistToCourse()
+      }
+      
+    });
+  }
+
+  appendWishlistToCourse() {
+    if(this.attendedTraining.length > 0) {
+      this.attendedTraining = this.attendedTraining.map((course: any) => {
+        let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.contentId);
+        if(isWhishListed) {
+            course['isWishListed'] = true;
+        } else {
+            course['isWishListed'] = false;
+        }
+        return course
+      })
+    } 
+    if(this.contributions.length > 0) {
+      this.contributions = this.contributions.map((course: any) => {
+        let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
+        if(isWhishListed) {
+            course['isWishListed'] = true;
+        } else {
+            course['isWishListed'] = false;
+        }
+        return course
+      })
+    }
   }
 
   /**
@@ -340,6 +406,8 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     let requestBody = { userId: userId, schemaName: 'certificate' };
     if (this.otherCertificatesCounts) {
       requestBody['size'] = this.otherCertificatesCounts;
+    } else {
+      requestBody['size'] = 100;
     }
     this.CsCertificateService.fetchCertificates(requestBody, {
       apiPath: '/learner/certreg/v2',
@@ -348,6 +416,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
     }).subscribe((_res) => {
       if (_res && _res?.certificates?.length > 0) {
         this.otherCertificates = _.get(_res, 'certificates');
+        // console.log('Other certificates', this.otherCertificates);
         this.otherCertificatesCounts = (_.get(_res, 'certRegCount') ? _.get(_res, 'certRegCount') : 0) + (_.get(_res, 'rcCount') ? _.get(_res, 'rcCount') : 0);
       }
     }, (error) => {
@@ -400,7 +469,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   downloadOldAndRCCert(courseObj) {
-    // alert('downloadOldAndRCCert');
+    console.log('downloadOldAndRCCert', courseObj);
     let requestBody = {
       certificateId: courseObj.id,
       schemaName: 'certificate',
@@ -767,4 +836,81 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   showAllLearnings() {
     this.router.navigateByUrl(`search/Courses/1?learnings=true`)
   }
+
+  redirectToToc(courseId, batchId) {
+    this.router.navigateByUrl(`/learn/course/${courseId}/batch/${batchId}`)
+    console.log(`/learn/course/${courseId}/batch/${batchId}`);
+  }
+
+  contributionRedirectToToc(courseId) {
+    this.router.navigateByUrl(`/learn/course/${courseId}`)
+  }
+
+  favoriteIconClicked(option: string, courseId: any, key: string) {
+    console.log("Icon: ", option)
+    
+    let payload = {
+      "request": {
+          "userId": this.userService._userid,
+          "courseId": courseId
+      }
+    }
+
+    if(option === 'selected') {
+        this.wishlistedService.addToWishlist(payload).subscribe((res: any) => {
+            if(res) {
+                this.updateWishlistedCourse(option, courseId, key);
+                this.wishlistedService.updateData({ message: 'Added to Wishlist' });
+                this.snackBar.openFromComponent(SnackBarComponent, {
+                    duration: 2000,
+                    panelClass: ['wishlist-snackbar']
+                });
+            }
+        });
+      } else {
+        this.wishlistedService.removeFromWishlist(payload).subscribe((res: any) => {
+            if(res) {
+                this.updateWishlistedCourse(option, courseId, key);
+                this.wishlistedService.updateData({ message: 'Removed from Wishlist' });
+                this.snackBar.openFromComponent(SnackBarComponent, {
+                    duration: 2000,
+                    panelClass: ['wishlist-snackbar']
+                });
+            }
+        });
+      }
+    }
+
+    updateWishlistedCourse(option: string, courseId: any, key) {
+      if(key == 'learnings') {
+        if(option === 'selected') {
+          this.attendedTraining.forEach((course: any) => {
+            if (course.contentId == courseId) {
+              course['isWishListed'] = true;
+            }
+        });
+        } else {
+          this.attendedTraining.forEach((course: any) => {
+            if (course.contentId == courseId) {
+              course['isWishListed'] = false;
+            }
+        });
+        }
+        
+      } else {
+        if(option === 'selected') {
+          this.contributions.forEach((course: any) => {
+            if (course.identifier == courseId) {
+              course['isWishListed'] = true;
+            }
+        });
+        } else {
+          this.contributions.forEach((course: any) => {
+            if (course.identifier == courseId) {
+              course['isWishListed'] = false;
+            }
+        });
+        }
+      }
+    }
 }

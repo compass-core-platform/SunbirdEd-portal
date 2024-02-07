@@ -7,7 +7,7 @@ const dateFormat = require('dateformat')
 const uuidv1 = require('uuid/v1')
 const { logger } = require('@project-sunbird/logger');
 const { logError } = require('../helpers/utilityService');
-
+const { getPortalBearerAuthToken } = require('../helpers/kongTokenHelper.js');
 const keyClockMobileClients = {
 }
 if(envHelper.KEYCLOAK_TRAMPOLINE_ANDROID_CLIENT.clientId){
@@ -98,6 +98,10 @@ module.exports = (app) => {
         logger.info({msg: '<<<<< /auth/v1/refresh/token'});
       }
   })
+  app.get('/portalAuthToken', (req,res) => {
+    const authToken = getPortalBearerAuthToken();
+    res.status(200).send({token:authToken});
+  });
 }
 const handleError = (error) => {
   logger.error({

@@ -1,6 +1,13 @@
-<button *ngIf="forumIds && forumIds.length > 0" tabindex="0" (click)="navigateToDiscussionForum()"
+<!-- <button tabindex="0" (click)="navigateToDiscussionForum()"
   class="sb-btn sb-btn-normal sb-btn-link sb-btn-link-primary sb-left-icon-btn ml-8 sb-btn-icon-fix sb-forum-btn" title="Forum">
   <img src="assets/images/forum.svg" width="20px" class="mr-8"
-    alt="{{resourceService?.frmelmnts?.lbl?.discussionForum}}">
-  {{resourceService?.frmelmnts?.lbl?.discussionForum}}
-</button>
+    alt="DF">
+  DF
+</button> -->
+<!-- <div class="ui container mt-48" *ngIf="discussionUrl">
+  <div class="ui grid stackable w-100 padded">
+      <div class="twelve wide column" style="height: 700px;"> -->
+          <iframe id="df-iframe" scrolling="no" [src]="discussionUrl" (load)="hideElements()"></iframe>
+      <!-- </div>
+  </div>
+</div> -->

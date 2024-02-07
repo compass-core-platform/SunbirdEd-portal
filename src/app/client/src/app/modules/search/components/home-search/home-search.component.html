@@ -42,7 +42,8 @@
       <div [appTelemetryImpression]="telemetryImpression" class="dynamic-section-card">
         <ng-container>
           <div class="courseContainer d-flex">
-            <compass-course-card *ngFor="let content of contentList;let i = index;" [routerLink]="['/learn/course', content['identifier']]" class="course" [data]="content"></compass-course-card>
+            <compass-course-card *ngFor="let content of contentList;let i = index;" (click)="redirectToToc(content)" class="course" [data]="content"
+            (favoriteIconClicked)="favoriteIconClicked($event, content['identifier'])"></compass-course-card>
           </div>
         </ng-container>
         <!-- <div *ngFor="let section of contentList; let last = last" [ngClass]="{'last mb-0':last}">

@@ -172,8 +172,9 @@
                 (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
                 (beforeChange)="beforeChange($event)">
                 <div ngxSlickItem class="slide" *ngFor='let course of enrolledCourses;'>
-                  <compass-course-card [routerLink]="['/learn/course', course['content']['identifier']]" class=""
-                    [data]="course"></compass-course-card>
+                  <compass-course-card class=""
+                    [data]="course" (courseCardClicked)="courseCardClicked($event, course['content']['identifier'])"
+                    (favoriteIconClicked)="favoriteIconClicked($event, course['content']['identifier'], 'continue')"></compass-course-card>
                 </div>
               </ngx-slick-carousel>
             </div>
@@ -254,7 +255,7 @@
         (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
         (beforeChange)="beforeChange($event)">
         <div ngxSlickItem class="slide" *ngFor='let course of recentlyPublishedList;'>
-          <compass-course-card [routerLink]="['/learn/course', course['identifier']]" class="" [data]="course">
+          <compass-course-card (courseCardClicked)="courseCardClicked($event, course['identifier'], course['batches'][0]['batchId'])" class="" [data]="course" (favoriteIconClicked)="favoriteIconClicked($event, course['identifier'], 'published')">
           </compass-course-card>
         </div>
       </ngx-slick-carousel>
@@ -262,12 +263,12 @@
   </div>
   <!-- Recently published courses -->
   
-  <section class="mt-4rem container ui" *ngIf="resourceService?.frmelmnts?.llp?.browseByCardInfo">
+  <section class="mt-4rem container ui" *ngIf="browseByCard">
     <p class="ui container browseTitle mb-32">{{resourceService?.frmelmnts?.llp?.browseByCardInfo.title}}</p>
     <div class="ui grid">
       <div class="four wide column"
-        *ngFor="let info of doJsonDecode(resourceService?.frmelmnts?.llp?.browseByCardInfo.cards);">
-        <browse-by-card class="browseByCard" [cardInfo]="info" (click)="getBrowseByData(info.title)"></browse-by-card>
+        *ngFor="let info of browseByCard let i=index">
+        <browse-by-card class="browseByCard" [cardInfo]="info" (click)="getBrowseByData(i)"></browse-by-card>
       </div>
     </div>
   </section>
@@ -276,7 +277,7 @@
     <div class="ui container">
     <div class="popular-card">
       <div class="popular-card-title">{{resourceService?.frmelmnts?.llp?.topics.title}}</div>
-      <button (click)="getBrowseByData(resourceService?.frmelmnts?.llp?.topics.title)"
+      <button (click)="getBrowseByData(0)"
         class="com-secondary-btn">{{resourceService?.frmelmnts?.llp?.topics.button}}</button>
     </div>
     <div class="ui grid middle aligned stackable">
@@ -289,21 +290,24 @@
   </div>
   </div>
 
-  <div *ngIf="popularCompetencyMapping.length > 0" class="ui container mt-4rem">
-    <div class="popular-card">
-      <div class="popular-card-title">{{resourceService?.frmelmnts?.llp?.competencies.title}}</div>
-      <button class="com-secondary-btn"
-        (click)="getBrowseByData(resourceService?.frmelmnts?.llp?.competencies.title)">{{resourceService?.frmelmnts?.llp?.competencies.button}}</button>
-    </div>
-    <div class="ui grid middle aligned stackable">
-      <div class="three wide column" *ngFor="let data of popularCompetencyMapping;let i=index">
-        <div class="pointing" (click)="loadCompetencyCourses(data['identifier'])">
-          <sb-popular-card [pillName]="'Competency'" [data]="data"></sb-popular-card>
+  <ng-container *ngIf="dynamicPopularCard.length>0">
+    <ng-container *ngFor="let card of dynamicPopularCard; let i=index">
+      <div *ngIf="card.data.length > 0" class="ui container mt-4rem comp-card-container">
+        <div class="popular-card">
+          <div class="popular-card-title">{{card.popularTitle}}</div>
+          <button class="com-secondary-btn"
+            (click)="getBrowseByData(i+1, card.facets)">{{card.popularButton}}</button>
+        </div>
+        <div class="ui grid middle aligned stackable">
+          <div class="three wide column" *ngFor="let data of card.data;let i=index">
+            <div class="pointing" (click)="loadCompetencyCourses(data['identifier'])">
+              <sb-popular-card [pillName]="'Competency'" [data]="data"></sb-popular-card>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+    </ng-container>
+  </ng-container>
 
 <app-offline-banner *ngIf="!isUserLoggedIn()" [slug]="userService.slug"></app-offline-banner>
 <!-- Show Modal if content has any YouTube data-->

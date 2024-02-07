@@ -128,6 +128,7 @@ export class AppComponent implements OnInit, OnDestroy {
   OnboardingFormConfig: any;
   isStepperEnabled = false;
   isPopupEnabled = false;
+  getFormConfigSubscribe: any;
   @ViewChild('increaseFontSize') increaseFontSize: ElementRef;
   @ViewChild('decreaseFontSize') decreaseFontSize: ElementRef;
   @ViewChild('resetFontSize') resetFontSize: ElementRef;
@@ -279,18 +280,20 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
   checkFormData(): Observable<any> {
+    // alert('checkFormData...');
     const formReadInputParams = {
       formType: 'newUserOnboarding',
       formAction: 'onboarding',
       contentType: 'global',
       component: 'portal'
     };
-    return of(this.formService.getFormConfig(formReadInputParams).subscribe(
+    return of(this.getFormConfigSubscribe = this.formService.getFormConfig(formReadInputParams).subscribe(
       (formResponsedata) => {
         console.log('userOnboarding Form is called and we are trying to get the update', formResponsedata);
         if (_.get(formResponsedata, 'shownewUserOnboarding') === 'false') {
           this.FORM_CONFIG_ENABLED = true;
         }
+        this.getFormConfigSubscribe.unsubscribe();
       }
     ));
   }
@@ -319,11 +322,11 @@ export class AppComponent implements OnInit, OnDestroy {
     //     }
     //     else { this.isPopupEnabled = true; }
     //   }, error => { this.isPopupEnabled = true; });
-    this.isPopupEnabled = true;
+    // this.isPopupEnabled = true;
   }
   ngOnInit() {
-    this.getOnboardingList();
-    this.checkToShowPopups();
+    // this.getOnboardingList();
+    // this.checkToShowPopups();
     this.getStepperInfo();
    
     this.isIOS = this.utilService.isIos;
@@ -385,7 +388,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.tenantService.getTenantInfo(this.userService.slug);
         this.tenantService.initialize();
-        this.setPortalTitleLogo();
+        // this.setPortalTitleLogo();
         this.telemetryService.initialize(this.getTelemetryContext());
         this.logCdnStatus();
         this.setFingerPrintTelemetry();

@@ -4,7 +4,8 @@ import {
   ProfilePageComponent,
   CreateUserComponent,
   ChooseUserComponent,
-  SubmitTeacherDetailsComponent
+  SubmitTeacherDetailsComponent,
+  EditProfileComponent
 } from './components';
 const telemetryEnv = 'profile';
 const objectType = 'profile';
@@ -56,7 +57,19 @@ const routes: Routes = [
         uri: '/profile/submit-declaration',
       }
     }
-  }
+  },
+  {
+    path: 'edit', component: EditProfileComponent,
+    data: {
+      menuBar: {
+        visible: false
+      },
+      pageTitle: 'edit-profile',
+      telemetry: {
+        env: telemetryEnv, type: 'view', mode: 'create', subtype: 'paginate', object: { type: objectType, ver: '1.0' }
+      }, breadcrumbs: [{ label: 'Home', url: '/home' }, { label: 'Profile', url: '' }]
+    }
+  },
 ];
 
 @NgModule({

@@ -7,6 +7,7 @@ import * as _ from 'lodash-es';
 import { UserService } from '../../../core/services';
 import { CsLibInitializerService } from '../../../../service/CsLibInitializer/cs-lib-initializer.service';
 import { CsModule } from '@project-sunbird/client-services';
+import { DomSanitizer, SafeResourceUrl, } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-access-discussion',
@@ -22,6 +23,8 @@ export class AccessDiscussionComponent implements OnInit {
   @Output() routerData = new EventEmitter();
   showLoader = false;
   private discussionCsService: any;
+  discussionUrl: any;
+  iframeInterval: any;
 
   constructor(
     private resourceService: ResourceService,
@@ -30,7 +33,8 @@ export class AccessDiscussionComponent implements OnInit {
     private discussionTelemetryService: DiscussionTelemetryService,
     private navigationHelperService: NavigationHelperService,
     private userService: UserService,
-    private csLibInitializerService: CsLibInitializerService
+    private csLibInitializerService: CsLibInitializerService,
+    public sanitizer: DomSanitizer
   ) {
     if (!CsModule.instance.isInitialised) {
       this.csLibInitializerService.initializeCs();
@@ -43,8 +47,16 @@ export class AccessDiscussionComponent implements OnInit {
    *                If it is not coming then it will make an api call to get the forum IDs
    */
   ngOnInit() {
-    if (!this.forumIds) {
-    this.fetchForumIds();
+    // setTimeout(() => {
+    //   this.fetchForumIds();
+    // }, 1000);
+  }
+
+  ngOnChanges(changes: any) {
+    if (this.fetchForumIdReq) {
+      setTimeout(() => {
+        this.fetchForumIds();
+      }, 1000);
     }
   }
   /**
@@ -53,7 +65,9 @@ export class AccessDiscussionComponent implements OnInit {
    */
   fetchForumIds() {
     this.discussionCsService.getForumIds(this.fetchForumIdReq).subscribe(forumDetails => {
+      console.log('Get forum:', forumDetails);
       this.forumIds = _.map(_.get(forumDetails, 'result'), 'cid');
+      this.navigateToDiscussionForum();
     }, error => {
       this.toasterService.error(this.resourceService.messages.emsg.m0005);
     });
@@ -68,35 +82,66 @@ export class AccessDiscussionComponent implements OnInit {
       username: _.get(this.userService.userProfile, 'userName'),
       identifier: _.get(this.userService.userProfile, 'userId'),
     };
-    this.discussionTelemetryService.contextCdata = [
-      {
-        id: this.fetchForumIdReq.identifier.toString(),
-        type: this.fetchForumIdReq.type
-      }
-    ];
-    const event = {
-      context: {
-        cdata: this.discussionTelemetryService.contextCdata,
-        object: {}
-      },
-      edata: {
-        pageid: 'group-details',
-        type: 'CLICK',
-        id: 'forum-click'
-      },
-      eid: 'INTERACT'
-    };
-    this.discussionTelemetryService.logTelemetryEvent(event);
-    this.navigationHelperService.setNavigationUrl({ url: this.router.url });
+    // this.discussionTelemetryService.contextCdata = [
+    //   {
+    //     id: this.fetchForumIdReq.identifier.toString(),
+    //     type: this.fetchForumIdReq.type
+    //   }
+    // ];
+    // const event = {
+    //   context: {
+    //     cdata: this.discussionTelemetryService.contextCdata,
+    //     object: {}
+    //   },
+    //   edata: {
+    //     pageid: 'group-details',
+    //     type: 'CLICK',
+    //     id: 'forum-click'
+    //   },
+    //   eid: 'INTERACT'
+    // };
+    // this.discussionTelemetryService.logTelemetryEvent(event);
+    // this.navigationHelperService.setNavigationUrl({ url: this.router.url });
     this.discussionCsService.createUser(createUserReq).subscribe((response) => {
       const routerData = {
         userId: _.get(response, 'result.userId.uid'),
         forumIds: this.forumIds
       };
-      this.routerData.emit(routerData);
+      this.navigateToDF(routerData.userId);
     }, (error) => {
       this.showLoader = false;
       this.toasterService.error(this.resourceService.messages.emsg.m0005);
     });
+  }
+
+  navigateToDF(userId: any) {
+    // this.router.navigate(['/discussion-forum'], {
+    //   queryParams: {
+    //     categories: JSON.stringify({ result: [this.forumIds] }),
+    //     userId: userId
+    //   }
+    // });
+    let discussionUrl = 'https://compass-dev.tarento.com/discussion-forum?categories=' + JSON.stringify({ result: [this.forumIds] }) + '&userId=' + userId + '&sidebar=false';
+    // let discussionUrl = 'https://compass-dev.tarento.com/discussion-forum/category/6?categories=' + JSON.stringify({ result: [this.forumIds] }) + '&userId=' + userId;
+    console.log('unsanitized', discussionUrl);
+    this.discussionUrl = this.sanitizer.bypassSecurityTrustResourceUrl(discussionUrl);
+    console.log('sanitized', this.discussionUrl);
+  }
+
+  hideElements() {
+    var myIframe: any = document.getElementById("df-iframe");
+    var divElement1: any = myIframe.contentWindow.document.querySelector("compass-header");
+    divElement1.style.display = "none";
+    this.iframeInterval = setInterval(this.hideFooter, 1500);
+  }
+
+  hideFooter() 
+  {
+    var myIframe: any = document.getElementById("df-iframe");
+    var divElement2: any = myIframe.contentWindow.document.querySelector("main-footer");
+    if (divElement2 != undefined) {
+      divElement2.style.display = "none";
+      clearInterval(this.iframeInterval);
+    }
   }
 }

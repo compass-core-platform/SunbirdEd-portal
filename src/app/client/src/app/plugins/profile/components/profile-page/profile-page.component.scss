@@ -37,6 +37,12 @@
   max-width: calculateRem(400px) !important;
 }
 
+.disabled{
+  pointer-events: none !important;
+  opacity: 0.5 !important;
+  border-color: rgba(0, 0, 0, 0.16);
+}
+
 .profile-label-container {
   max-width: calculateRem(600px) !important;
 
@@ -282,8 +288,6 @@
 
   }
 
-  &__info {}
-
   &__info-name {
     color: var(--com-primary-color);
     font-size: 20px;
@@ -368,4 +372,18 @@ body .slick-next {
 
 .right-floated {
   float: right !important;
+}
+
+.com-secondary-btn {
+  font-weight: 500;
+}
+
+::ng-deep snack-bar-container.wishlist-snackbar{
+  background-color: white;
+  border-radius: 0px !important;
+  min-width: 161px !important;
+  height: 54px;
+  text-align: center;
+  justify-content: center;
+  display: flex !important;
 }

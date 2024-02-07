@@ -7,7 +7,7 @@ import {
   SuiProgressModule, SuiRatingModule, SuiCollapseModule
 } from 'ng2-semantic-ui-v9';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@sunbird/shared';
 import {
   MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, ErrorPageComponent,
   LanguageDropdownComponent
@@ -20,7 +20,7 @@ import { TelemetryModule } from '../telemetry/telemetry.module';
 import { CommonConsumptionModule } from 'compass-common-consumption';
 import { ContentTypeComponent } from './components/content-type/content-type.component';
 import { LocationModule } from '../../plugins/location/location.module';
-import { NotificationModule } from '../notification/notification.module';
+// import { NotificationModule } from '../notification/notification.module';
 import { TelemetryErrorModalComponent } from '../shared/components/telemetry-error-modal/telemetry-error-modal.component';
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import { TelemetryErrorModalComponent } from '../shared/components/telemetry-err
     TelemetryModule,
     CommonConsumptionModule,
     LocationModule,
-    NotificationModule,
+    // NotificationModule,
     
   ],
   declarations: [MainHeaderComponent, MainFooterComponent, MainMenuComponent, SearchComponent, PermissionDirective,

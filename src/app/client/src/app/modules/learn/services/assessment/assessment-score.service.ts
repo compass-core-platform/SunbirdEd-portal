@@ -18,7 +18,7 @@ export class AssessmentScoreService {
   /**
    * timestamp of the first START event
    */
-  private _assessmentTs;
+  public _assessmentTs;
   /**
    * start and end event objects
    */
@@ -40,6 +40,7 @@ export class AssessmentScoreService {
   serverEvalutionObj: any = {};
   serverEvaluable: boolean = false;
   attemptID: any;
+  courseType: string = '';
 
 
   constructor(private courseProgressService: CourseProgressService) {
@@ -149,7 +150,7 @@ export class AssessmentScoreService {
         contents: [{
           contentId: (_.get(this._contentDetails, 'identifier')),
           batchId: _.get(this._batchDetails, 'batchId'),
-          status: 2, // because eid is END
+          status: this.courseType.toLowerCase() == 'assessment'? 1 : 2, // because eid is END
           courseId: _.get(this._batchDetails, 'courseId'),
           lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ')
 
@@ -191,8 +192,9 @@ export class AssessmentScoreService {
   /**
    * handles submit button clicked in course player
    */
-  handleSubmitButtonClickEvent(clicked: Boolean) {
+  handleSubmitButtonClickEvent(clicked: Boolean, courseType?: string) {
     if (clicked && this._startEvent && this.initialized) {
+      this.courseType = courseType;
       this.processAssessEvents();
     }
   }

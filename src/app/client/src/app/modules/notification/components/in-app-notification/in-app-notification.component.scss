@@ -1,9 +1,9 @@
 @use "@project-sunbird/sb-styles/assets/mixins/mixins" as *;
 
 .notification-bell{
-  box-shadow: var(--sbt-box-shadow-6px);
-  border-radius: 50%;
-  background-color: var(--sb-notification-bg);
+  // box-shadow: var(--sbt-box-shadow-6px);
+  // border-radius: 50%;
+  // background-color: var(--sb-notification-bg);
   width: calculateRem(40px);
   height: calculateRem(40px);
   .icon-svg{
@@ -28,3 +28,23 @@
 .notification-disable{
   opacity: 0.5;
 }
+
+.notification-bell-wrapper {
+  position: relative;
+  z-index: 2000;
+  .sb-mat__modal.sb-notification-modal {
+    right: 0;
+    width: calculateRem(300px);
+    top:calculateRem(50px);
+    padding: calculateRem(15px);
+    background: var(--white);
+    .mat-icon{
+      cursor: pointer;
+      position: absolute;
+      right: calculateRem(5px);
+      top: calculateRem(5px);
+    }
+  }
+
+}
+

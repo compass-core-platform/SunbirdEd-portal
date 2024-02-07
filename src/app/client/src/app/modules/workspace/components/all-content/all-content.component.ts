@@ -15,6 +15,7 @@ import { SuiModalService, TemplateModalConfig, ModalTemplate } from 'ng2-semanti
 import { debounceTime, map } from 'rxjs/operators';
 import { ContentIDParam } from '../../interfaces/delteparam';
 import { TaxonomyService } from '../../../../service/taxonomy.service';
+import { ContentSearchService } from '@sunbird/content-search';
 
 @Component({
   selector: 'app-all-content',
@@ -184,6 +185,10 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   */
   private currentContentId: ContentIDParam;
 
+   /**
+  * To store deleting content id
+  */
+   private currentPrimaryCategory: any;
   /**
   * To store deleteing content type
   */
@@ -199,6 +204,10 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
    */
   public collectionListModal = false;
   public isQuestionSetFilterEnabled: boolean;
+  frameworkId: any;
+  categoryNames:any =[];
+  targetTaxonomyIds: any = ["targetTaxonomyCategory1Ids","targetTaxonomyCategory2Ids","targetTaxonomyCategory3Ids","targetTaxonomyCategory4Ids"];
+  competencyDetails: any = [];
   /**
     * Constructor to create injected service(s) object
     Default method of Draft Component class
@@ -218,7 +227,8 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     route: Router, userService: UserService,
     toasterService: ToasterService, resourceService: ResourceService,
     config: ConfigService, public modalService: SuiModalService,
-    public taxonomyService:TaxonomyService) {
+    public taxonomyService:TaxonomyService,
+    private contentSearchService: ContentSearchService) {
     super(searchService, workSpaceService, userService);
     this.paginationService = paginationService;
     this.route = route;
@@ -235,6 +245,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   }
 
   ngOnInit() {
+    this.frameworkId = this.contentSearchService.frameworkId;
     this.workSpaceService.questionSetEnabled$.subscribe(
       (response: any) => {
         this.isQuestionSetFilterEnabled = response.questionSetEnablement;
@@ -324,8 +335,9 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     );
   }
 
-  public deleteConfirmModal(contentIds, mimeType) {
+  public deleteConfirmModal(contentIds, primaryCategory, mimeType) {
     this.currentContentId = contentIds;
+    this.currentPrimaryCategory = primaryCategory;
     this.contentMimeType = mimeType;
     this.showCollectionLoader = false;
     const config = new TemplateModalConfig<{ data: string }, string, string>(this.modalTemplate);
@@ -351,7 +363,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
     }
     this.showCollectionLoader = false;
     if (this.contentMimeType === 'application/vnd.ekstep.content-collection') {
-      this.deleteContent(this.currentContentId);
+      this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
       return;
     }
 
@@ -359,7 +371,7 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
       .subscribe((response) => {
         const count = _.get(response, 'result.count');
         if (!count) {
-          this.deleteContent(this.currentContentId);
+          this.deleteContent(this.currentContentId, this.currentPrimaryCategory);
           return;
         }
         this.showCollectionLoader = true;
@@ -378,29 +390,58 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
               const channelName = _.get(channelResponse, 'result.channel.name');
               channelMapping[channelId] = channelName;
             });
-
+            this.frameworkService.getSelectedFrameworkCategories(this.frameworkId)
+            .subscribe((res: any) => {
+              this.categoryNames = [];
+              res.result.framework.categories.map((item)=>{
+                this.taxonomyCategories.map((cat: any)=>{
+                  if(item.code == cat){
+                    this.categoryNames.push(item.name);
+                  }
+                }) 
+                if(item.name=="Competencies"){
+                  item.terms.map((term:any)=>{
+                    let object: any ={};
+                    object.identifier = term.identifier;
+                    object.name = term.name;
+                    this.competencyDetails.push(object);
+                  })
+                }
+              })
             _.forEach(collections, collection => {
-              const obj = _.pick(collection, ['contentType','name','channel', ...this.taxonomyCategories]);
+              const obj = _.pick(collection, ['contentType', 'name', 'channel']);
               obj['channel'] = channelMapping[obj.channel];
+              let competencies:any = [];
+              collection[this.targetTaxonomyIds[3]].map((id:any)=>{
+                this.competencyDetails.map((comp:any)=>{
+                  if(comp.identifier == id){
+                    competencies.push(comp.name);
+                  }
+                })
+              })
+              obj[this.targetTaxonomyIds[3]] = competencies;
               this.collectionData.push(obj);
           });
+          console.log("collectionData ",this.collectionData);
 
           this.headers = {
-            type: 'Type',
-            name: 'Name',
-            [this.taxonomyCategories[3]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[3]),
-            [this.taxonomyCategories[2]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[2]),
-            [this.taxonomyCategories[1]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[1]),
-            [this.taxonomyCategories[0]]: this.taxonomyService.capitalizeFirstLetter(this.taxonomyCategories[0]),
-            channel: 'Tenant Name'
-            };
-            if (!_.isUndefined(modal)) {
+             type: 'Type',
+             name: 'Name',
+             [this.categoryNames[3]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[3]),
+             [this.categoryNames[2]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[2]),
+             [this.categoryNames[1]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[1]),
+             [this.categoryNames[0]]: this.taxonomyService.capitalizeFirstLetter(this.categoryNames[0]),
+             channel: 'Tenant Name'
+             };
+             if (!_.isUndefined(this.deleteModal)) {
               this.deleteModal.deny();
             }
-          this.collectionListModal = true;
+          this.collectionListModal = true;   
+            })
+                     
           },
           (error) => {
-            this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
+           this.toasterService.error(_.get(this.resourceService, 'messages.emsg.m0014'));
             console.log(error);
           });
         },
@@ -413,25 +454,43 @@ export class AllContentComponent extends WorkSpace implements OnInit, AfterViewI
   /**
   * This method deletes content using the content id.
   */
-  deleteContent(contentId) {
+  deleteContent(contentId, primaryCategory) {
     this.showLoader = true;
     this.loaderMessage = {
       'loaderMessage': this.resourceService.messages.stmsg.m0034,
     };
-    this.delete(contentId).subscribe(
-      (data: ServerResponse) => {
-        this.showLoader = false;
-        this.allContent = this.removeAllMyContent(this.allContent, contentId);
-        if (this.allContent.length === 0) {
-          this.ngOnInit();
+    if(primaryCategory == "Practice Question Set"){
+      this.retire(contentId).subscribe(
+        (data: ServerResponse) => {
+          this.showLoader = false;
+          this.allContent = this.removeAllMyContent(this.allContent, contentId);
+          if (this.allContent.length === 0) {
+            this.ngOnInit();
+          }
+          this.toasterService.success(this.resourceService.messages.smsg.m0006);
+        },
+        (err: ServerResponse) => {
+          this.showLoader = false;
+          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
         }
-        this.toasterService.success(this.resourceService.messages.smsg.m0006);
-      },
-      (err: ServerResponse) => {
-        this.showLoader = false;
-        this.toasterService.error(this.resourceService.messages.fmsg.m0022);
-      }
-    );
+      );
+    }else{
+      this.delete(contentId).subscribe(
+        (data: ServerResponse) => {
+          this.showLoader = false;
+          this.allContent = this.removeAllMyContent(this.allContent, contentId);
+          if (this.allContent.length === 0) {
+            this.ngOnInit();
+          }
+          this.toasterService.success(this.resourceService.messages.smsg.m0006);
+        },
+        (err: ServerResponse) => {
+          this.showLoader = false;
+          this.toasterService.error(this.resourceService.messages.fmsg.m0022);
+        }
+      );
+    }
+    
     if (!_.isUndefined(this.deleteModal)) {
       this.deleteModal.deny();
     }

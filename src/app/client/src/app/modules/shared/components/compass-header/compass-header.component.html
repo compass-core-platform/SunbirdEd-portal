@@ -7,8 +7,8 @@
           <div [ngClass]="userService.loggedIn ? '' : 'flex-jc-flex-start'"
             class="d-flex flex-ai-center w-100">
             <!--Logo-->
-            <a class="logo sbt-logo" tabindex="0" title="Compass" role="link" aria-label="Navigate to Homepage">
-              <img (click)="navigateToHomepage()" class="cursor-pointer" alt={{tenantInfo.titleName}}
+            <a *ngIf="tenantInfo" class="logo sbt-logo" tabindex="0" title="Compass" role="link" aria-label="Navigate to Homepage">
+              <img (click)="navigateToHomepage()" id="compass-logo" class="cursor-pointer" alt={{tenantInfo.titleName}}
                 src="{{tenantInfo.logo}}">
             </a>
             <ng-container *ngIf="userService.loggedIn">
@@ -19,7 +19,7 @@
                   <mat-icon class="close" >close</mat-icon>
                   <span class="mx-10">Spaces</span>
                 </div>
-                  <mat-menu #menu="matMenu" yPosition="below" [hasBackdrop]="false">
+                  <mat-menu #menu="matMenu" yPosition="below" [hasBackdrop]="true">
                     <app-mega-menu (navigateToHome)="navigateToHomepage()"></app-mega-menu>
                       <!-- <div class="container ui" (click)="$event.stopPropagation();">
                         <h3 class="	sub-heading-mobile" (click)="$event.stopPropagation();">Spaces</h3> 
@@ -78,8 +78,12 @@
             <a *ngIf="userService.loggedIn" [routerLink]="['/resources']" class="header-icon__home mr-2">
               <mat-icon>home</mat-icon>
             </a>
-            <a *ngIf="userService.loggedIn" class="header-icon__notification mr-2">
+            <!-- <a *ngIf="userService.loggedIn" class="header-icon__notification mr-2">
               <mat-icon>notifications</mat-icon>
+            </a> -->
+            <a class="profile-avtar p-0 mr-8">
+              <app-in-app-notification *ngIf="userService?.loggedIn" [layoutConfiguration]="layoutConfiguration">
+              </app-in-app-notification>
             </a>
             <div class="language-dd mr-2" *ngIf="!(deviceDetectorService.isMobile() || deviceDetectorService.isTablet())">
               <app-language-dropdown [layoutConfiguration]="layoutConfiguration" [languageRange]='languages'
@@ -148,8 +152,12 @@
       <a *ngIf="userService.loggedIn" [routerLink]="['/resources']" class="header-icon__home mr-2">
         <mat-icon>home</mat-icon>
       </a>
-      <a *ngIf="userService.loggedIn" class="header-icon__notification mr-2">
+      <!-- <a *ngIf="userService.loggedIn" class="header-icon__notification mr-2">
         <mat-icon>notifications</mat-icon>
+      </a> -->
+      <a class="profile-avtar p-0 mr-8">
+        <app-in-app-notification *ngIf="userService?.loggedIn" [layoutConfiguration]="layoutConfiguration">
+        </app-in-app-notification>
       </a>
       <div class="main-menu__lang">
         <app-language-dropdown [layoutConfiguration]="layoutConfiguration" [languageRange]='languages'

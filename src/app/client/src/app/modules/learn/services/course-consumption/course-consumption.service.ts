@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { NavigationHelperService } from '@sunbird/shared';
 import dayjs from 'dayjs';
 import { CourseBatchService } from '../course-batch/course-batch.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -31,13 +32,15 @@ export class CourseConsumptionService {
   progressdetails: any = {};
   mimeType: string = '';
   contentIds: any;
+  AvgPercentage: any = 0
+  courseBatchProgress = new Subject<any>();
 
   constructor(private playerService: PlayerService, private courseProgressService: CourseProgressService,
     private toasterService: ToasterService, private resourceService: ResourceService, private router: Router,
     private navigationHelperService: NavigationHelperService, private permissionService: PermissionService,
     private userService: UserService, public generaliselabelService: GeneraliseLabelService, private courseBatchService: CourseBatchService,
-    private coursesService: CoursesService) {
-    }
+    private coursesService: CoursesService, private http: HttpClient) {
+  }
 
   getCourseHierarchy(courseId, option: any = { params: {} }) {
     if (this.courseHierarchy && this.courseHierarchy.identifier === courseId) {
@@ -86,61 +89,61 @@ export class CourseConsumptionService {
     }
   }
 
-getRollUp(rollup) {
+  getRollUp(rollup) {
     const objectRollUp = {};
     if (!_.isEmpty(rollup)) {
-      for (let i = 0; i < rollup.length; i++ ) {
+      for (let i = 0; i < rollup.length; i++) {
         objectRollUp[`l${i + 1}`] = rollup[i];
-    }
-    }
-    return objectRollUp;
-}
-
-getContentRollUp(tree, identifier) {
-  const rollup = [tree.identifier];
-  if (tree.identifier === identifier) {
-    return rollup;
-  }
-  if (!tree.children || !tree.children.length) {
-    return [];
-  }
-  let notDone = true;
-  let childRollup: any;
-  let index = 0;
-  while (notDone && tree.children[index]) {
-    childRollup = this.getContentRollUp(tree.children[index], identifier);
-    if (childRollup && childRollup.length) {
-      notDone = false;
-    }
-    index++;
-  }
-  if (childRollup && childRollup.length) {
-    rollup.push(...childRollup);
-    return rollup;
-  } else {
-    return [];
-  }
-}
-getAllOpenBatches(contents) {
-  let openBatchCount = 0;
-  let enrollementEndedBatch = 0;
-  _.map(_.get(contents, 'content'), content => {
-    if (content.enrollmentType === 'open') {
-      if ((!(content.enrollmentEndDate && dayjs(content.enrollmentEndDate).isBefore(dayjs(new Date()).format('YYYY-MM-DD'))))) {
-        enrollementEndedBatch++;
-        openBatchCount++;
-      } else {
-        openBatchCount++;
       }
     }
-  });
-  if (openBatchCount === 0) {
-    this.enableCourseEntrollment.emit(false);
-    this.toasterService.error(this.generaliselabelService.messages.emsg.m0003);
-  } else {
-    this.enableCourseEntrollment.emit(true);
+    return objectRollUp;
   }
-}
+
+  getContentRollUp(tree, identifier) {
+    const rollup = [tree.identifier];
+    if (tree.identifier === identifier) {
+      return rollup;
+    }
+    if (!tree.children || !tree.children.length) {
+      return [];
+    }
+    let notDone = true;
+    let childRollup: any;
+    let index = 0;
+    while (notDone && tree.children[index]) {
+      childRollup = this.getContentRollUp(tree.children[index], identifier);
+      if (childRollup && childRollup.length) {
+        notDone = false;
+      }
+      index++;
+    }
+    if (childRollup && childRollup.length) {
+      rollup.push(...childRollup);
+      return rollup;
+    } else {
+      return [];
+    }
+  }
+  getAllOpenBatches(contents) {
+    let openBatchCount = 0;
+    let enrollementEndedBatch = 0;
+    _.map(_.get(contents, 'content'), content => {
+      if (content.enrollmentType === 'open') {
+        if ((!(content.enrollmentEndDate && dayjs(content.enrollmentEndDate).isBefore(dayjs(new Date()).format('YYYY-MM-DD'))))) {
+          enrollementEndedBatch++;
+          openBatchCount++;
+        } else {
+          openBatchCount++;
+        }
+      }
+    });
+    if (openBatchCount === 0) {
+      this.enableCourseEntrollment.emit(false);
+      this.toasterService.error(this.generaliselabelService.messages.emsg.m0003);
+    } else {
+      this.enableCourseEntrollment.emit(true);
+    }
+  }
 
   setPreviousAndNextModule(courseHierarchy: {}, collectionId: string) {
     if (_.get(courseHierarchy, 'children')) {
@@ -158,16 +161,16 @@ getAllOpenBatches(contents) {
 
   setCoursePagePreviousUrl() {
     const urlToNavigate = this.navigationHelperService.getPreviousUrl();
-   /* istanbul ignore else */
+    /* istanbul ignore else */
     if (urlToNavigate &&
-        (urlToNavigate.url.indexOf('/enroll/batch/') < 0) &&
-        (urlToNavigate.url.indexOf('/unenroll/batch/') < 0) &&
-        (urlToNavigate.url.indexOf('/course/play/') < 0) ) {
+      (urlToNavigate.url.indexOf('/enroll/batch/') < 0) &&
+      (urlToNavigate.url.indexOf('/unenroll/batch/') < 0) &&
+      (urlToNavigate.url.indexOf('/course/play/') < 0)) {
       this.coursePagePreviousUrl = urlToNavigate;
     }
   }
 
-  get getCoursePagePreviousUrl()  {
+  get getCoursePagePreviousUrl() {
     return this.coursePagePreviousUrl;
   }
 
@@ -181,68 +184,68 @@ getAllOpenBatches(contents) {
   }
 
   canAddCertificates(courseHierarchy) {
-    return  this.canCreateBatch(courseHierarchy) && this.isTrackableCollection(courseHierarchy) && _.lowerCase(_.get(courseHierarchy, 'credentials.enabled')) === 'yes';
+    return this.canCreateBatch(courseHierarchy) && this.isTrackableCollection(courseHierarchy) && _.lowerCase(_.get(courseHierarchy, 'credentials.enabled')) === 'yes';
   }
 
-  isTrackableCollection(collection: {trackable?: {enabled?: string}, contentType: string}) {
-  return (_.lowerCase(_.get(collection, 'trackable.enabled')) === 'yes' || _.lowerCase(_.get(collection, 'contentType')) === 'course');
+  isTrackableCollection(collection: { trackable?: { enabled?: string }, contentType: string }) {
+    return (_.lowerCase(_.get(collection, 'trackable.enabled')) === 'yes' || _.lowerCase(_.get(collection, 'contentType')) === 'course');
   }
 
   emitBatchList(batches) {
-     const mentorBatches = _.map(batches, batch => {
-        if ((batch.createdBy === this.userService.userid) ||
+    const mentorBatches = _.map(batches, batch => {
+      if ((batch.createdBy === this.userService.userid) ||
         _.includes(batch.mentors, this.userService.userid)
-        ) {
-          return batch;
-          }
-      });
-      const visibility: boolean = mentorBatches ? mentorBatches.length > 0 : false;
-      this.userCreatedAnyBatch.emit(visibility);
+      ) {
+        return batch;
+      }
+    });
+    const visibility: boolean = mentorBatches ? mentorBatches.length > 0 : false;
+    this.userCreatedAnyBatch.emit(visibility);
   }
 
   getCourseContent() {
     this.tocList.length = 0;
-      this.courseHierarchy.children?.forEach((resource:any) => {
-        let toc = {
-               header:{
-                 title:resource.name,
-                 progress: 0,
-                 // totalDuration:'00m'
-               },
-               body: []
-             }
-           toc.body = resource.children?.map((c:any) => {
-             return {
-               name:c.name,
-               mimeType:c.mimeType,
-               // duration:'00m',
-               selectedContent: c.identifier,
-               children: c,
-               collectionId: c.parent
-             }
-           });
-           this.tocList.push(toc)
-       });
+    this.courseHierarchy.children?.forEach((resource: any) => {
+      let toc = {
+        header: {
+          title: resource.name,
+          progress: 0,
+          // totalDuration:'00m'
+        },
+        body: []
+      }
+      toc.body = resource.children?.map((c: any) => {
+        return {
+          name: c.name,
+          mimeType: c.mimeType,
+          // duration:'00m',
+          selectedContent: c.identifier,
+          children: c,
+          collectionId: c.parent
+        }
+      });
+      this.tocList.push(toc)
+    });
     return this.tocList;
   }
-  
-  attachProgresstoContent(response:any) {
-    if(this.tocList.length > 0) {
+
+  attachProgresstoContent(response: any, courseType?: any) {
+    if (this.tocList.length > 0) {
       this.tocList.forEach((toc: any) => {
         let count = 0;
         let courseProgress = [];
         toc.body.forEach((body: any) => {
-          if(response?.length > 0) {
+          if (response?.length > 0) {
             response.filter((res: any) => {
-              if(body.selectedContent == res.contentId) {
+              if (body.selectedContent == res.contentId) {
                 // toc.header['progress-content'] = res;
                 // toc.header['progress'] = res.progress;
                 let bestScore = this.bestScore(res);
-                if(bestScore) {
+                if (bestScore && courseType == 'assessment') {
                   body['bestScore'] = bestScore;
                 }
                 ++count;
-                if(body.mimeType == 'application/vnd.sunbird.questionset') {
+                if (body.mimeType == 'application/vnd.sunbird.questionset') {
                   courseProgress.push(res.progress);
                 } else {
                   courseProgress.push(res.completionPercentage);
@@ -251,8 +254,8 @@ getAllOpenBatches(contents) {
             })
           }
         })
-        if(count > 0) {
-          toc.header['progress'] = this.calculateProgress(count, courseProgress);
+        if (count > 0) {
+          toc.header['progress'] = this.calculateProgress(toc.body.length, courseProgress);
         }
       })
     }
@@ -262,29 +265,63 @@ getAllOpenBatches(contents) {
   }
 
   bestScore(response: any) {
-    if(response?.bestScore && response?.bestScore?.totalMaxScore !== 0) {
+    if (response?.bestScore && response?.bestScore?.totalMaxScore !== 0) {
       return response.bestScore?.totalScore + '/' + response.bestScore?.totalMaxScore;
-    } else if(response?.bestScore && response?.bestScore?.totalMaxScore == 0) {
-      let totalMaxScore = response?.score.reduce(function(a,b) {
+    } else if (response?.bestScore && response?.bestScore?.totalMaxScore == 0) {
+      let totalMaxScore = response?.score.reduce(function (a, b) {
         if (!a) {
-              return b;
-        }    
-        if(a.totalMaxScore < b.totalMaxScore) {
-            return b
+          return b;
+        }
+        if (a.totalMaxScore < b.totalMaxScore) {
+          return b
         }
         return a;
       }, undefined).totalMaxScore;
-    return response.bestScore?.totalScore + '/' + totalMaxScore;
+      return response.bestScore?.totalScore + '/' + totalMaxScore;
     }
     return null
   }
 
-  calculateProgress(totalCount: number, allCounts:any[]) {
+  calculateProgress(totalCount: number, allCounts: any[]) {
+    if (totalCount == 0) {
+      return 0;
+    }
     let sum = 0;
-    for(let i=0; i< allCounts.length; i++) {
+    for (let i = 0; i < allCounts.length; i++) {
       sum = sum + allCounts[i];
     }
-    return sum / totalCount;
+    return Math.round(sum / totalCount);
+  }
+
+  calculateAvgCourseProgress(response: any, courseType?:string) {
+    let avgCourseProgress = 0;
+    let totalCount = 0;
+    if (this.tocList.length > 0) {
+      this.tocList.forEach((toc: any) => {
+        toc.body.forEach((body: any) => {
+          totalCount++;
+          if (response?.length > 0) {
+            response.filter((res: any) => {
+              if (body.selectedContent == res.contentId) {
+                if (body.mimeType == 'application/vnd.sunbird.questionset' || body.mimeType == 'application/vnd.ekstep.content-collection' || body.mimeType == 'application/vnd.ekstep.ecml-archive') {
+                  avgCourseProgress = avgCourseProgress + res.progress
+                  if(body.mimeType == 'application/vnd.sunbird.questionset' && courseType !== 'assessment') {
+                    let attemptKey = 'currentAttempt_'+body.selectedContent;
+                    localStorage.setItem(attemptKey, res.attempts);
+                  }
+                } else {
+                  avgCourseProgress = avgCourseProgress + res.completionPercentage
+                }
+              }
+            })
+          }
+        })
+      })
+    }
+    if (totalCount == 0) {
+      this.AvgPercentage = 0;
+    }
+    this.AvgPercentage = Math.round(avgCourseProgress / totalCount);
   }
 
 
@@ -341,9 +378,9 @@ getAllOpenBatches(contents) {
       }
     };
     this.courseBatchService.enrollToCourse(request)
-         .subscribe((data) => {
+      .subscribe((data) => {
         console.log(data);
-        if(data.result.response == 'SUCCESS') {
+        if (data.result.response == 'SUCCESS') {
           this.getEnrolledCourses();
         }
       }, (err) => {
@@ -356,10 +393,10 @@ getAllOpenBatches(contents) {
   }
 
   getBatchList() {
-   return this.batchList;
+    return this.batchList;
   }
 
-  isUserExistInBatch(){
+  isUserExistInBatch() {
     return this.batchList.includes(this.userService.userid);
   }
 
@@ -369,8 +406,24 @@ getAllOpenBatches(contents) {
 
   getEnrolledCourses() {
     this.coursesService.getEnrolledCourses().subscribe((data) => {
-        console.log("New enrolled data", data);
+      console.log("New enrolled data", data);
     });
+  }
+
+  getCourseRating(courseId: string) {
+    return this.http.get(`api/ratings/v1/summary/${courseId}/Course`);
+  }
+
+  saveCourseRating(data: any) {
+    return this.http.post(`api/ratings/v1/upsert`, data);
+  }
+
+  getCourseReviews(data: any) {
+    return this.http.post(`api/ratings/v1/ratingLookUp`, data);
+  }
+
+  getCourseRatings(courseId: string) {
+    return this.http.get(`api/ratings/v1/read/${courseId}/Course/${this.userService.userid}`);
   }
 
 }

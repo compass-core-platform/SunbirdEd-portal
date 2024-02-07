@@ -1,0 +1,213 @@
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.search-container {
+  padding-top: 3em;
+  margin: auto;
+
+  button {
+    padding: 5px 10px;
+    margin-top: 10px;
+  }
+
+  button.cancel {
+    border: solid 1px var(--red-100);
+    color: var(--red-100);
+    margin-left: 10px;
+  }
+
+  input::placeholder {
+    /* modern browser */
+    color: rgba(0, 0, 0, 0.4) !important;
+    font-size: 14px;
+  }
+
+  #search-discussion {
+    padding-left: 38px;
+  }
+
+  input {
+    width: 100%;
+    // width: 320px;
+    padding: 12px;
+    border-radius: 0px;
+    border: solid 1px rgba(0, 0, 0, 0.16);
+    color: rgba(0, 0, 0, 0.60);
+  }
+
+  input:focus,
+  input:focus-visible {
+    border: solid 1px rgba(0, 0, 0, 0.87) !important;
+  }
+
+  // .search-right-icon {
+  //   position: absolute;
+  //   right: 10px;
+  //   top: 6px;
+  // }
+
+  .search-left-icon {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+  }
+}
+
+.post-type {
+  margin-top: 3em;
+}
+
+::ng-deep {
+  .mat-select-min-line {
+    text-transform: none !important;
+  }
+
+  .sb-mat__dropdown.mat-form-field-appearance-fill .mat-select-trigger {
+    height: 1.8rem !important;
+  }
+
+  .mat-select-min-line {
+    margin-right: 10px;
+  }
+
+  .sb-mat__dropdown.mat-form-field-appearance-fill .mat-select-arrow {
+    margin: 10px 4px 0px 4px;
+  }
+}
+
+.discussion {
+  border: solid 1px rgba(0, 0, 0, 0.16);
+  padding: 20px;
+
+  .title {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.12px;
+    line-height: 24px;
+    font-family: Montserrat;
+  }
+
+  .section {
+    color: rgba(0, 0, 0, 0.60);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.25px;
+    line-height: 20px;
+    margin-top: 2em;
+    font-family: Lato;
+  }
+
+  .spacing {
+    margin-left: 2em;
+  }
+
+  hr {
+    color: rgba(0, 0, 0, 0.40);
+  }
+
+  .comments {
+    font-size: 14px;
+        // padding-top: 8px;
+        mat-icon {
+          color: rgb(35, 134, 252);
+          margin-right: 5px;
+        }
+    
+        .text {
+          color: rgb(35, 134, 252);
+          font-weight: 700;
+        }
+  }
+
+  .right.floated {
+    float: right;
+  }
+
+  .tag {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgba(0, 0, 0, 0.04);
+    border: solid 1px rgba(0, 0, 0, 0.08);
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.25px;
+    margin-right: 10px;
+  }
+}
+
+.discussion.comment {
+  background-color: rgba(0, 0, 0, 0.08);
+
+  .replies {
+    padding: 10px 15px;
+    border: solid 1px rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: Lato;
+    font-weight: 700;
+    display: inline-flex;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .reply-icon {
+    color: rgba(0, 0, 0, 0.4);
+    rotate: 180deg;
+  }
+}
+
+.no-margin-top {
+  margin-top: 0em !important;
+}
+
+.no-padding-top {
+  padding-top: 0em !important;
+}
+
+.dot {
+  font-weight: 700;
+  font-size: xx-large;
+  margin: 0px 8px 0px 8px;
+  color: rgba(0, 0, 0, 0.60);
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.display-grid {
+  display: grid;
+}
+
+@media screen and (max-width: 768px) {
+  .member {
+      min-width: 60%;
+      width: 65%;
+  }
+
+  .ui.grid {
+      flex-direction: column-reverse;
+
+      .four.wide.column,
+      .eight.wide.column {
+          width: 80% !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+      }
+  }
+}

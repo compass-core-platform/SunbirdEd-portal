@@ -2,14 +2,16 @@
 import { Injectable } from '@angular/core';
 import { TaxonomyCategories } from '../framework.config';
 import { find } from 'lodash';
-// import { Observable } from 'rxjs';
+import { DataService } from '../modules/core';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaxonomyService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getTaxonomyCategories(){
     localStorage.setItem('taxonomyCategories', JSON.stringify(TaxonomyCategories));
@@ -23,7 +25,15 @@ export class TaxonomyService {
     }
     return null;
   }
+
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+  
+  getPortalToken() {
+    return this.http.get('/portalAuthToken').pipe(map((res:any) => {
+       return res.token;
+    }));
+  }
+
 }

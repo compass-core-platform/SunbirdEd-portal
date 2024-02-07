@@ -1,0 +1,16 @@
+.heading {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: RGBA(0, 0, 0, 0.87);
+}
+
+::ng-deep snack-bar-container.wishlist-snackbar{
+    background-color: white;
+    border-radius: 0px !important;
+    min-width: 161px !important;
+    height: 54px;
+    text-align: center;
+    justify-content: center;
+    display: flex !important;
+}

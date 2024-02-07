@@ -36,6 +36,7 @@ export class ContentSearchService {
       .pipe(skipWhile(data => data === undefined || data === null));
   }
   channelData:any;
+  popularOptions: any;
 
   constructor(private frameworkService: FrameworkService, private channelService: ChannelService, @Inject(TaxonomyService) private taxonomyService: TaxonomyService) { }
 
@@ -68,12 +69,16 @@ export class ContentSearchService {
         if (_.get(channelDetails, 'result.channel.publisher')) {
           this._filters.publisher = JSON.parse(_.get(channelDetails, 'result.channel.publisher'));
         }
+        if (_.get(channelDetails, 'result.channel.popularOptions')) {
+          this.popularOptions = JSON.parse(_.get(channelDetails, 'result.channel.popularOptions'));
+        }
         this.updateFrameworkInfo(this._frameworkId,this.channelId);
         return this.frameworkService.getSelectedFrameworkCategories(this._frameworkId, requiredCategories);
       }), map(frameworkDetails => {
 
         const frameworkCategories: any[] = _.get(frameworkDetails, 'result.framework.categories');
         this.channelData = frameworkCategories;
+        localStorage.setItem('channelData', JSON.stringify(this.channelData));
         // console.log('frameworkCategories', frameworkCategories);
         frameworkCategories.forEach(category => {
           if ([this.taxonomyCategories[1], this.taxonomyCategories[2], this.taxonomyCategories[3]].includes(category.code)) {
@@ -130,13 +135,24 @@ export class ContentSearchService {
       localStorage.setItem('taxonomyConfig',JSON.stringify(taxonomyConfig));
   }
 
-  updateCourseWithTaggedCompetency(courses) {
-      let updatedCourseList;
-      updatedCourseList = courses.map(course =>this.mapCourseCompetencyIdwithTerms(course))
+  updateCourseWithTaggedCompetency(courses, cardCategory?: string) {
+      let updatedCourseList: any = [];
+      if(cardCategory == 'enrollment') {
+        courses.forEach(course =>{
+          let updatedContent = this.mapCourseCompetencyIdwithTerms(course.content)
+          course.content = updatedContent;
+          updatedCourseList.push(course);
+        });
+      } else {
+        updatedCourseList = courses.map(course =>this.mapCourseCompetencyIdwithTerms(course))
+      }
       return updatedCourseList;
   }
 
   mapCourseCompetencyIdwithTerms(course) {
+    if(!this.channelData){
+      this.channelData = JSON.parse(localStorage.getItem('channelData'));
+    }
     let competencyIdsMapping = [];
     if(course.targetTaxonomyCategory4Ids) {
         course.targetTaxonomyCategory4Ids.forEach(id => {
@@ -146,5 +162,10 @@ export class ContentSearchService {
     course.competencyIdsMapping = competencyIdsMapping;
     return course
   }
-
+  getCompatencyList(){
+    if(!this.channelData){
+      this.channelData = JSON.parse(localStorage.getItem('channelData'));
+    }
+    return this.channelData[3]?.terms.map((term:any) => {return { identifier:term.identifier, name:term.name}});
+  }
 }

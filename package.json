@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "sb-taxonomy-editor": "file:../taxonomy-editor/sb-taxonomy-editor-0.0.0-watch+1700544221500.tgz"
+  },
+  "version": "0.0.0"
+}

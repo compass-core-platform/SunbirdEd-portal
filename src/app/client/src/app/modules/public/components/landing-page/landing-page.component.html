@@ -2,12 +2,12 @@
 </app-landing-section>
 <compass-banner [loginCallback]="loginClick" [registerCallback]="registerClick" [config]="resourceService?.frmelmnts?.lp?.banner">
 </compass-banner>
-<div class="ui container featured-courses-section">
+<div class="ui container featured-courses-section" *ngIf="courses.length > 0">
     <p class="heading">{{resourceService?.frmelmnts?.lp?.featuredCourses}}</p>
     <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig" (init)="slickInit($event)"
         (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)" responsive="breakpoints">
         <div ngxSlickItem class="slide" *ngFor='let course of courses;'>
-            <compass-course-card [data]="course"></compass-course-card>
+            <compass-course-card [data]="course" [showIcon]="showIcon"></compass-course-card>
         </div>
     </ngx-slick-carousel>
 </div>
@@ -25,8 +25,8 @@
 <!-- <info-card-container [cardInfo]="configContent.infoCard"></info-card-container> -->
 
 <section class="infor-card__wrap" *ngIf="resourceService?.frmelmnts?.lp?.infoCardsData">
-    <div class="ui container">
-        <h1>{{resourceService?.frmelmnts?.lp?.empGovSuccessThruGoalOriHR}}</h1>
+    <div class="ui container empower_success">
+        <h1 class="heading">{{resourceService?.frmelmnts?.lp?.empGovSuccessThruGoalOriHR}}</h1>
         <info-card *ngFor="let info of doJsonDecode(resourceService?.frmelmnts?.lp?.infoCardsData);" [cardInfo]="info"></info-card>
     </div>
 </section>
