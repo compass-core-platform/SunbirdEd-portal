@@ -7,8 +7,8 @@
           <div [ngClass]="userService.loggedIn ? '' : 'flex-jc-flex-start'"
             class="d-flex flex-ai-center w-100">
             <!--Logo-->
-            <a *ngIf="tenantInfo" class="logo sbt-logo" tabindex="0" title="Compass" role="link" aria-label="Navigate to Homepage">
-              <img (click)="navigateToHomepage()" id="compass-logo" class="cursor-pointer" alt={{tenantInfo.titleName}}
+            <a class="logo sbt-logo" tabindex="0" title="Tzeal" role="link" aria-label="Navigate to Homepage">
+              <img (click)="navigateToHomepage()" class="cursor-pointer" alt={{tenantInfo.titleName}}
                 src="{{tenantInfo.logo}}">
             </a>
             <ng-container *ngIf="userService.loggedIn">

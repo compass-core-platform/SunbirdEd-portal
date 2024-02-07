@@ -324,9 +324,33 @@ export class AppComponent implements OnInit, OnDestroy {
     //   }, error => { this.isPopupEnabled = true; });
     // this.isPopupEnabled = true;
   }
-  ngOnInit() {
-    // this.getOnboardingList();
-    // this.checkToShowPopups();
+
+  tenantMapping() {
+    const formReadInputParams = {
+      formType: "tenantmap",
+      formAction: "list",
+      contentType: "global",
+      component: "portal",
+    };
+    this.formService
+      .getFormConfig(formReadInputParams)
+      .subscribe((formResponsedata: any) => {
+        if (formResponsedata) {
+          let host = window.location.host;
+          let filterData = formResponsedata.filter((data: any) => {
+            return data.domain === host;
+          });
+          localStorage.setItem("tenantData", JSON.stringify(filterData[0]));
+        } else {
+          localStorage.setItem("tenantData", 'undefined');
+        }
+      });
+  }
+
+  async ngOnInit() {
+    this.tenantMapping();
+    this.getOnboardingList();
+    this.checkToShowPopups();
     this.getStepperInfo();
    
     this.isIOS = this.utilService.isIos;

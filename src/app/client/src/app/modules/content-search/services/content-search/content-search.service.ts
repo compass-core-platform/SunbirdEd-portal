@@ -45,7 +45,7 @@ export class ContentSearchService {
   }
   
   public initialize(channelId: string, custodianOrg = false, defaultBoard: string) {
-    this.channelId = channelId;
+    this.channelId = localStorage.getItem('tenantData') !== 'undefined' ? JSON.parse(localStorage.getItem('tenantData')).channel : channelId;
     this.custodianOrg = custodianOrg;
     this.defaultBoard = defaultBoard;
     this._searchResults$.complete(); // to flush old subscription

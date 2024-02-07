@@ -38,8 +38,9 @@
 }
 
 .logo {
-  padding-left: 0;
+  // padding-left: 0;
   width: 25%;
+  transform: scale(1.5);
 
   img {
     width: calculateRem(98px);
