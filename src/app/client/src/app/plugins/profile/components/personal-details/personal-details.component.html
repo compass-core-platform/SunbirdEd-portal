@@ -93,13 +93,13 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Designation</mat-label>
-            <mat-select formControlName="designation">
-              <mat-option
-                *ngFor="let option of positions"
-                [value]="option.name"
-                >{{ option.name }}</mat-option
-              >
-            </mat-select>
+            <input
+            matInput
+            #input
+            formControlName="designation"
+            placeholder="Type here"
+          />
+      
             <!-- <mat-hint align="end">Here's the dropdown arrow ^</mat-hint> -->
           </mat-form-field>
 
