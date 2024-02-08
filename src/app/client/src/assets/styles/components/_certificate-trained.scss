@@ -62,6 +62,7 @@
     text-transform: uppercase;
     font-size: var(--font-size-base);
     color: var(--sb-list-data);
+    text-align: left
   }
   .list-items__bar {
     @extend .flex-ai-jc-center;

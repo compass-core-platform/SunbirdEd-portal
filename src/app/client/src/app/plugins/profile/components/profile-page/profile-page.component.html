@@ -31,7 +31,7 @@
           class="com-secondary-btn right-floated">{{resourceService?.frmelmnts?.lbl?.anncmntinboxseeall}}</button></div>
         <div class="ui grid middle aligned stackable">
           <div class="three wide column" *ngFor="let data of attendedTraining.slice(0, 4)">
-            <compass-course-card (click)="redirectToToc(data['contentId'], data['batch']['batchId'])" [data]="data"
+            <compass-course-card (click)="redirectToToc(data['contentId'], data['batchId'])" [data]="data"
             (favoriteIconClicked)="favoriteIconClicked($event,data['contentId'],'learnings')"></compass-course-card>
           </div>
         </div>
@@ -391,7 +391,7 @@
           <div class="list-item-parent">
             <div class="list-items sb-course-progress-status-label">
               <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{resourceService?.frmelmnts?.lbl?.course}}</span></div>
-              <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{resourceService?.frmelmnts?.lbl?.batch}}</span></div>
+              <!-- <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{resourceService?.frmelmnts?.lbl?.batch}}</span></div> -->
               <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{resourceService?.frmelmnts?.lbl?.coursecompletiondate}}</span></div>
               <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{resourceService?.frmelmnts?.lbl?.status}}</span></div>
               <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left"></span></div>
@@ -400,7 +400,7 @@
           <div class="list-item-parent" *ngFor="let data of attendedTraining | slice:0:courseLimit">
             <div class="list-items" *ngIf="data.courseName">
               <div class="list-items__item"><a tabindex="0" (click)="navigateToCourse(data)" class="sb__ellipsis mr-auto mb-0 text-left">{{data.courseName}}</a></div>
-              <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{data.batch.name}}</span></div>
+              <!-- <div class="list-items__item"><span class="sb__ellipsis mr-auto mb-0 text-left">{{data.batch?.name}}</span></div> -->
               <div class="list-items__item list-date" *ngIf="data.completedOn">{{data.completedOn | date :'dd MMMM yyy' }}</div>
               <div class="list-items__item list-items__bar computer only" *ngIf="!data.completedOn">
                   <span class="bar mr-4"></span>

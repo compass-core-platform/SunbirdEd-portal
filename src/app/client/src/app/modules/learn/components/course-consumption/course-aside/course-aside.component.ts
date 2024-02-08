@@ -85,7 +85,6 @@ export class CourseAsideComponent implements OnInit {
     });
 
     this.courseConsumptionService.getCourseRatings(this.courseHierarchy['identifier']).subscribe((res: any) => {
-      console.log('Ratings', res);
       this.ratings = res['result']['response'];
       // this.ratings = {
       //   "activityId": "do_1139217248457031681127",
@@ -175,6 +174,7 @@ export class CourseAsideComponent implements OnInit {
       .subscribe((resp) => {
         if (_.get(resp, 'printUri')) {
           this.certDownloadAsPdf.download(resp.printUri, null, courseObj.trainingName);
+          this.toasterService.success(this.resourceService.frmelmnts.cert.lbl.certDownloadSuccess);
         } else {
           this.toasterService.error(this.resourceService.messages.emsg.m0076);
         }

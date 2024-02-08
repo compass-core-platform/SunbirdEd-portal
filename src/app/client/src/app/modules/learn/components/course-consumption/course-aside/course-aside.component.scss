@@ -341,3 +341,23 @@ textarea {
         }
     }
 }
+@media only screen and (max-width: 768px) {
+    .avg-progress {
+        flex-direction: row;
+        .progress{
+            justify-content: flex-start;
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+}
+@media only screen and (max-width: 543px) {
+    .avg-progress {
+        flex-direction: column;
+        .progress{
+            justify-content: flex-start;
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+}

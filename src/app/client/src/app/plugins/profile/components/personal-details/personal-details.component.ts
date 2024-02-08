@@ -18,7 +18,7 @@ import { ProfileService } from "@sunbird/profile";
 import { ContentSearchService } from "@sunbird/content-search";
 import _ from "lodash";
 import { FrameworkService } from "../../../../modules/core/services/framework/framework.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 // import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { MatChipInputEvent } from "@angular/material/chips";
@@ -78,7 +78,8 @@ export class PersonalDetailsComponent implements OnInit {
     private contentSearchService: ContentSearchService,
     private frameworkService: FrameworkService,
     private channelService: ChannelService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -263,6 +264,7 @@ export class PersonalDetailsComponent implements OnInit {
           this.toasterService.success(
             _.get(this.resourceService, "messages.smsg.m0059")
           );
+          this.router.navigate(['/profile'], { queryParams: { channel: this.activatedRoute.snapshot.queryParams.channel}, relativeTo: this.activatedRoute });
         },
         (error) => {
           if (
