@@ -412,7 +412,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.tenantService.getTenantInfo(this.userService.slug);
         this.tenantService.initialize();
-        // this.setPortalTitleLogo();
+        this.setPortalTitleLogo();
         this.telemetryService.initialize(this.getTelemetryContext());
         this.logCdnStatus();
         this.setFingerPrintTelemetry();
