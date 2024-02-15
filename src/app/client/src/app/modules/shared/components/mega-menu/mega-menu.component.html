@@ -37,6 +37,7 @@
              </div>
          </a>
         </li>
+        
     </ul>
     <h3 class="	sub-heading-mobile" (click)="$event.stopPropagation();"
      *ngIf="permissionService.checkRolesPermissions(workSpaceRole) || permissionService.checkRolesPermissions(adminDashboard)"
@@ -91,6 +92,15 @@
               <p>Manage Users: add, update roles to users</p>
           </div>
         </a>
+      </li>
+      <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
+        <a href="javascript:void(0);"  [routerLink]="['/custom-notification']" mat-menu-item>
+          <mat-icon>extension</mat-icon>
+           <div class="display">
+              <h3 class="	sub-heading-two">Custom notification</h3>
+              <p>Custom notifications</p>
+           </div>
+       </a>
       </li>
     </ul>
   </div>

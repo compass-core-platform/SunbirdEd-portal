@@ -81,6 +81,9 @@ const appRoutes: Routes = [
     path:'network-hub', loadChildren: () => import('./modules/network-hub/network-hub.module').then(m => m.NetworkHubModule)
   },
   {
+    path:'custom-notification', loadChildren: () => import('./modules/custom-notification/custom-notification.module').then(m => m.CustomNotificationModule)
+  },
+  {
     path: 'error', component: ErrorPageComponent
   },
   {
