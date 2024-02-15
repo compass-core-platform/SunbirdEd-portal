@@ -90,7 +90,9 @@ module.exports = {
             }
           }, function (err, results) {
             if (err) { }
-            responseObj.logo = results.logo
+            // logo hardcoding based on host
+            if (host === 'tzeal.tarento.com') {
+              responseObj.logo = results.logo
               ? results.logo : baseUrl + '/assets/images/sunbird_logo.png'
             responseObj.poster = results.poster
               ? results.poster : baseUrl + '/assets/images/sunbird_logo.png'
@@ -98,6 +100,25 @@ module.exports = {
               ? results.favicon : baseUrl + '/assets/images/favicon.svg'
             responseObj.appLogo = results.appLogo
               ? results.appLogo : responseObj.logo
+            } else if (host === 'www.digitalpublicgoods.academy') {
+              responseObj.logo = results.logo
+              ? results.logo : baseUrl + '/assets/images/dpg_logo.png'
+            responseObj.poster = results.poster
+              ? results.poster : baseUrl + '/assets/images/dpg_logo.png'
+            responseObj.favicon = results.favicon
+              ? results.favicon : baseUrl + '/assets/images/dpg_favicon.svg'
+            responseObj.appLogo = results.appLogo
+              ? results.appLogo : responseObj.logo
+            } else {
+              responseObj.logo = results.logo
+              ? results.logo : baseUrl + '/assets/images/sunbird_logo.png'
+            responseObj.poster = results.poster
+              ? results.poster : baseUrl + '/assets/images/sunbird_logo.png'
+            responseObj.favicon = results.favicon
+              ? results.favicon : baseUrl + '/assets/images/favicon.svg'
+            responseObj.appLogo = results.appLogo
+              ? results.appLogo : responseObj.logo
+            }
             module.exports.getSucessResponse(res, 'api.tenant.info', responseObj, req)
           })
         } else {
