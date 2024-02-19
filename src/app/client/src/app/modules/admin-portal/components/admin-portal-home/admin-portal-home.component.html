@@ -1,0 +1,13 @@
+<mat-drawer-container class="sidenav-container">
+    <mat-drawer #sidenav mode="side" opened>
+        <a mat-button color="primary" [routerLink]="['course-assessment']" [ngClass]="{'active': tabName == 'course-assessment'}">Couse and Assessment</a>
+        <a mat-button color="primary"  [ngClass]="{'active': tabName == 'user-management'}">User management</a>
+        <a mat-button color="primary" [ngClass]="{'active': tabName == 'roles-acsess'}">Roles and access</a>
+        <a mat-button color="primary" [ngClass]="{'active': tabName == 'competencies'}">Competencies</a>
+        <a mat-button color="primary" [ngClass]="{'active': tabName == 'notification'}">Notification</a>
+    </mat-drawer>
+    <mat-drawer-content class="side-content">
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>
+  

@@ -46,12 +46,12 @@ const routes: Routes = [
       formAction: 'filter'
     }
   },
-  {
-    path:'batch-progress', component: CourseAssessmentProgressComponent
-  },
-  {
-    path:'batch/:courseId/:batchId', component: BatchProgressDetailsComponent
-  }
+  // {
+  //   path:'batch-progress', component: CourseAssessmentProgressComponent
+  // },
+  // {
+  //   path:'batch/:courseId/:batchId', component: BatchProgressDetailsComponent
+  // }
 ];
 
 @NgModule({

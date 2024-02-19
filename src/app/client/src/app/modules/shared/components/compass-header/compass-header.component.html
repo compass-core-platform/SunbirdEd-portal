@@ -3,7 +3,7 @@
     <!--Header section-->
     <header>
       <div class="sb-g head-container">
-        <div class="sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3 sbt-header-logo">
+        <div class="sbt-header-logo" [ngClass]="!isAdminPortal? 'sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3':'sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6'">
           <div [ngClass]="userService.loggedIn ? '' : 'flex-jc-flex-start'"
             class="d-flex flex-ai-center w-100">
             <!--Logo-->
@@ -11,7 +11,7 @@
               <img (click)="navigateToHomepage()" id="compass-logo" class="cursor-pointer" alt={{tenantInfo.titleName}}
                 src="{{tenantInfo.logo}}">
             </a>
-            <ng-container *ngIf="userService.loggedIn">
+            <ng-container *ngIf="userService.loggedIn && !isAdminPortal">
               <!-- menu -->
               <div class="spaces-icon mx-60">
                 <div class="menu-trigger" [matMenuTriggerFor]="menu">
@@ -59,13 +59,16 @@
                     </mat-menu>
               </div>
             </ng-container>
+            <ng-container *ngIf="userService.loggedIn && isAdminPortal">
+              <div class="sub-heading-one admin-portal-title">Admin Portal</div>
+            </ng-container>
             <!--/Logo-->
           </div>
 
         </div>
-        <div class="sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6 sbt-header-logo">
+        <div *ngIf="userService.loggedIn && !isAdminPortal" class="sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6 sbt-header-logo">
           <!--  -->
-          <div class="ui center aligned container search-container" *ngIf="userService.loggedIn">  
+          <div class="ui center aligned container search-container">  
             <div class="ui input">
               <img src="assets/images/search_icon.svg" class="search-left-icon"/>
               <input type="text" id="header-search" name="search" [(ngModel)]="searchText" (keyup.enter)="searchCourses(searchText)" placeholder={{resourceService.frmelmnts?.prmpt?.search}}>
@@ -73,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div class="sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3 sbt-header-tool-bar">
+        <div class="sbt-header-tool-bar" [ngClass]="!isAdminPortal? 'sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3':'sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6'">
           <div class="d-flex flex-ai-center">
             <a *ngIf="userService.loggedIn" [routerLink]="['/resources']" class="header-icon__home mr-2">
               <mat-icon>home</mat-icon>
@@ -134,7 +137,7 @@
 <section class="ui container mobile-only main-menu">
   <nav class="main-menu__wrap">
       <!-- menu -->
-      <ng-container *ngIf="userService.loggedIn">
+      <ng-container *ngIf="userService.loggedIn && !isAdminPortal">
         <div class="menu-trigger" [matMenuTriggerFor]="menu">
             <mat-icon class="menuIcon open">menu</mat-icon>
             <mat-icon class="close" >close</mat-icon>

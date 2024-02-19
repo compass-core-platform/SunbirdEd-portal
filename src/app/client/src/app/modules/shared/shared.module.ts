@@ -58,6 +58,8 @@ import { CompassBreadcrumbComponent } from './components/compass-breadcrumb/comp
 import { MegaMenuComponent } from './components/mega-menu/mega-menu.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { NotificationModule } from '../notification/notification.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -73,7 +75,7 @@ import { NotificationModule } from '../notification/notification.module';
         MatChipsModule, MatIconModule, MatSelectModule, MatListModule, MatButtonModule, MatCheckboxModule, MaterialModule,
     CommonConsumptionModule, MatMenuModule,
     RouterModule,
-    NotificationModule
+    NotificationModule,MatSidenavModule,MatToolbarModule
     ],
     declarations: [AppLoaderComponent, DateFormatPipe,
         BatchCardComponent, NoResultComponent, CardComponent, CardCreationComponent, FilterPipe, InterpolatePipe,

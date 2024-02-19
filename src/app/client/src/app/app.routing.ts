@@ -81,6 +81,9 @@ const appRoutes: Routes = [
     path:'network-hub', loadChildren: () => import('./modules/network-hub/network-hub.module').then(m => m.NetworkHubModule)
   },
   {
+    path: 'admin-portal', loadChildren: () => import('./modules/admin-portal/admin-portal.module').then(m => m.AdminPortalModule)
+  },
+  {
     path: 'error', component: ErrorPageComponent
   },
   {
