@@ -84,6 +84,9 @@ const appRoutes: Routes = [
     path: 'admin-portal', loadChildren: () => import('./modules/admin-portal/admin-portal.module').then(m => m.AdminPortalModule)
   },
   {
+    path:'custom-notification', loadChildren: () => import('./modules/custom-notification/custom-notification.module').then(m => m.CustomNotificationModule)
+  },
+  {
     path: 'error', component: ErrorPageComponent
   },
   {

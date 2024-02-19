@@ -1966,7 +1966,7 @@ const API_LIST = {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.PUBLIC]
     },
-    "/api/user/feed/v2/create": {
+    "/learner/user/feed/v2/create": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.PUBLIC]
     }
@@ -2132,7 +2132,7 @@ const API_LIST = {
     '/learner/wishlist/v1/get',
     '/content/course/v1/content/state/read',
     '/learner/course/v1/batch/progress',
-    '/api/user/feed/v2/create'
+    '/learner/user/feed/v2/create'
   ]
 };
 module.exports = API_LIST;
