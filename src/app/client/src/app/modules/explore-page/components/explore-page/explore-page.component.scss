@@ -276,3 +276,47 @@ body .slick-next {
 .comp-card-container{
   margin-bottom: 4.5rem;
 }
+
+@media only screen and (max-width: 707px) {
+  .popular-topics{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 0;
+
+    .three{
+      width: 33.333333833% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 559px) {
+  .popular-topics{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 0;
+    justify-content: center;
+
+    .three{
+      width: 41.66666667%!important;
+    }
+  }
+}
+
+@media only screen and (max-width: 377px) {
+  .popular-topics{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    padding: 0;
+    justify-content: center;
+
+    .three{
+      width: 100%!important;
+    }
+  }
+}

@@ -280,7 +280,7 @@
       <button (click)="getBrowseByData(0)"
         class="com-secondary-btn">{{resourceService?.frmelmnts?.llp?.topics.button}}</button>
     </div>
-    <div class="ui grid middle aligned stackable">
+    <div class="ui grid middle aligned popular-topics ">
       <div class="three wide column" *ngFor="let data of popularTopics.slice(0,8) let i=index">
         <div class="pointing" (click)="loadTopicCourses(data['name'])">
           <sb-popular-card [pillName]="'Topic'" [data]="data"></sb-popular-card>
