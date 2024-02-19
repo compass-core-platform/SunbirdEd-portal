@@ -265,8 +265,8 @@
   
   <section class="mt-4rem container ui" *ngIf="browseByCard">
     <p class="ui container browseTitle mb-32">{{resourceService?.frmelmnts?.llp?.browseByCardInfo.title}}</p>
-    <div class="ui grid">
-      <div class="four wide column"
+    <div class="browse-container">
+      <div class="browse-card"
         *ngFor="let info of browseByCard let i=index">
         <browse-by-card class="browseByCard" [cardInfo]="info" (click)="getBrowseByData(i)"></browse-by-card>
       </div>
@@ -298,7 +298,7 @@
           <button class="com-secondary-btn"
             (click)="getBrowseByData(i+1, card.facets)">{{card.popularButton}}</button>
         </div>
-        <div class="ui grid middle aligned stackable">
+        <div class="ui grid middle aligned popular-comp">
           <div class="three wide column" *ngFor="let data of card.data;let i=index">
             <div class="pointing" (click)="loadCompetencyCourses(data['identifier'])">
               <sb-popular-card [pillName]="'Competency'" [data]="data"></sb-popular-card>
