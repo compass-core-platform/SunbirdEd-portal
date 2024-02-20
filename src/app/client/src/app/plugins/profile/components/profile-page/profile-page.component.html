@@ -29,7 +29,7 @@
         <div class="heading">{{resourceService?.frmelmnts?.scttl?.learning}}
         <button (click)="showAllLearnings()"
           class="com-secondary-btn right-floated">{{resourceService?.frmelmnts?.lbl?.anncmntinboxseeall}}</button></div>
-        <div class="ui grid middle aligned stackable">
+        <div class="ui grid learning middle aligned">
           <div class="three wide column" *ngFor="let data of attendedTraining.slice(0, 4)">
             <compass-course-card (click)="redirectToToc(data['contentId'], data['batchId'])" [data]="data"
             (favoriteIconClicked)="favoriteIconClicked($event,data['contentId'],'learnings')"></compass-course-card>
