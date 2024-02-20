@@ -42,9 +42,6 @@ const appRoutes: Routes = [
     path: 'get', loadChildren: () => import('./modules/dial-code-search/dial-code-search.module').then(m => m.DialCodeSearchModule)
   },
   {
-    path: 'manage', loadChildren: () => import('./modules/manage/manage.module').then(m => m.ManageModule)
-  },
-  {
     path: 'uci-admin', loadChildren: () => import('./modules/uci-admin/uci-admin.module').then(m => m.UciAdminModule)
   },
   {

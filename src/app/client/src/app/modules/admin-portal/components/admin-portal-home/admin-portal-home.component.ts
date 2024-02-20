@@ -14,6 +14,7 @@ export class AdminPortalHomeComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.tabName = this.router.url.split('/')[2];
+        console.log("Tab Name", this.tabName);
       }
     });
   }
