@@ -24,7 +24,7 @@
 </div>
 
 <div class="container ui grid stackable">
-    <div class="nine wide column">
+    <div class="nine wide column courses">
         <div class="ui grid stackable">
             <div class="four wide column" *ngFor="let course of courses"  infiniteScroll
             [infiniteScrollDistance]="0"
@@ -39,8 +39,8 @@
             </div>
         </div>
     </div>
-    <div class="three wide column">
-        <div class="ui container grid">
+    <div class="filterContainer three wide column">
+        <div class="ui grid">
             <div class="twelve wide column">
                 <div class="filter">
                     <h3 class="top-heading">Filter by</h3>
