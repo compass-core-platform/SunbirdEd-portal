@@ -310,7 +310,7 @@ export class EcmlHandlerComponentComponent implements OnInit, OnDestroy, Compone
                 this.configService.appConfig.PLAYER_CONFIG.MIME_TYPE.collection) {
                 isSingleContent = true;
               }
-              this.enrolledBatchInfo = data.enrolledBatchDetails;
+              // this.enrolledBatchInfo = data.enrolledBatchDetails;
               this.certificateDescription = this.courseBatchService.getcertificateDescription(this.enrolledBatchInfo);
               this.setActiveContent(this.selectedContentId, isSingleContent);
             }, error => {
@@ -353,11 +353,11 @@ export class EcmlHandlerComponentComponent implements OnInit, OnDestroy, Compone
     const inputParams = { params: this.configService.appConfig.CourseConsumption.contentApiQueryParams };
     return combineLatest([
       this.courseConsumptionService.getCourseHierarchy(courseId, inputParams),
-      this.courseBatchService.getEnrolledBatchDetails(this.batchId),
+      // this.courseBatchService.getEnrolledBatchDetails(this.batchId),
     ]).pipe(map((results: any) => {
       return {
         courseHierarchy: results[0],
-        enrolledBatchDetails: results[1],
+        enrolledBatchDetails: [],
       };
     }));
   }
@@ -392,7 +392,7 @@ export class EcmlHandlerComponentComponent implements OnInit, OnDestroy, Compone
       this.initPlayer(_.get(this.activeContent, 'identifier'));
     }
     this.selectedContentName = this.activeContent.name;
-    this.getContentState();
+    // this.getContentState();
   }
 
   private firstNonCollectionContent(contents) {
@@ -424,40 +424,40 @@ export class EcmlHandlerComponentComponent implements OnInit, OnDestroy, Compone
     this.logTelemetry(this.navigationObj.id, this.navigationObj.event.data);
   }
 
-  private getContentState() {
-    if (this.batchId && (_.get(this.activeContent, 'contentType') === 'SelfAssess' || !this.isRouterExtrasAvailable)) {
-      const req: any = this.getContentStateRequest(this.courseHierarchy);
-      this.totalCount = req.contentIds?.length;
-      this.CsCourseService
-        .getContentState(req, { apiPath: '/content/course/v1' })
-        .pipe(takeUntil(this.unsubscribe))
-        .subscribe((_res) => {
-          this.tocList = this.courseConsumptionService.attachProgresstoContent(_res, this.courseConsumptionService.courseHierarchy.primaryCategory.toLowerCase());
-          const res = this.CourseProgressService.getContentProgressState(req, _res);
-          this.completedCount = res.completedCount;
-          res.content?.forEach((content: any) => {
-            if (content.contentId == this.selectedContentId) {
-              this.visitedData = content.progressdetails?.current;
-            }
-          });
-          // this.pagesVisited = res.content[0].progressdetails?.current;
-          const _contentIndex = _.findIndex(this.contentStatus, { contentId: _.get(this.activeContent, 'identifier') });
-          const _resIndex = _.findIndex(res.content, { contentId: _.get(this.activeContent, 'identifier') });
-          if (_.get(this.activeContent, 'contentType') === 'SelfAssess' && this.isRouterExtrasAvailable) {
-            this.contentStatus[_contentIndex]['status'] = _.get(res.content[_resIndex], 'status');
-          } else {
-            this.contentStatus = res.content || [];
-          }
-          this.highlightContent();
-          this.calculateProgress();
-        }, error => {
-          console.log('Content state read CSL API failed ', error);
-        });
-    } else {
-      this.highlightContent();
-      this.calculateProgress();
-    }
-  }
+  // private getContentState() {
+  //   if (this.batchId && (_.get(this.activeContent, 'contentType') === 'SelfAssess' || !this.isRouterExtrasAvailable)) {
+  //     const req: any = this.getContentStateRequest(this.courseHierarchy);
+  //     this.totalCount = req.contentIds?.length;
+  //     this.CsCourseService
+  //       .getContentState(req, { apiPath: '/content/course/v1' })
+  //       .pipe(takeUntil(this.unsubscribe))
+  //       .subscribe((_res) => {
+  //         this.tocList = this.courseConsumptionService.attachProgresstoContent(_res, this.courseConsumptionService.courseHierarchy.primaryCategory.toLowerCase());
+  //         const res = this.CourseProgressService.getContentProgressState(req, _res);
+  //         this.completedCount = res.completedCount;
+  //         res.content?.forEach((content: any) => {
+  //           if (content.contentId == this.selectedContentId) {
+  //             this.visitedData = content.progressdetails?.current;
+  //           }
+  //         });
+  //         // this.pagesVisited = res.content[0].progressdetails?.current;
+  //         const _contentIndex = _.findIndex(this.contentStatus, { contentId: _.get(this.activeContent, 'identifier') });
+  //         const _resIndex = _.findIndex(res.content, { contentId: _.get(this.activeContent, 'identifier') });
+  //         if (_.get(this.activeContent, 'contentType') === 'SelfAssess' && this.isRouterExtrasAvailable) {
+  //           this.contentStatus[_contentIndex]['status'] = _.get(res.content[_resIndex], 'status');
+  //         } else {
+  //           this.contentStatus = res.content || [];
+  //         }
+  //         this.highlightContent();
+  //         this.calculateProgress();
+  //       }, error => {
+  //         console.log('Content state read CSL API failed ', error);
+  //       });
+  //   } else {
+  //     this.highlightContent();
+  //     this.calculateProgress();
+  //   }
+  // }
 
   public getCurrentContent() {
     return this.previousContent ? this.previousContent : this.activeContent;
