@@ -84,6 +84,9 @@ const appRoutes: Routes = [
     path:'custom-notification', loadChildren: () => import('./modules/custom-notification/custom-notification.module').then(m => m.CustomNotificationModule)
   },
   {
+    path: 'mobile', loadChildren: () => import('./modules/mobile-player/mobile-player.module').then(m => m.MobilePlayerModule)
+  },
+  {
     path: 'error', component: ErrorPageComponent
   },
   {
