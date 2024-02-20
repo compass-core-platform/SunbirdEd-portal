@@ -1,0 +1,55 @@
+.sidenav-container {
+    .mat-drawer {
+        padding:20px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        background: rgb(35, 134, 252, 0.1);
+        a {
+            margin-left: 60px;
+        }
+        .mat-button {
+            color:rgba(0, 0, 0, 0.87);
+            display: block;
+            text-align: left;
+            font-weight: 400;
+            opacity: 1;
+            padding:14px 20px;
+            border-radius: 0;
+            &.active{
+                border-left:3px solid var(--com-primary-color);
+                background-color: rgba(0,0,0, 0.04);
+                opacity: 1;
+                color: rgba(0, 0, 0, 0.87);
+                font-family: "Lato-Bold";
+                font-size: 14px;
+                font-weight: 700;
+                font-style: Bold;
+                letter-spacing: 0.25px;
+                text-align: left;
+                line-height: 20px;
+            }
+            span {
+                font-size: 14px;
+            }
+            &:hover{
+                color:var(--com-primary-hover);
+                text-decoration: none;
+            }
+        }
+        &-content {
+             min-height: 100vh;
+        }
+    }
+}
+::ng-deep .sidenav-container .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: #ffffff;
+}
+
+::ng-deep main-footer footer {
+    margin-top: 0px !important;
+}
+
+
+
+

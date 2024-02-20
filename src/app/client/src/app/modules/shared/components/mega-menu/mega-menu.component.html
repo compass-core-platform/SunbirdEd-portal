@@ -76,6 +76,17 @@
    >Report and Analysis</h3>
    <ul class="list">
       <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
+        <a href="javascript:void(0);"  (click)="navigateTo('/admin-portal')" mat-menu-item>
+          <span class="img mr-16">
+            <img src="assets/images/admin-portal.png" width="20px" height="20px">
+          </span>
+          <div class="display">
+              <h3 class="sub-heading-two">Admin Portal</h3>
+              <p>Admin portal space</p>
+          </div>
+        </a>
+      </li>
+      <!-- <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
         <a href="javascript:void(0);"  (click)="navigateTo('/learn/batch-progress')" mat-menu-item>
           <mat-icon> list_alt</mat-icon>
           <div class="display">
@@ -83,8 +94,8 @@
               <p>Course and Assessment progress</p>
           </div>
         </a>
-      </li>
-      <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
+      </li> -->
+      <!-- <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
         <a href="javascript:void(0);"  (click)="navigateTo('/manage')" mat-menu-item>
           <mat-icon>perm_data_setting</mat-icon>
           <div class="display">
@@ -92,7 +103,7 @@
               <p>Manage Users: add, update roles to users</p>
           </div>
         </a>
-      </li>
+      </li> -->
       <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
         <a href="javascript:void(0);"  [routerLink]="['/custom-notification']" mat-menu-item>
           <mat-icon>extension</mat-icon>

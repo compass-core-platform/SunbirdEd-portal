@@ -42,9 +42,6 @@ const appRoutes: Routes = [
     path: 'get', loadChildren: () => import('./modules/dial-code-search/dial-code-search.module').then(m => m.DialCodeSearchModule)
   },
   {
-    path: 'manage', loadChildren: () => import('./modules/manage/manage.module').then(m => m.ManageModule)
-  },
-  {
     path: 'uci-admin', loadChildren: () => import('./modules/uci-admin/uci-admin.module').then(m => m.UciAdminModule)
   },
   {
@@ -79,6 +76,9 @@ const appRoutes: Routes = [
   },
   {
     path:'network-hub', loadChildren: () => import('./modules/network-hub/network-hub.module').then(m => m.NetworkHubModule)
+  },
+  {
+    path: 'admin-portal', loadChildren: () => import('./modules/admin-portal/admin-portal.module').then(m => m.AdminPortalModule)
   },
   {
     path:'custom-notification', loadChildren: () => import('./modules/custom-notification/custom-notification.module').then(m => m.CustomNotificationModule)

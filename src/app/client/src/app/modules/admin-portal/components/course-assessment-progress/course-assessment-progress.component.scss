@@ -1,0 +1,89 @@
+.course-assessment {
+    &__wrapper{
+        position: relative;
+        background: rgb(240, 243, 244);
+        min-height: 100vh;
+    }
+    &__header{
+        background: var(--white);
+        display: flex;
+        justify-content: space-between;
+    }
+       
+    &__tabs{
+
+    }
+    &__label{
+        display: inline-flex;
+        padding: 12px 20px;
+        color: rgba(0, 0, 0, 0.87);
+        &.active{
+            background: rgba(0, 0, 0, 0.04);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-color);
+        }
+    }
+    &-section__header{
+        display: flex;
+        justify-content:space-between;
+        margin: 24px 0 0;
+       
+        &-filter {
+            display: flex;
+        }
+        ::ng-deep .mat-form-field {
+            width:300px;
+            margin-right: 20px;
+            &:focus-visible{
+                border: none;
+            }  
+            .mat-form-field-flex{
+                border: none !important;
+            }
+            .mat-form-field-infix {
+                width:300px;
+                height:42px;
+                background: var(--white);
+                padding: 0 10px;
+                .mat-select{
+                  
+                }
+                .mat-input-element{
+                    position: absolute;
+                    top:2px;
+                    right:0px;
+                    width: 88%;
+                    height: 21px;
+                    padding-left: 2px;
+                }
+            }
+            .mat-form-field-label{
+                top:12px;
+                left:15px;
+            }
+            .mat-form-field-underline{
+                display: none;
+            }
+        }
+    }
+   
+
+    &__search {
+       ::ng-deep .mat-form-field-label{
+            padding:3px 20px;
+        }
+    }
+}
+
+
+*:focus-visible {
+    border:none !important
+}
+
+::ng-deep .mat-chip-list {
+    margin:0 0 10px;
+    display: flex;
+    .mat-standard-chip {
+        background: var(--white);
+    }
+}
