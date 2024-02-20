@@ -3,7 +3,7 @@
     <!--Header section-->
     <header>
       <div class="sb-g head-container">
-        <div class="sbt-header-logo" [ngClass]="!isAdminPortal? 'sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3':'sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6'">
+        <div class="sbt-header-logo" [ngClass]="{'sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3': userService.loggedIn && !isAdminPortal,'sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6': isAdminPortal || !userService.loggedIn}">
           <div [ngClass]="userService.loggedIn ? '' : 'flex-jc-flex-start'"
             class="d-flex flex-ai-center w-100">
             <!--Logo-->
@@ -76,7 +76,7 @@
             </div>
           </div>
         </div>
-        <div class="sbt-header-tool-bar" [ngClass]="!isAdminPortal? 'sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3':'sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6'">
+        <div class="sbt-header-tool-bar" [ngClass]="{'sb-g-col-xs-3 sb-g-col-md-3 sb-g-col-lg-3': userService.loggedIn && !isAdminPortal,'sb-g-col-xs-6 sb-g-col-md-6 sb-g-col-lg-6': isAdminPortal || !userService.loggedIn}">
           <div class="d-flex flex-ai-center">
             <a *ngIf="userService.loggedIn" [routerLink]="['/resources']" class="header-icon__home mr-2">
               <mat-icon>home</mat-icon>

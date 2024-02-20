@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminPortalHomeComponent } from './components/admin-portal-home/admin-portal-home.component';
 import { CourseAssessmentProgressComponent } from './components/course-assessment-progress/course-assessment-progress.component';
 import { BatchProgressDetailsComponent } from './components/batch-progress-details/batch-progress-details.component';
+import { UserOrgManagementComponent } from './components/user-org-management/user-org-management.component';
+import { UserRoleAssignComponent } from './components/user-role-assign/user-role-assign.component';
 
 const routes: Routes = [
   { path: '', component: AdminPortalHomeComponent,
@@ -14,7 +16,9 @@ const routes: Routes = [
       //   { path: 'batch/:courseId/:batchId', component: BatchProgressDetailsComponent}
       // ]
       },
-      { path: 'course-assessment/batch/:courseId/:batchId', component: BatchProgressDetailsComponent}
+      { path: 'course-assessment/batch/:courseId/:batchId', component: BatchProgressDetailsComponent},
+      { path: 'roles-access', component: UserOrgManagementComponent},
+      { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent}
   ]}
 ];
 
