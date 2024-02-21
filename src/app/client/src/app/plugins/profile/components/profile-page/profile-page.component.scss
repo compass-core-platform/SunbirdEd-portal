@@ -387,3 +387,27 @@ body .slick-next {
   justify-content: center;
   display: flex !important;
 }
+
+@media only screen and (max-width: 1151px) {
+  .learning{
+    .three{
+      width: 33.333333833% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .learning{
+    .three{
+      width: 50%!important;
+    }
+  }
+}
+
+@media only screen and (max-width: 559px) {
+  .learning{
+    .three{
+      width: 4100%!important;
+    }
+  }
+}
