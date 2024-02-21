@@ -6,6 +6,7 @@ import { CourseAssessmentProgressComponent } from './components/course-assessmen
 import { BatchProgressDetailsComponent } from './components/batch-progress-details/batch-progress-details.component';
 import { UserOrgManagementComponent } from './components/user-org-management/user-org-management.component';
 import { UserRoleAssignComponent } from './components/user-role-assign/user-role-assign.component';
+import { CompetencyPassbookComponent } from './components/competency-passbook/competency-passbook.component';
 
 const routes: Routes = [
   { path: '', component: AdminPortalHomeComponent,
@@ -18,7 +19,8 @@ const routes: Routes = [
       },
       { path: 'course-assessment/batch/:courseId/:batchId', component: BatchProgressDetailsComponent},
       { path: 'roles-access', component: UserOrgManagementComponent},
-      { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent}
+      { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent},
+      { path: 'competencies', component: CompetencyPassbookComponent}
   ]}
 ];
 
