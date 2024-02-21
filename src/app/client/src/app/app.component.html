@@ -110,7 +110,7 @@
       </ng-template>
     </app-modal-wrapper> -->
 
-    <app-header *ngIf="!hideHeaderNFooter" [layoutConfiguration]="layoutConfiguration" [routerEvents]="routeData$"
+    <app-header *ngIf="!hideHeaderNFooter && !isMobileView" [layoutConfiguration]="layoutConfiguration" [routerEvents]="routeData$"
       [ngClass]="{'header-block': isFullScreenView}"></app-header>
     <!-- <app-install-app (viewInBrowser)="viewInBrowser($event)" *ngIf="showAppPopUp && userService.loggedIn">
     </app-install-app> -->
@@ -125,7 +125,7 @@
 <div *ngIf="isBotEnabled === 'true'" [ngClass]="{'hideBot': isBotdisplayforRoute(), 'hideBot': isFullScreenView}">
   <lib-chat-window [inputValues]="botObject"></lib-chat-window>
 </div>
-<ng-container *ngIf="resourceService?.frmelmnts?.footerData">
+<ng-container *ngIf="resourceService?.frmelmnts?.footerData && !isMobileView">
   <main-footer [footerData]="formatFooterData(resourceService?.frmelmnts?.footerData) || resourceService"></main-footer>
 </ng-container>
 

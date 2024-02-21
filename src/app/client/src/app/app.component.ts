@@ -82,6 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
   resourceDataSubscription: any;
   private fingerprintInfo: any;
   hideHeaderNFooter = true;
+  isMobileView = false;
   queryParams: any;
   telemetryContextData: any;
   didV2: boolean;
@@ -341,6 +342,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.layoutConfiguration = layoutConfig.layout;
       }
     });
+    if (window.location.pathname === '/mobile') {
+      this.isMobileView = true;
+    }
     this.activatedRoute.queryParams.pipe(filter(param => !_.isEmpty(param))).subscribe(params => {
       const utmParams = ['utm_campaign', 'utm_medium', 'utm_source', 'utm_term', 'utm_content', 'channel'];
       if (_.some(_.intersection(utmParams, _.keys(params)))) {

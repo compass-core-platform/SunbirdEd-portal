@@ -187,25 +187,25 @@ export class EcmlHandlerComponentComponent implements OnInit, OnDestroy, Compone
     this.getLanguageChangeEvent();
     this.routerEventsChangeHandler().subscribe();
     // this.updateCourseContent();
-    this.hideElements();
+    // this.hideElements();
   }
 
-  hideElements() {
-    this.iframeInterval = setInterval(this.hideHeader, 500);
-  }
+  // hideElements() {
+  //   this.iframeInterval = setInterval(this.hideHeader, 500);
+  // }
 
-  hideHeader() {
-    var divElement1: any = document.getElementsByClassName("compass-header")[0];
-    if (divElement1 != undefined) {
-      divElement1.style.display = "none";
-      clearInterval(this.iframeInterval);
-      // this.iframeInterval = setInterval(this.hideFooter, 500);
-      var divElement2: any = document.getElementsByClassName("new-layout-footer")[0];
-      if (divElement2 != undefined) {
-        divElement2.style.display = "none";
-      }
-    }
-  }
+  // hideHeader() {
+  //   var divElement1: any = document.getElementsByClassName("compass-header")[0];
+  //   if (divElement1 != undefined) {
+  //     divElement1.style.display = "none";
+  //     clearInterval(this.iframeInterval);
+  //     // this.iframeInterval = setInterval(this.hideFooter, 500);
+  //     var divElement2: any = document.getElementsByClassName("new-layout-footer")[0];
+  //     if (divElement2 != undefined) {
+  //       divElement2.style.display = "none";
+  //     }
+  //   }
+  // }
 
   // hideFooter() 
   // {
