@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CourseBatchService } from '../../../learn/services/course-batch/course-batch.service';
+import { BatchParticipantService } from '../../services/course-batch/batch.service';
 import { UserService, PublicDataService, LearnerService} from '@sunbird/core';
 import { ConfigService } from '@sunbird/shared';
 import { HttpClient } from '@angular/common/http';
@@ -43,7 +43,7 @@ export class BatchProgressDetailsComponent implements OnInit {
   updatedMemberList = [];
 
   constructor(private route: ActivatedRoute, 
-    private courseBatchService: CourseBatchService, 
+    private courseBatchService: BatchParticipantService, 
     private publicDataService: PublicDataService,
     private learnerService: LearnerService,
     private configService: ConfigService,

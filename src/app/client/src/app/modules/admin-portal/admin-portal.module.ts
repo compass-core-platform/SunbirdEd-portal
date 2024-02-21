@@ -15,6 +15,7 @@ import { UserRoleAssignComponent } from './components/user-role-assign/user-role
 import { ManageService } from './services/manage/manage.service';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { CompetencyPassbookComponent } from './components/competency-passbook/competency-passbook.component';
+import { BatchParticipantService } from './services/course-batch/batch.service'
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { CompetencyPassbookComponent } from './components/competency-passbook/co
     TelemetryModule
   ],
   providers: [
-    ManageService
+    ManageService,
+    BatchParticipantService
   ]
 })
 export class AdminPortalModule { }

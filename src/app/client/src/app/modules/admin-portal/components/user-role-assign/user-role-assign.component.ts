@@ -117,7 +117,7 @@ export class UserRoleAssignComponent implements OnInit {
   }
   goBack() {
     this.showingResults = false;
-    this.route.navigate(['/manage'], { queryParams: {} });
+    this.route.navigate(['admin-portal/roles-access'], { queryParams: {} });
   }
   getAllRoles(removeRoles) {
     this.permissionService.availableRoles$.subscribe(params => {
