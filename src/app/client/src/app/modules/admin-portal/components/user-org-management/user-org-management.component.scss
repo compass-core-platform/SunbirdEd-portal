@@ -11,8 +11,8 @@
 
     .sb-multi-rows:nth-child(odd){
         background: var(--white);
-        border-top: calculateRem(1px) solid var(--rc-dddddd);
-        border-bottom: calculateRem(1px) solid var(--rc-dddddd);
+        border: 1px solid #00000029!important;
+        margin-top: 2rem;
     }
 
     .no-data-label{
@@ -36,6 +36,9 @@
     
     .sb-manage-table-section{
         border-top: calculateRem(1px) solid var(--rc-dddddd);
+    }
+    .height-2 {
+      height: 2rem;
     }
 }
 
