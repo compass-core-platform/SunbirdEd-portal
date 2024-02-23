@@ -15,7 +15,20 @@ import { UserRoleAssignComponent } from './components/user-role-assign/user-role
 import { ManageService } from './services/manage/manage.service';
 import { TelemetryModule } from '@sunbird/telemetry';
 import { CompetencyPassbookComponent } from './components/competency-passbook/competency-passbook.component';
-import { BatchParticipantService } from './services/course-batch/batch.service'
+import { BatchParticipantService } from './services/course-batch/batch.service';
+import { CustomNotificationComponent } from './components/custom-notification/custom-notification.component';
+import { SbNotificationsModule } from 'sb-notifications';
+import { TaxonomyService } from './services/taxonomy/taxonomy.service';
+
+
+const environment = {
+  domain:'https://compass-dev.tarento.com/',
+  production: false,
+  userId:'',
+  authorization: '',
+  framework:'fracing_fw'
+};
+
 
 @NgModule({
   declarations: [
@@ -24,7 +37,8 @@ import { BatchParticipantService } from './services/course-batch/batch.service'
     BatchProgressDetailsComponent,
     UserOrgManagementComponent,
     UserRoleAssignComponent,
-    CompetencyPassbookComponent
+    CompetencyPassbookComponent,
+    CustomNotificationComponent
   ],
   imports: [
     CommonModule,
@@ -35,11 +49,21 @@ import { BatchParticipantService } from './services/course-batch/batch.service'
     SharedFeatureModule,
     FormsModule,
     ReactiveFormsModule,
-    TelemetryModule
+    TelemetryModule,
+    SbNotificationsModule.forRoot({
+      configuration: { environment:environment }
+    })
   ],
   providers: [
     ManageService,
     BatchParticipantService
   ]
 })
-export class AdminPortalModule { }
+export class AdminPortalModule { 
+  constructor(private taxonomyService: TaxonomyService ) {
+    environment.userId = localStorage.getItem('userId');
+    this.taxonomyService.getPortalToken().subscribe((res) => {
+      environment.authorization = res; 
+    });
+  }
+}

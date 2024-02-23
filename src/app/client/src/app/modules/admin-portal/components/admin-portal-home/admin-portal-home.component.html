@@ -1,11 +1,12 @@
 <mat-drawer-container class="sidenav-container">
-    <mat-drawer #sidenav mode="side" opened>
-        <a mat-button color="primary" [routerLink]="['course-assessment']" [ngClass]="{'active': tabName == 'course-assessment'}">Couse and Assessment</a>
-        <a mat-button color="primary" [routerLink]="['roles-access']" [ngClass]="{'active': tabName == 'roles-access'}">Roles and access</a>
-        <a mat-button color="primary" [routerLink]="['competencies']" [ngClass]="{'active': tabName == 'competencies'}">Competencies</a>
-        <a mat-button color="primary" [ngClass]="{'active': tabName == 'notification'}">Notification</a>
+    <mat-drawer #sidenav mode="side" [opened]="router.url.split('/')[3] == 'create'? false : true">
+        <a mat-button color="primary" [routerLink]="['course-assessment']" [ngClass]="{'active': routeName == 'course-assessment'}">Couse and Assessment</a>
+        <a mat-button color="primary" [routerLink]="['roles-access']" [ngClass]="{'active': routeName == 'roles-access'}">Roles and Access</a>
+        <a mat-button color="primary" [routerLink]="['competencies']" [ngClass]="{'active': routeName == 'competencies'}">Competencies</a>
+        <a mat-button color="primary" [routerLink]="['custom-notification']" [ngClass]="{'active': routeName == 'custom-notification'}">Notification</a>
     </mat-drawer>
     <mat-drawer-content class="side-content">
+        <compass-breadcrumb [data]="breadCrumbData"></compass-breadcrumb>
         <router-outlet></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>

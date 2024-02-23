@@ -7,6 +7,8 @@ import { BatchProgressDetailsComponent } from './components/batch-progress-detai
 import { UserOrgManagementComponent } from './components/user-org-management/user-org-management.component';
 import { UserRoleAssignComponent } from './components/user-role-assign/user-role-assign.component';
 import { CompetencyPassbookComponent } from './components/competency-passbook/competency-passbook.component';
+import { CustomNotificationComponent } from './components/custom-notification/custom-notification.component';
+import { CreateNotificationComponent, NotificationListComponent } from 'sb-notifications';
 
 const routes: Routes = [
   { path: '', component: AdminPortalHomeComponent,
@@ -20,7 +22,20 @@ const routes: Routes = [
       { path: 'course-assessment/batch/:courseId/:batchId', component: BatchProgressDetailsComponent},
       { path: 'roles-access', component: UserOrgManagementComponent},
       { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent},
-      { path: 'competencies', component: CompetencyPassbookComponent}
+      { path: 'competencies', component: CompetencyPassbookComponent},
+      // { path: 'custom-notification', component: CustomNotificationComponent,
+      //     children:[ 
+      //       { path: '', redirectTo:'list', pathMatch:'full' },
+      //       {path:'list', component:NotificationListComponent}
+      //   ]
+      // },
+      // { path: 'custom-notification', component: CustomNotificationComponent,
+      //   children:[ 
+      //     {path: 'create', component: CreateNotificationComponent}
+      //   ]
+      // }
+      { path: 'custom-notification', component: NotificationListComponent},
+      { path: 'custom-notification/create', component: CreateNotificationComponent}
   ]}
 ];
 
