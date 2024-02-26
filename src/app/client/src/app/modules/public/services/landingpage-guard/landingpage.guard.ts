@@ -10,6 +10,7 @@ export class LandingpageGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
       if(localStorage.getItem('userProfile')){   //checking if logged in
           window.location.href = '/resources';
+          return of(true);
       } else {
         if (environment.isDesktopApp) {
           this.router.navigate(['/mydownloads'], { queryParams: { selectedTab: 'mydownloads' }});
