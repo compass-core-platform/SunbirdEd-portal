@@ -35,22 +35,30 @@ export class AdminPortalHomeComponent implements OnInit {
     console.log("Route Name", this.routeName);
     if(this.routeName === 'course-assessment') {
       this.tabName = 'Course and Assessment';
+      //change Icon as required
+      this.iconName = 'school';
     } else if(this.routeName == 'roles-access') {
-      this.tabName = 'Roles and Access'
+      this.tabName = 'Roles and Access';
+       //change Icon as required
+      this.iconName = 'school';
     } else if(this.routeName === 'competencies') {
-      this.tabName = 'Competencies'
+      this.tabName = 'Competencies';
+       //change Icon as required
+      this.iconName = 'school';
     } else {
-      this.tabName = 'Notification'
+      this.tabName = 'Notification';
+      this.iconName = "notifications";
     }
     this.mapBreadCrumb();
   }
 
   mapBreadCrumb() {
-    let length = this.router.url.split('/').length;
-    if(this.router.url.split('/').length > 3) {
+    let routerArray = this.router.url.split('/');
+    let length = routerArray.length;
+    if(routerArray.length > 3) {
       this.breadCrumbData.push(
         {
-            "label": this.router.url.split('/')[length - 1],
+            "label": routerArray[2] == 'course-assessment'? routerArray[3] : routerArray[length - 1],
             "status": "active",
             "icon": this.iconName,
             "link": this.router.url
