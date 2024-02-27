@@ -62,6 +62,7 @@ export class CompassHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkRoute();
     if (this.userService.loggedIn) {
       this.searchText = this.keyParam ?? '';
       this.userService.userData$.subscribe((user: any) => {

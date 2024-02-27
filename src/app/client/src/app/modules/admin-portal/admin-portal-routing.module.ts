@@ -9,33 +9,20 @@ import { UserRoleAssignComponent } from './components/user-role-assign/user-role
 import { CompetencyPassbookComponent } from './components/competency-passbook/competency-passbook.component';
 import { CustomNotificationComponent } from './components/custom-notification/custom-notification.component';
 import { CreateNotificationComponent, NotificationListComponent } from 'sb-notifications';
+import { AuthGuard } from '../core/guard/auth-gard.service';
 
 const routes: Routes = [
   { path: '', component: AdminPortalHomeComponent,
+  canActivateChild: [AuthGuard],
     children:[
       { path: '', redirectTo:'course-assessment', pathMatch:'full' },
-      { path: 'course-assessment', component: CourseAssessmentProgressComponent,
-      // children: [
-      //   { path: 'batch/:courseId/:batchId', component: BatchProgressDetailsComponent}
-      // ]
-      },
-      { path: 'course-assessment/batch/:courseId/:batchId', component: BatchProgressDetailsComponent},
-      { path: 'roles-access', component: UserOrgManagementComponent},
-      { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent},
-      { path: 'competencies', component: CompetencyPassbookComponent},
-      // { path: 'custom-notification', component: CustomNotificationComponent,
-      //     children:[ 
-      //       { path: '', redirectTo:'list', pathMatch:'full' },
-      //       {path:'list', component:NotificationListComponent}
-      //   ]
-      // },
-      // { path: 'custom-notification', component: CustomNotificationComponent,
-      //   children:[ 
-      //     {path: 'create', component: CreateNotificationComponent}
-      //   ]
-      // }
-      { path: 'custom-notification', component: NotificationListComponent},
-      { path: 'custom-notification/create', component: CreateNotificationComponent}
+      { path: 'course-assessment', component: CourseAssessmentProgressComponent, data: {roles: 'adminRole'}},
+      { path: 'course-assessment/batch/:courseId/:batchId', component: BatchProgressDetailsComponent, data: {roles: 'adminRole'}},
+      { path: 'roles-access', component: UserOrgManagementComponent, data: {roles: 'adminRole'}},
+      { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent, data: {roles: 'adminRole'}},
+      { path: 'competencies', component: CompetencyPassbookComponent, data: {roles: 'adminRole'}},
+      { path: 'custom-notification', component: NotificationListComponent, data: {roles: 'adminRole'}},
+      { path: 'custom-notification/create', component: CreateNotificationComponent, data: {roles: 'adminRole'}}
   ]}
 ];
 

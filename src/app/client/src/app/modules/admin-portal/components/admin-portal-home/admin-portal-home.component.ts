@@ -25,6 +25,10 @@ export class AdminPortalHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.routeName = this.router.url.split('/')[2];
+    if(this.routeName) {
+      this.mapRouteandBreadCrumb()
+    }
   }
 
   mapRouteandBreadCrumb() {

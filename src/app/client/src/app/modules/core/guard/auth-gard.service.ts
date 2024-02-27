@@ -53,9 +53,9 @@ export class AuthGuard implements CanActivate, CanLoad {
     canActivate(activatedRouteSnapshot: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): Observable<boolean> {
         return this.getPermission(activatedRouteSnapshot.data.roles);
     }
-    // canActivateChild(activatedRouteSnapshot: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): Observable<boolean> {
-    //     return this.getPermission(activatedRouteSnapshot.url[0].path);
-    // }
+    canActivateChild(childRoute: ActivatedRouteSnapshot, routerStateSnapshot: RouterStateSnapshot): Observable<boolean> {
+        return this.getPermission(childRoute.data.roles);
+    }
 
     getPermission(roles) {
         return Observable.create(observer => {
