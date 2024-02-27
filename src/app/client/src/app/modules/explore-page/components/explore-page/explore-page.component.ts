@@ -95,7 +95,8 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
     public enrolledCourses: Array<any>;
     public enrolledSection: any;
     public selectedCourseBatches: any;
-    public configContent: any = {}
+    public configContent: any = {};
+    recommendedCourses: any;
     private myCoursesSearchQuery = JSON.stringify({
         'request': { 'filters': { 'contentType': ['Course'], 'objectType': ['Content'], 'status': ['Live'] }, 'sort_by': { 'lastPublishedOn': 'desc' }, 'limit': 10, 'organisationId': _.get(this.userService.userProfile, 'organisationIds') }
     });
@@ -398,9 +399,27 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         if(this.configService.appConfig.isProfileupdateMandatory){
             this.checkUserProfileDetails();
         }
-       
+        this.fetchRecommendedCourses()
     }
-
+    fetchRecommendedCourses() {
+        const request = {
+            request: {
+              competency: 'targetTaxonomyCategory4Ids',
+              limit: 100,
+            }
+          };   
+        this.coursesService.getRecommendedCourses(request).subscribe(
+          (data) => { 
+            if (data && data.result && data.result.content) {
+              this.recommendedCourses = data.result.content;
+            }
+          },
+          (err) => {
+            console.error('Error fetching recommended courses:', err);
+          }
+        );
+      }
+      
     public getWishlisteddoIds() {
         let payload = {
             "request": {

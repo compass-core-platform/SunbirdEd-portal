@@ -17,6 +17,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CoursesService {
   private enrolledCourses: Array<ICourses>;
+  private recommendedCourses: Array<ICourses>;
   /**
    * To get details about user profile.
    */
@@ -35,6 +36,7 @@ export class CoursesService {
    * BehaviorSubject Containing enrolled courses.
    */
   _enrolledCourseData$ = new BehaviorSubject<IEnrolledCourses>(undefined);
+  private recommendedCoursesSubject = new BehaviorSubject<any>(null);
   /**
    * Read only observable Containing enrolled courses.
    */
@@ -75,6 +77,18 @@ export class CoursesService {
         this._enrolledCourseData$.next({ err: err, enrolledCourses: undefined });
         return err;
       }));
+  }
+  getRecommendedCourses(data): Observable<ServerResponse>{
+    const option = {
+      url: this.config.urlConFig.URLS.COURSE.GET_RECOMMENDED_COURSES,
+      data: data
+    };
+    return this.learnerService.post(option)
+  }
+
+  // Getter for accessing the recommendedCourses$ observable
+  get recommendedCourses$() {
+    return this.recommendedCoursesSubject.asObservable();
   }
   /**
    *  call enroll course api and subscribe. Behavior subject will emit enrolled course data

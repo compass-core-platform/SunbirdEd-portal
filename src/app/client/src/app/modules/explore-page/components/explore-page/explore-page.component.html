@@ -262,7 +262,24 @@
     </div>
   </div>
   <!-- Recently published courses -->
-  
+<!-- Recommended published courses -->
+  <div class="grey-bg">
+    <div *ngIf="recommendedCourses && recommendedCourses.length > 0"  class="container ui">
+      <div class="popular-card-title d-flex flex-jc-space-between flex-ai-center mb-32">
+        {{resourceService?.frmelmnts?.llp?.recommendedCourses}}
+        <!--span><button class="com-secondary-btn">Explore</button></span-->
+      </div>
+      <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="sliderConfig"
+        (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)">
+        <div ngxSlickItem class="slide" *ngFor='let course of recommendedCourses;'>
+          <compass-course-card (courseCardClicked)="courseCardClicked($event, course['identifier'], course['batches'][0]['batchId'])" class="" [data]="course" (favoriteIconClicked)="favoriteIconClicked($event, course['identifier'], 'published')">
+          </compass-course-card>
+        </div>
+      </ngx-slick-carousel>
+    </div>
+  </div>
+  <!-- Recommended published courses -->
   <section class="mt-4rem container ui" *ngIf="browseByCard">
     <p class="ui container browseTitle mb-32">{{resourceService?.frmelmnts?.llp?.browseByCardInfo.title}}</p>
     <div class="browse-container">

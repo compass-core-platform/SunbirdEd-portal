@@ -278,8 +278,8 @@ const API_LIST = {
         ROLE.FLAG_REVIEWER, ROLE.ORG_ADMIN
       ]
     },
-    
 
+    
     // Generic Editor
     '/action/content/v3/bundle': {
       checksNeeded: ['ROLE_CHECK'],
@@ -347,9 +347,9 @@ const API_LIST = {
       checksNeeded: ['ROLE_CHECK', 'OWNER_CHECK'],
       ROLE_CHECK: [ROLE.PUBLIC],
       OWNER_CHECK: {
-      checks: [
-      { entity: '__session__userId', params: [] }
-      ]
+        checks: [
+          { entity: '__session__userId', params: [] }
+        ]
       }
     },
     '/content/course/v1/content/state/update': {
@@ -1363,7 +1363,7 @@ const API_LIST = {
       ROLE_CHECK: [ROLE.ANONYMOUS]
     },
     '/apple/auth': {
-        checksNeeded: []
+      checksNeeded: []
     },
     // discussion forum apis
     '/discussion/user/v1/create': {
@@ -1973,6 +1973,10 @@ const API_LIST = {
     "/learner/user/v1/department/list": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.PUBLIC]
+    },
+    "/learner/course/v1/user/recommended/list": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
     }
   },
   URL_PATTERN: [
@@ -2137,7 +2141,8 @@ const API_LIST = {
     '/content/course/v1/content/state/read',
     '/learner/course/v1/batch/progress',
     '/learner/user/feed/v2/create',
-    '/learner/user/v1/department/list'
+    '/learner/user/v1/department/list',
+    '/learner/course/v1/user/recommended/list',
   ]
 };
 module.exports = API_LIST;
