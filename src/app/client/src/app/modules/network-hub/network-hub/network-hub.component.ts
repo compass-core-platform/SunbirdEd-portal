@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ResourceService } from '@sunbird/shared';
 
 @Component({
   selector: 'app-network-hub',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NetworkHubComponent implements OnInit {
 
-  constructor() { }
+  constructor(public resourceService:ResourceService ) { }
 
   ngOnInit(): void {
   }

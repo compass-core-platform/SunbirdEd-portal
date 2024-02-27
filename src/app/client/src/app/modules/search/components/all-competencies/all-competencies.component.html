@@ -2,7 +2,7 @@
 <div class="container ui">
     <!-- popular competencies -->
     <section class="ui container mt-60" *ngIf="popularCompetencies">
-      <p class="allCompetencyTitle w-100">{{popularCompetencies.title}}</p>
+      <p class="allCompetencyTitle w-100">{{resourceService?.frmelmnts?.llp?.competencies?.title}}</p>
       <div class="ui grid middle aligned stackable ">
         <div class="wide popular-card"  *ngFor="let info of popularCompetencies.data">
           <sb-popular-card
@@ -17,7 +17,7 @@
 
     <!-- all competencies -->
     <section class="ui container mt-60" *ngIf="allCompetencies">
-      <p class="allCompetencyTitle w-80">{{allCompetencies.title}}</p>
+      <p class="allCompetencyTitle w-80">{{resourceService?.frmelmnts?.llp?.competencies?.button}}</p>
       <div class="w-80 d-flex all-comp-container">
           <sb-popular-card
             *ngFor="let info of allCompetencies.data"
