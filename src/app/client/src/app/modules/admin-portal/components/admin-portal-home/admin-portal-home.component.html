@@ -2,8 +2,9 @@
     <mat-drawer #sidenav mode="side" [opened]="router.url.split('/')[3] == 'create'? false : true">
         <a mat-button color="primary" [routerLink]="['course-assessment']" [ngClass]="{'active': routeName == 'course-assessment'}">Couse and Assessment</a>
         <a mat-button color="primary" [routerLink]="['roles-access']" [ngClass]="{'active': routeName == 'roles-access'}">Roles and Access</a>
-        <a mat-button color="primary" [routerLink]="['competencies']" [ngClass]="{'active': routeName == 'competencies'}">Competencies</a>
+        <a mat-button color="primary" [routerLink]="['competencies']" [ngClass]="{'active': routeName == 'competencies'}">User Competency Passbook</a>
         <a mat-button color="primary" [routerLink]="['custom-notification']" [ngClass]="{'active': routeName == 'custom-notification'}">Notification</a>
+        <a mat-button color="primary" [routerLink]="['taxonomy-editor']" [ngClass]="{'active': routeName == 'taxonomy-editor'}">Taxonomy Editor</a>
     </mat-drawer>
     <mat-drawer-content class="side-content">
         <compass-breadcrumb [data]="breadCrumbData"></compass-breadcrumb>
