@@ -3,7 +3,7 @@ import { UserService, SearchService } from '@sunbird/core';
 import { WishlistedService } from '../../../../service/wishlisted.service';
 import { ContentSearchService } from '@sunbird/content-search';
 import { Router } from '@angular/router';
-import { SnackBarComponent } from "@sunbird/shared";
+import { SnackBarComponent, ResourceService } from "@sunbird/shared";
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -19,7 +19,7 @@ export class WhishlistCoursesComponent implements OnInit {
 
   constructor(private userService: UserService, private wishlistedService: WishlistedService,
     private searchService: SearchService, private contentSearchService: ContentSearchService, public router: Router,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar, public resourceService: ResourceService) { }
 
   ngOnInit(): void {
     if (this.userService.loggedIn) {
