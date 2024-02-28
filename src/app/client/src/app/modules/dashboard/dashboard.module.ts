@@ -18,7 +18,7 @@ import {
   OrganisationComponent, CourseConsumptionComponent, CourseProgressComponent, UsageReportsComponent,
   DataTableComponent, DataChartComponent, ReportComponent, ReportSummaryComponent, ListAllReportsComponent,
   AddSummaryModalComponent, CourseDashboardComponent, ReIssueCertificateComponent, DashboardSidebarComponent,
-  DatasetComponent, MapComponent, FilterComponent, TaxonomyViewWrapComponent
+  DatasetComponent, MapComponent, FilterComponent
 } from './components';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 // SB core and shared services
@@ -35,7 +35,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SharedFeatureModule } from '@sunbird/shared-feature';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { SbTaxonomyEditorModule } from 'sb-taxonomy-editor'
 
 
 @NgModule({
@@ -58,12 +57,11 @@ import { SbTaxonomyEditorModule } from 'sb-taxonomy-editor'
     MatSlideToggleModule,
     MatExpansionModule,
     SharedFeatureModule,
-    MatAutocompleteModule,
-    SbTaxonomyEditorModule
+    MatAutocompleteModule
   ],
   declarations: [CourseConsumptionComponent, OrganisationComponent, CourseProgressComponent, UsageReportsComponent,
     DataTableComponent, DataChartComponent, ListAllReportsComponent, ReportSummaryComponent, ReportComponent, AddSummaryModalComponent,
-    CourseDashboardComponent, ReIssueCertificateComponent, DashboardSidebarComponent, DatasetComponent, MapComponent, FilterComponent, SbTableComponent, TaxonomyViewWrapComponent],
+    CourseDashboardComponent, ReIssueCertificateComponent, DashboardSidebarComponent, DatasetComponent, MapComponent, FilterComponent, SbTableComponent],
   exports: [CourseProgressComponent, DataTableComponent,FilterComponent],
   providers: [
     RendererService,
