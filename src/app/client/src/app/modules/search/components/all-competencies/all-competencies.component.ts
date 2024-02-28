@@ -8,7 +8,7 @@ import { ContentSearchService } from '@sunbird/content-search';
 import { UserService } from '@sunbird/core';
 import { WishlistedService } from '../../../../service/wishlisted.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackBarComponent } from '@sunbird/shared';
+import { SnackBarComponent, ResourceService } from '@sunbird/shared';
 
 interface Competency {
   title?: string,
@@ -43,7 +43,7 @@ export class AllCompetenciesComponent implements OnInit {
 
   constructor(private frameworkService: FrameworkService, public activatedRoute: ActivatedRoute, public searchService: SearchService,
     private router: Router, private contentSearchService: ContentSearchService, private userService: UserService, private wishlistedService: WishlistedService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar, public resourceService: ResourceService) { }
 
   ngOnInit(): void {
     let custodianOrg;
