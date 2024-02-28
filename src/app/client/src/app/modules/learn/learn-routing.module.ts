@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RedirectComponent } from './../shared/components/redirect/redirect.component';
 import { ViewAllComponent } from '@sunbird/content-search';
+import { CourseAssessmentProgressComponent } from './components/course-assessment-progress/course-assessment-progress.component';
+import { BatchProgressDetailsComponent } from './components/batch-progress-details/batch-progress-details.component';
 
 const telemetryEnv = 'Course';
 const objectType = 'Course';
@@ -43,7 +45,13 @@ const routes: Routes = [
       frameworkName: true,
       formAction: 'filter'
     }
-  }
+  },
+  // {
+  //   path:'batch-progress', component: CourseAssessmentProgressComponent
+  // },
+  // {
+  //   path:'batch/:courseId/:batchId', component: BatchProgressDetailsComponent
+  // }
 ];
 
 @NgModule({

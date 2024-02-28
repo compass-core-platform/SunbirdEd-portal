@@ -54,6 +54,9 @@ const appRoutes: Routes = [
     path: 'discussion-forum', loadChildren: () => import('./modules/discussion/discussion.module').then(m => m.DiscussionModule)
   },
   {
+    path: 'competency-passbook', loadChildren: () => import('./modules/competency-passbook/competency-passbook.module').then(m => m.CompetencyPassbookModule)
+  },
+  {
     path: MY_GROUPS, loadChildren: () => import('./modules/groups/groups.module').then(m => m.GroupsModule)
   },
   {
@@ -77,9 +80,9 @@ const appRoutes: Routes = [
   {
     path: 'admin-portal', loadChildren: () => import('./modules/admin-portal/admin-portal.module').then(m => m.AdminPortalModule)
   },
-  // {
-  //   path:'custom-notification', loadChildren: () => import('./modules/custom-notification/custom-notification.module').then(m => m.CustomNotificationModule)
-  // },
+  {
+    path:'custom-notification', loadChildren: () => import('./modules/custom-notification/custom-notification.module').then(m => m.CustomNotificationModule)
+  },
   {
     path: 'mobile', loadChildren: () => import('./modules/mobile-player/mobile-player.module').then(m => m.MobilePlayerModule)
   },
