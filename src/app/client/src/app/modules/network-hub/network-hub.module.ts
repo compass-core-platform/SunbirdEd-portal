@@ -6,10 +6,12 @@ import { NetworkHubRoutingModule } from './network-hub-routing.module';
 import { NetworkService, SbNetworkHubModule, SbNetworkHubRoutingModule } from 'sb-network-hub'
 import { TaxonomyService } from '../../service/taxonomy.service';
 
-const environment = {
-  domain:'https://compass-dev.tarento.com/',
+const config = {
+  domain:'',
   production: false,
   userId:'',
+  userName:'',
+  userDepartment:'',
   authorization: ''
  };
 
@@ -24,16 +26,18 @@ const environment = {
     NetworkHubRoutingModule,
     SbNetworkHubRoutingModule,
     SbNetworkHubModule.forRoot({
-      configuration: { environment:environment }
+      configuration: { environment:config }
     })  
   ] 
 })
 export class NetworkHubModule {
-
+  userProfile = JSON.parse( localStorage.getItem('userProfile'))
   constructor(private taxonomyService: TaxonomyService ) {
-    environment.userId = localStorage.getItem('userId');
+    config.userId = this.userProfile.id;
+    config.userName = this.userProfile.userName;
+    config.userDepartment = this.userProfile.userDepartment;
     this.taxonomyService.getPortalToken().subscribe((res) => {
-      environment.authorization = res; 
+      config.authorization = res; 
     });
   }
 }

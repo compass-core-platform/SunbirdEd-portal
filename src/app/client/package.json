@@ -146,7 +146,7 @@
     "npm": "^9.8.1",
     "rxjs": "^6.5.5",
     "sass": "^1.56.1",
-    "sb-network-hub": "~0.0.5",
+    "sb-network-hub": "^0.0.6",
     "sb-notifications": "~0.0.13",
     "sb-svg2pdf-v13": "1.0.0",
     "sb-tag-manager": "^3.9.15",
