@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { UserService } from '@sunbird/core'
+import { UserService } from '@sunbird/core';
+import { ResourceService } from '@sunbird/shared';
 
 @Component({
   selector: 'app-admin-portal-home',
@@ -13,7 +14,7 @@ export class AdminPortalHomeComponent implements OnInit {
   iconName = 'school';
   breadCrumbData = [];
 
-  constructor(public router: Router, private userService: UserService) { 
+  constructor(public router: Router, private userService: UserService, public resourceService: ResourceService) { 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.routeName = this.router.url.split('/')[2];
