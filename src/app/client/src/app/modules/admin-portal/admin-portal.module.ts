@@ -19,6 +19,7 @@ import { BatchParticipantService } from './services/course-batch/batch.service';
 import { CustomNotificationComponent } from './components/custom-notification/custom-notification.component';
 import { SbNotificationsModule } from 'sb-notifications';
 import { TaxonomyService } from './services/taxonomy/taxonomy.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const environment = {
@@ -52,7 +53,8 @@ const environment = {
     TelemetryModule,
     SbNotificationsModule.forRoot({
       configuration: { environment:environment }
-    })
+    }),
+    TranslateModule
   ],
   providers: [
     ManageService,
