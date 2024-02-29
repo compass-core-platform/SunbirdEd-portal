@@ -412,6 +412,17 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
           (data) => { 
             if (data && data.result && data.result.content) {
               this.recommendedCourses = data.result.content;
+              this.recommendedCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.recommendedCourses);
+              this.recommendedCourses = this.recommendedCourses.map((course: any) => {
+                let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
+                if(isWhishListed) {
+                    course['isWishListed'] = true;
+                } else {
+                    course['isWishListed'] = false;
+                }
+
+                return course
+            })
             }
           },
           (err) => {
@@ -1805,6 +1816,11 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
                       course['isWishListed'] = true;
                     }
                 });
+                this.recommendedCourses.forEach((course: any) => {
+                    if (course.identifier == courseId) {
+                      course['isWishListed'] = true;
+                    }
+                });
             } else if( key === 'continue') {
                 this.enrolledCourses.forEach((course: any) => {
                     if (course.content.identifier == courseId) {
@@ -1815,6 +1831,11 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
             if(key === 'published') {
                 this.recentlyPublishedList.forEach((course: any) => {
+                    if (course.identifier == courseId) {
+                      course['isWishListed'] = false;
+                    }
+                });
+                this.recommendedCourses.forEach((course: any) => {
                     if (course.identifier == courseId) {
                       course['isWishListed'] = false;
                     }
