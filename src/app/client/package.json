@@ -148,7 +148,7 @@
     "rxjs": "^6.5.5",
     "sass": "^1.56.1",
     "sb-network-hub": "^0.0.6",
-    "sb-notifications": "~0.0.17",
+    "sb-notifications": "~0.0.18",
     "sb-svg2pdf-v13": "1.0.0",
     "sb-tag-manager": "^3.9.15",
     "sb-taxonomy-editor": "^1.0.7",
