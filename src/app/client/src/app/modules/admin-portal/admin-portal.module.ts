@@ -19,6 +19,8 @@ import { BatchParticipantService } from './services/course-batch/batch.service';
 import { CustomNotificationComponent } from './components/custom-notification/custom-notification.component';
 import { SbNotificationsModule } from 'sb-notifications';
 import { TaxonomyService } from './services/taxonomy/taxonomy.service';
+import { TaxonomyViewWrapComponent } from './components/taxonomy-view-wrap/taxonomy-view-wrap.component';
+import { SbTaxonomyEditorModule } from 'sb-taxonomy-editor';
 
 
 const environment = {
@@ -38,7 +40,8 @@ const environment = {
     UserOrgManagementComponent,
     UserRoleAssignComponent,
     CompetencyPassbookComponent,
-    CustomNotificationComponent
+    CustomNotificationComponent,
+    TaxonomyViewWrapComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +53,7 @@ const environment = {
     FormsModule,
     ReactiveFormsModule,
     TelemetryModule,
+    SbTaxonomyEditorModule,
     SbNotificationsModule.forRoot({
       configuration: { environment:environment }
     })

@@ -54,9 +54,6 @@ const appRoutes: Routes = [
     path: 'discussion-forum', loadChildren: () => import('./modules/discussion/discussion.module').then(m => m.DiscussionModule)
   },
   {
-    path: 'competency-passbook', loadChildren: () => import('./modules/competency-passbook/competency-passbook.module').then(m => m.CompetencyPassbookModule)
-  },
-  {
     path: MY_GROUPS, loadChildren: () => import('./modules/groups/groups.module').then(m => m.GroupsModule)
   },
   {

@@ -11,9 +11,9 @@
               <img (click)="navigateToHomepage()" id="compass-logo" class="cursor-pointer" alt={{tenantInfo.titleName}}
                 src="{{tenantInfo.logo}}">
             </a>
-            <ng-container *ngIf="userService.loggedIn && !isAdminPortal">
+            <ng-container *ngIf="userService.loggedIn">
               <!-- menu -->
-              <div class="spaces-icon mx-60">
+              <div class="spaces-icon ml-60">
                 <div class="menu-trigger" [matMenuTriggerFor]="menu">
                   <mat-icon class="menuIcon open">menu</mat-icon>
                   <mat-icon class="close" >close</mat-icon>
