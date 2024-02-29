@@ -10,6 +10,7 @@ import { CompetencyPassbookComponent } from './components/competency-passbook/co
 import { CustomNotificationComponent } from './components/custom-notification/custom-notification.component';
 import { CreateNotificationComponent, NotificationListComponent } from 'sb-notifications';
 import { AuthGuard } from '../core/guard/auth-gard.service';
+import { TaxonomyViewWrapComponent } from './components/taxonomy-view-wrap/taxonomy-view-wrap.component'
 
 const routes: Routes = [
   { path: '', component: AdminPortalHomeComponent,
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: 'roles-access/userRoleAssign', component: UserRoleAssignComponent, data: {roles: 'adminRole'}},
       { path: 'competencies', component: CompetencyPassbookComponent, data: {roles: 'adminRole'}},
       { path: 'custom-notification', component: NotificationListComponent, data: {roles: 'adminRole'}},
-      { path: 'custom-notification/create', component: CreateNotificationComponent, data: {roles: 'adminRole'}}
+      { path: 'custom-notification/create', component: CreateNotificationComponent, data: {roles: 'adminRole'}},
+      { path: 'taxonomy-editor', component: TaxonomyViewWrapComponent, data: {roles: 'adminRole'}}
   ]}
 ];
 
