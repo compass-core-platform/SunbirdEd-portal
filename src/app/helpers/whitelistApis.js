@@ -1977,6 +1977,18 @@ const API_LIST = {
     "/learner/course/v1/user/recommended/list": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/learner/user/v1/image/upload": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/learner/user/v1/notification/list/false": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/learner/user/v1/notification/list/true": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
     }
   },
   URL_PATTERN: [
@@ -2143,6 +2155,9 @@ const API_LIST = {
     '/learner/user/feed/v2/create',
     '/learner/user/v1/department/list',
     '/learner/course/v1/user/recommended/list',
+    '/learner/user/v1/image/upload',
+    '/learner/user/v1/notification/list/false',
+    '/learner/user/v1/notification/list/true'
   ]
 };
 module.exports = API_LIST;
