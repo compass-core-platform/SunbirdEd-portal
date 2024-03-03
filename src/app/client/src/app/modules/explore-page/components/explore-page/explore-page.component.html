@@ -281,7 +281,7 @@
   </div>
   <!-- Recommended published courses -->
   <section class="mt-4rem container ui" *ngIf="browseByCard">
-    <p class="ui container browseTitle mb-32">{{resourceService?.frmelmnts?.llp?.browseByCardInfo.title}}</p>
+    <p class="browseTitle mb-32">{{resourceService?.frmelmnts?.llp?.browseByCardInfo.title}}</p>
     <div class="browse-container">
       <div class="browse-card"
         *ngFor="let info of browseByCard let i=index">
@@ -298,7 +298,7 @@
         class="com-secondary-btn">{{resourceService?.frmelmnts?.llp?.topics.button}}</button>
     </div>
     <div class="ui grid middle aligned popular-topics ">
-      <div class="three wide column" *ngFor="let data of popularTopics.slice(0,8) let i=index">
+      <div class="three wide column topic" *ngFor="let data of popularTopics.slice(0,8) let i=index">
         <div class="pointing" (click)="loadTopicCourses(data['name'])">
           <sb-popular-card [pillName]="'Topic'" [data]="data"></sb-popular-card>
         </div>
@@ -311,9 +311,12 @@
     <ng-container *ngFor="let card of dynamicPopularCard; let i=index">
       <div *ngIf="card.data.length > 0" class="ui container mt-4rem comp-card-container">
         <div class="popular-card">
-          <div class="popular-card-title">{{resourceService?.frmelmnts?.llp?.competencies.title}}</div>
-          <button class="com-secondary-btn"
+          <div *ngIf="card.popularTitle == 'Popular competencies'" class="popular-card-title">{{resourceService?.frmelmnts?.llp?.competencies.title}}</div>
+          <div *ngIf="card.popularTitle == 'Popular activities'" class="popular-card-title">{{resourceService?.frmelmnts?.llp?.activities.title}}</div>
+          <button class="com-secondary-btn" *ngIf="card.popularTitle == 'Popular competencies'"
             (click)="getBrowseByData(i+1, card.facets)">{{resourceService?.frmelmnts?.llp?.competencies.button}}</button>
+          <button class="com-secondary-btn" *ngIf="card.popularTitle == 'Popular activities'"
+          (click)="getBrowseByData(i+1, card.facets)">{{resourceService?.frmelmnts?.llp?.activities.button}}</button>
         </div>
         <div class="ui grid middle aligned popular-comp">
           <div class="three wide column" *ngFor="let data of card.data;let i=index">
