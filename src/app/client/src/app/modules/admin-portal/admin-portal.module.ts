@@ -54,13 +54,13 @@ const environment = {
     FormsModule,
     ReactiveFormsModule,
     TelemetryModule,
-    SbTaxonomyEditorModule,
     SbNotificationsModule.forRoot({
       configuration: { environment:environment }
     }),
-    TranslateModule
+    TranslateModule,
+    SbTaxonomyEditorModule
   ],
-  providers: [
+  providers: [  
     ManageService,
     BatchParticipantService
   ]
