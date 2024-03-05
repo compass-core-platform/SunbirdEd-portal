@@ -26,7 +26,6 @@ export class AdminPortalHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('translation test', this.resourceService?.frmelmnts?.adminPortal?.courseAndAssessment);
     this.routeName = this.router.url.split('/')[2];
     if(this.routeName) {
       this.mapRouteandBreadCrumb()

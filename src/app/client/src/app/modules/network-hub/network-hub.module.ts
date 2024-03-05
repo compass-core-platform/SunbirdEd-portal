@@ -14,15 +14,7 @@ const config = {
   userName:'',
   userDepartment:'',
   authorization: '',
-  translation: {
-    noConnectionReq:'',
-    yourConnectionReq: '',
-    peopleYouKnow: '',
-    connection: '',
-    lastAdded: '',
-    sortByName: '',
-    recommended: ''
-  }
+  translation: {}
  };
 
 @NgModule({
@@ -49,12 +41,8 @@ export class NetworkHubModule {
     this.taxonomyService.getPortalToken().subscribe((res) => {
       config.authorization = res; 
     });
-    config.translation.noConnectionReq = this.resourceService.frmelmnts.networkHub.noConnectionReq;
-    config.translation.yourConnectionReq = this.resourceService.frmelmnts.networkHub.yourConnectionReq;
-    config.translation.peopleYouKnow = this.resourceService.frmelmnts.networkHub.peopleYouKnow;
-    config.translation.connection = this.resourceService.frmelmnts.networkHub.connection;
-    config.translation.lastAdded = this.resourceService.frmelmnts.networkHub.lastAdded;
-    config.translation.sortByName = this.resourceService.frmelmnts.networkHub.sortByName;
-    config.translation.recommended = this.resourceService.frmelmnts.networkHub.recommended;
+    this.resourceService.networkhubConfig$.subscribe((newConfig) => {
+      config.translation = newConfig;
+    });
   }
 }
