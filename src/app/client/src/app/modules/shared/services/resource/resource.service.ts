@@ -55,6 +55,16 @@ export class ResourceService {
 
   public RESOURCE_CONSUMPTION_ROOT = 'result.consumption.';
   initialized = false;
+  private networkhubConfigSubject = new BehaviorSubject<any>({
+    noConnectionReq: '',
+    yourConnectionReq: '',
+    peopleYouKnow: '',
+    connection: '',
+    lastAdded: '',
+    sortByName: '',
+    recommended: ''
+  });
+  networkhubConfig$: Observable<any> = this.networkhubConfigSubject.asObservable();
 
   /**
    * constructor
@@ -102,6 +112,7 @@ export class ResourceService {
         this.frmelemnts = _.merge({}, creationFrmelemnts, consumptionFrmelemnts);
         this.tbk = tbk; this.tvc = tvc; this.tvk = tvk; this.crs = crs;
         this.getLanguageChange(range);
+        this.generateNetworkhubConfig();
       },
       (err: ServerResponse) => {
       }
@@ -155,5 +166,25 @@ export class ResourceService {
   getLanguageChange(language) {
     this.translateService.use(language.value);
     this._languageSelected.next(language);
+  }
+
+  generateNetworkhubConfig(){
+    let config:any = {
+      noConnectionReq:'',
+      yourConnectionReq: '',
+      peopleYouKnow: '',
+      connection: '',
+      lastAdded: '',
+      sortByName: '',
+      recommended: ''
+    };
+    config.noConnectionReq = this.frmelmnts.networkHub.noConnectionReq;
+    config.yourConnectionReq = this.frmelmnts.networkHub.yourConnectionReq;
+    config.peopleYouKnow = this.frmelmnts.networkHub.peopleYouKnow;
+    config.connection = this.frmelmnts.networkHub.connection;
+    config.lastAdded = this.frmelmnts.networkHub.lastAdded;
+    config.sortByName = this.frmelmnts.networkHub.sortByName;
+    config.recommended = this.frmelmnts.networkHub.recommended;
+    this.networkhubConfigSubject.next(config);
   }
 }

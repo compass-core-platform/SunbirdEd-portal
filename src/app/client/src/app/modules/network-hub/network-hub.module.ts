@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NetworkHubRoutingModule } from './network-hub-routing.module';
 import { NetworkService, SbNetworkHubModule, SbNetworkHubRoutingModule } from 'sb-network-hub'
 import { TaxonomyService } from '../../service/taxonomy.service';
+import { ResourceService } from '@sunbird/shared';
 
 const config = {
   domain:'',
@@ -12,7 +13,8 @@ const config = {
   userId:'',
   userName:'',
   userDepartment:'',
-  authorization: ''
+  authorization: '',
+  translation: {}
  };
 
 @NgModule({
@@ -32,12 +34,15 @@ const config = {
 })
 export class NetworkHubModule {
   userProfile = JSON.parse( localStorage.getItem('userProfile'))
-  constructor(private taxonomyService: TaxonomyService ) {
+  constructor(private taxonomyService: TaxonomyService, private resourceService: ResourceService ) {
     config.userId = this.userProfile.id;
     config.userName = this.userProfile.userName;
     config.userDepartment = this.userProfile.userDepartment;
     this.taxonomyService.getPortalToken().subscribe((res) => {
       config.authorization = res; 
+    });
+    this.resourceService.networkhubConfig$.subscribe((newConfig) => {
+      config.translation = newConfig;
     });
   }
 }
