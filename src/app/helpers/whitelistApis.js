@@ -1982,6 +1982,10 @@ const API_LIST = {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.ANONYMOUS]
     },
+     "/api/user/v1/image/upload": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
     "/learner/user/v1/notification/list/false": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.ANONYMOUS]
@@ -2156,6 +2160,7 @@ const API_LIST = {
     '/learner/user/v1/department/list',
     '/learner/course/v1/user/recommended/list',
     '/learner/user/v1/image/upload',
+    '/api/user/v1/image/upload',
     '/learner/user/v1/notification/list/false',
     '/learner/user/v1/notification/list/true'
   ]
