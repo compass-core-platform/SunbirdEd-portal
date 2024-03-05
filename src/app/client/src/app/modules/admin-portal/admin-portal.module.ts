@@ -21,6 +21,7 @@ import { SbNotificationsModule } from 'sb-notifications';
 import { TaxonomyService } from './services/taxonomy/taxonomy.service';
 import { TaxonomyViewWrapComponent } from './components/taxonomy-view-wrap/taxonomy-view-wrap.component';
 import { SbTaxonomyEditorModule } from 'sb-taxonomy-editor';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 const environment = {
@@ -56,7 +57,8 @@ const environment = {
     SbTaxonomyEditorModule,
     SbNotificationsModule.forRoot({
       configuration: { environment:environment }
-    })
+    }),
+    TranslateModule
   ],
   providers: [
     ManageService,
