@@ -71,6 +71,14 @@ export class AdminPortalHomeComponent implements OnInit {
       });
     } else {
       this.breadCrumbData = [];
+      if(this.tabName === 'Taxonomy Editor') {
+        this.breadCrumbData.push({
+          "label": "Course and Assessment",
+          "status": "inActive",
+          "icon": "school",
+          "link": "/admin-portal/course-assessment"
+        })
+      }
       this.breadCrumbData.push(
         {
             "label": this.tabName,
@@ -78,6 +86,7 @@ export class AdminPortalHomeComponent implements OnInit {
             "icon": this.iconName,
             "link": this.router.url
       });
+      
     }
     
   }
