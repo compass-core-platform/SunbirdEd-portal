@@ -39,6 +39,7 @@
         }
         &-content {
              min-height: 100vh;
+             padding-left: 15px;
         }
     }
 }
@@ -54,8 +55,13 @@
     white-space: nowrap !important;
 }
 
-.course-assessment-banner img{
-    width: 100% !important;
+.banner{
+    background: linear-gradient(89deg, #fe7b5f, #fb8169);
+ img{
+    display: flex;
+    justify-content: center;
+    
+}
 }
 
 

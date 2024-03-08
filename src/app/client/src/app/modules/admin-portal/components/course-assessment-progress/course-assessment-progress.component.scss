@@ -3,6 +3,7 @@
         position: relative;
         background: rgb(240, 243, 244);
         min-height: 100vh;
+        padding:15px;
     }
     &__header{
         background: var(--white);
@@ -39,6 +40,7 @@
             }  
             .mat-form-field-flex{
                 border: none !important;
+                padding: 0;
             }
             .mat-form-field-infix {
                 width:300px;
@@ -87,3 +89,4 @@
         background: var(--white);
     }
 }
+
