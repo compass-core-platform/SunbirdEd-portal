@@ -1,67 +1,112 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
-    <div class="ui grid stackable m-0 p-0">
-      <!-- First Column -->
-      <div class="six wide column m-0 p-0">
-        <div class="form-container">
-          <div class="form-column">
-            <p>Certification</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Additional skill acquired/Course completed</mat-label>
-              <textarea
-                matInput
-                #input
-                formControlName="additionalSkillCourse"
-                placeholder="Type here"
-                rows="5"
-              ></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Provide certification details</mat-label>
-              <textarea
-                matInput
-                #input
-                formControlName="certificationDetails"
-                placeholder="Type here"
-                rows="5"
-              ></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Second Column -->
-      <div class="six wide column m-0 p-0">
-        <div class="form-container">
-          <div class="form-column">
-            <p>Skills</p>
-            <mat-form-field appearance="outline">
-              <mat-label>Professional interests</mat-label>
-              <textarea
-                matInput
-                #input
-                formControlName="professionalInterests"
-                placeholder="Type here"
-                rows="5"
-              ></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Hobbies</mat-label>
-              <textarea
-                matInput
-                #input
-                formControlName="hobbies"
-                placeholder="Type here"
-                rows="5"
-              ></textarea>
-            </mat-form-field>
-          </div>
+  <div class="ui grid stackable m-0 p-0">
+    <!-- First Column -->
+    <div class="six wide column m-0 p-0">
+      <div class="form-container">
+        <div class="form-column">
+          <p>Certification</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Additional skill acquired/Course completed</mat-label>
+            <textarea
+              matInput
+              #input
+              formControlName="additionalSkillCourse"
+              placeholder="Type here"
+              rows="5"
+            ></textarea>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Provide certification details</mat-label>
+            <textarea
+              matInput
+              #input
+              formControlName="certificationDetails"
+              placeholder="Type here"
+              rows="5"
+            ></textarea>
+          </mat-form-field>
         </div>
       </div>
     </div>
-    <div class="submitbtn">
-      <button class="com-primary-btn btn" type="submit">
-        {{ resourceService.frmelmnts.lbl.editProfile.submit }}
-      </button>
+
+    <!-- Second Column -->
+    <div class="six wide column m-0 p-0">
+      <div class="form-container">
+        <div class="form-column">
+          <p>Skills</p>
+          <mat-form-field class="example-chip-list" appearance="outline">
+            <mat-label>Professional interests</mat-label>
+            <mat-chip-list #professionalChipList aria-label="Professional selection">
+              <mat-chip
+                *ngFor="let language of professional"
+                (removed)="removeProfessional(language)"
+              >
+                {{ language }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="Type here"
+                #languageInput
+                [formControl]="professionalIntrestCtrl"
+                [matChipInputFor]="professionalChipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addProfessional($event)"
+              />
+            </mat-chip-list>
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="selectedProfessionals($event)"
+            >
+              <mat-option
+                *ngFor="let language of filteredProfessional | async"
+                [value]="language"
+              >
+                {{ language }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-chip-list" appearance="outline">
+            <mat-label>Hobbies</mat-label>
+            <mat-chip-list #hobbiesChipList aria-label="Hobbies selection">
+              <mat-chip
+                *ngFor="let language of hobbies"
+                (removed)="removeHobbies(language)"
+              >
+                {{ language }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input
+                placeholder="Type here"
+                #languageInput
+                [formControl]="hobbiesCtrl"
+                [matChipInputFor]="hobbiesChipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addHobbies($event)"
+              />
+            </mat-chip-list>
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              (optionSelected)="selectedHobbies($event)"
+            >
+              <mat-option
+                *ngFor="let language of filteredHobbies | async"
+                [value]="language"
+              >
+                {{ language }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
-  </form>
-  
+  </div>
+  <div class="submitbtn">
+    <button class="com-primary-btn btn" type="submit">
+      {{ resourceService.frmelmnts.lbl.editProfile.submit }}
+    </button>
+  </div>
+</form>

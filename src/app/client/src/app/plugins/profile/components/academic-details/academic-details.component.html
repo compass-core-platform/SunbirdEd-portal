@@ -56,9 +56,57 @@
               placeholder="Type here"
             />
           </mat-form-field>
-          <!-- <button class="com-secondary-btn">Add Another Qualification</button> -->
+          <button
+          *ngIf="additionalGraduation.length === 0"
+          class="com-secondary-btn"
+          (click)="addAdditionalGraduation()"
+          type="button"
+        >
+          Add Another Qualification
+        </button>
         </div>
       </div>
+      <div
+      *ngFor="
+        let qualificationGroups of additionalGraduation;
+        let i = index
+      "
+      [formGroup]="qualificationGroups"
+      class="form-container"
+    >
+      <div class="form-column">
+        <p>Additional Graduation {{ i + 1 }}</p>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Degree</mat-label>
+          <input matInput formControlName="degree" placeholder="Type here" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Year of Passing</mat-label>
+          <input
+            matInput
+            formControlName="yearOfPassing"
+            placeholder="Type here"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Institute Name</mat-label>
+          <input
+            matInput
+            formControlName="instituteName"
+            placeholder="Type here"
+          />
+        </mat-form-field>
+        <button
+          *ngIf="i === additionalGraduation.length - 1"
+          type="button"
+          class="com-secondary-btn"
+          (click)="addAdditionalGraduation()"
+        >
+          Add Another Qualification
+        </button>
+      </div>
+    </div>
     </div>
 
     <!-- Second Column -->
@@ -126,49 +174,47 @@
           </button>
         </div>
       </div>
-    </div>
-    <div class="twelve wide column m-0 p-0">
       <div
-        *ngFor="
-          let qualificationGroup of additionalQualifications;
-          let i = index
-        "
-        [formGroup]="qualificationGroup"
-        class="form-container"
-      >
-        <div class="form-column">
-          <p>Additional Qualification {{ i + 1 }}</p>
+      *ngFor="
+        let qualificationGroup of additionalQualifications;
+        let i = index
+      "
+      [formGroup]="qualificationGroup"
+      class="form-container"
+    >
+      <div class="form-column">
+        <p>Additional Post Graduation {{ i + 1 }}</p>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Degree</mat-label>
-            <input matInput formControlName="degree" placeholder="Type here" />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Year of Passing</mat-label>
-            <input
-              matInput
-              formControlName="yearOfPassing"
-              placeholder="Type here"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Institute Name</mat-label>
-            <input
-              matInput
-              formControlName="instituteName"
-              placeholder="Type here"
-            />
-          </mat-form-field>
-          <button
-            *ngIf="i === additionalQualifications.length - 1"
-            type="button"
-            class="com-secondary-btn"
-            (click)="addAdditionalQualification()"
-          >
-            Add Another Qualification
-          </button>
-        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Degree</mat-label>
+          <input matInput formControlName="degree" placeholder="Type here" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Year of Passing</mat-label>
+          <input
+            matInput
+            formControlName="yearOfPassing"
+            placeholder="Type here"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Institute Name</mat-label>
+          <input
+            matInput
+            formControlName="instituteName"
+            placeholder="Type here"
+          />
+        </mat-form-field>
+        <button
+          *ngIf="i === additionalQualifications.length - 1"
+          type="button"
+          class="com-secondary-btn"
+          (click)="addAdditionalQualification()"
+        >
+          Add Another Qualification
+        </button>
       </div>
+    </div>
     </div>
   </div>
 
