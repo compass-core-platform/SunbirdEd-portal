@@ -18,7 +18,7 @@ import { ProfileService } from "@sunbird/profile";
 import { ContentSearchService } from "@sunbird/content-search";
 import _ from "lodash";
 import { FrameworkService } from "../../../../modules/core/services/framework/framework.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 // import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import { MatChipInputEvent } from "@angular/material/chips";
@@ -48,7 +48,6 @@ export class PersonalDetailsComponent implements OnInit {
     colTwo: {
       fields: [
         { label: "Domicile", value: "domicileMedium" },
-        { label: "Other languages known", value: "otherLanguages" },
         { label: "Telephone Number", value: "telephone" },
         { label: "Date of joining", value: "doj" },
         { label: "Postal address", value: "postalAddress" },
@@ -66,8 +65,14 @@ export class PersonalDetailsComponent implements OnInit {
   areasOfIntrestCtrl = new FormControl("");
   filteredAreas: Observable<string[]>;
   areas: string[] = [];
+  knownLanguagesCtrl = new FormControl("");
+  filteredLanguages: Observable<string[]>;
+  languages: string[] = [];
+
+  
 
   @ViewChild("areaInput") areaInput: ElementRef<HTMLInputElement>;
+  @ViewChild("languageInput") languageInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,8 +83,7 @@ export class PersonalDetailsComponent implements OnInit {
     private contentSearchService: ContentSearchService,
     private frameworkService: FrameworkService,
     private channelService: ChannelService,
-    private activatedRoute: ActivatedRoute,
-    public router: Router
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -119,50 +123,60 @@ export class PersonalDetailsComponent implements OnInit {
         item.label = this.resourceService.frmelmnts.lbl.editProfile[item.value];
       });
     }
-    this.form = this.formBuilder.group({
-      firstName: [{ value: this.userProfile?.firstName, disabled: true }],
-      lastName: [{ value: this.userProfile?.lastName, disabled: true }],
-      countryCode: [this.userProfile?.countryCode],
-      phone: [this.userProfile?.phone],
-      primaryEmail: [{ value: this.userProfile?.email, disabled: true }],
-      secondaryEmail: [
-        this.userProfile?.profileDetails?.personalDetails?.secondaryEmail,
-      ],
-      domicileMedium: [
-        this.userProfile?.profileDetails?.personalDetails?.domicileMedium || "",
-      ],
-      otherLanguages: [
-        this.userProfile?.profileDetails?.personalDetails?.otherLanguages || "",
-      ],
-      postalAddress: [
-        this.userProfile?.profileDetails?.personalDetails?.postalAddress || "",
-      ],
-      pinCode: [
-        this.userProfile?.profileDetails?.personalDetails?.pinCode || "",
-      ],
-      departmentName: [
-        this.userProfile?.profileDetails?.employmentDetails?.departmentName ||
-          "",
-        Validators.required,
-      ],
-      designation: [
-        this.userProfile?.profileDetails?.professionalDetails[0].designation ||
-          "",
-        Validators.required,
-      ],
-      doj: [
-        this.userProfile?.profileDetails?.professionalDetails[0]?.doj || "",
-      ],
-      telephone: [
-        this.userProfile?.profileDetails?.personalDetails?.telephone || "",
-      ],
-    });
+    this.populateForm()
     this.areas =
       this.userProfile?.profileDetails?.areaOfInterest[0].skills || [];
+    this.languages =
+      this.userProfile?.profileDetails?.personalDetails.knownLanguages || [];
     // console.log('XX', this.selectedAreasOfInterest)
     // console.log('YY', this.userProfile?.profileDetails?.areaOfInterest[0].skills)
   }
-
+  populateForm() {
+    if (this.userProfile?.profileDetails?.professionalDetails) {
+      const personalDetails = this.userProfile?.profileDetails?.personalDetails;
+      const employmentDetails = this.userProfile?.profileDetails?.employmentDetails;
+      const professionalDetails = this.userProfile?.profileDetails?.professionalDetails[0];
+  
+      this.form = this.formBuilder.group({
+        firstName: [{ value: this.userProfile?.firstName, disabled: true }],
+        lastName: [{ value: this.userProfile?.lastName, disabled: true }],
+        countryCode: [this.userProfile?.countryCode],
+        phone: [{ value: this.userProfile?.phone, disabled: true }],
+        primaryEmail: [{ value: this.userProfile?.email, disabled: true }],
+        secondaryEmail: [personalDetails?.secondaryEmail || ""],
+        domicileMedium: [personalDetails?.domicileMedium || ""],
+        otherLanguages: [personalDetails?.otherLanguages || ""],
+        postalAddress: [personalDetails?.postalAddress || ""],
+        pinCode: [personalDetails?.pinCode || ""],
+        departmentName: [
+          employmentDetails?.departmentName || "",
+          Validators.required,
+        ],
+        designation: [
+          professionalDetails?.designation || "",
+          Validators.required,
+        ],
+        doj: [professionalDetails?.doj || ""],
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        firstName: [{ value: this.userProfile?.firstName, disabled: true }],
+        lastName: [{ value: this.userProfile?.lastName, disabled: true }],
+        countryCode: [this.userProfile?.countryCode],
+        phone: [{ value: this.userProfile?.phone, disabled: true }],
+        primaryEmail: [{ value: this.userProfile?.email, disabled: true }],
+        secondaryEmail: [""],
+        domicileMedium: [""],
+        otherLanguages: [""],
+        postalAddress: [""],
+        pinCode: [""],
+        departmentName: ["", Validators.required],
+        designation: ["", Validators.required],
+        doj: [""],
+      });
+    }
+  }
+  
   add(event: MatChipInputEvent): void {
     const value = (event.value || "").trim();
 
@@ -176,6 +190,19 @@ export class PersonalDetailsComponent implements OnInit {
 
     this.areasOfIntrestCtrl.setValue(null);
   }
+  addLanguages(event: MatChipInputEvent): void {
+    const value = (event.value || "").trim();
+
+    // Add our fruit
+    if (value) {
+      this.languages.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.knownLanguagesCtrl.setValue(null);
+  }
 
   remove(fruit: string): void {
     const index = this.areas.indexOf(fruit);
@@ -184,12 +211,25 @@ export class PersonalDetailsComponent implements OnInit {
       this.areas.splice(index, 1);
     }
   }
+  removeLanguage(lan: string): void {
+    const index = this.languages.indexOf(lan);
+
+    if (index >= 0) {
+      this.languages.splice(index, 1);
+    }
+  }
 
   selected(event: any): void {
     this.areas.push(event.option.viewValue);
     this.areaInput.nativeElement.value = "";
     this.areasOfIntrestCtrl.setValue(null);
   }
+  selectedLanguages(event: any): void {
+    this.languages.push(event.option.viewValue);
+    this.languageInput.nativeElement.value = "";
+    this.knownLanguagesCtrl.setValue(null);
+  }
+
 
   onSubmit(request) {
     if (this.form.valid) {
@@ -201,53 +241,77 @@ export class PersonalDetailsComponent implements OnInit {
         delete this.payload.phone;
       }
 
+      // let existingProfessionalDetails =
+      //   this.userProfile.profileDetails?.professionalDetails || [];
+
+      // let updatedProfessionalDetails = existingProfessionalDetails.map(
+      //   (detail) => {
+      //     if (detail.designation === null || detail.doj === null) {
+      //       return {
+      //         ...detail,
+      //         designation: this.payload.designation || detail.designation,
+      //         doj: this.payload.doj || detail.doj,
+      //       };
+      //     } else {
+      //       return detail;
+      //     }
+      //   }
+      // );
+
+      // if (existingProfessionalDetails.length === 0) {
+      //   updatedProfessionalDetails.push({
+      //     designation: this.payload.designation || null,
+      //     doj: this.payload.doj,
+      //   });
+      // }
       let existingProfessionalDetails =
-        this.userProfile.profileDetails?.professionalDetails || [];
+      this.userProfile.profileDetails?.professionalDetails || [];
 
-      let updatedProfessionalDetails = existingProfessionalDetails.map(
-        (detail) => {
-          if (detail.designation !== null && detail.doj !== null) {
-            return {
-              ...detail,
-              designation: this.payload.designation || detail.designation,
-              doj: this.payload.doj || detail.doj,
-            };
-          } else {
-            return detail;
-          }
-        }
-      );
-
-      if (existingProfessionalDetails.length === 0) {
-        updatedProfessionalDetails.push({
-          designation: this.payload.designation || null,
-          doj: this.payload.doj || null,
-        });
+    let updatedProfessionalDetails = existingProfessionalDetails.map(
+      (detail) => {
+        // Update only if new values are provided, otherwise keep existing values
+        return {
+          ...detail,
+          designation: this.payload.designation || detail.designation,
+          doj: this.payload.doj || detail.doj,
+        };
       }
+    );
+
+    if (existingProfessionalDetails.length === 0) {
+      updatedProfessionalDetails.push({
+        designation: this.payload.designation || null,
+        doj: this.payload.doj,
+      });
+    }
 
       let profileDetails: any = {
         personalDetails: {
-          secondaryEmail: null,
+          firstname:this.userProfile?.firstName,
+          lastname:this.userProfile?.lastName,
+          mobile:this.userProfile?.phone,
+          // primaryEmail:this.userProfile?.email,
+          secondaryEmail: this.payload.secondaryEmail || "",
           domicileMedium: this.payload.domicileMedium || "",
-          otherLanguages: this.payload.otherLanguages || "",
-          telephone: this.payload.telephone || "",
           postalAddress: this.payload.postalAddress || "",
           pinCode: this.payload.pinCode || "",
+          knownLanguages: this.languages || [],
+
         },
-        employmentDetails: {
-          departmentName: this.payload.departmentName,
-        },
-        professionalDetails: updatedProfessionalDetails,
-        areaOfInterest: [
+          areaOfInterest: [
           {
-            skills: this.areas,
-          },
-        ],
+            skills:this.areas || [] }],
+            employmentDetails: {
+              ...this.userProfile.profileDetails?.employmentDetails,
+              departmentName: this.payload.departmentName,
+            },
+        professionalDetails: updatedProfessionalDetails,
+        
+        
       };
 
       delete this.payload.domicileMedium;
       delete this.payload.otherLanguages;
-      delete this.payload.telephone;
       delete this.payload.postalAddress;
       delete this.payload.pinCode;
       delete this.payload.departmentName;
@@ -258,17 +322,12 @@ export class PersonalDetailsComponent implements OnInit {
         ...this.userProfile.profileDetails,
         ...profileDetails,
       };
+      // console.log(this.payload.profileDetails)
       this.profileService.updatePrivateProfile(this.payload).subscribe(
         (res) => {
           this.toasterService.success(
             _.get(this.resourceService, "messages.smsg.m0059")
           );
-          // this.router.navigate(["/profile"], {
-          //   queryParams: {
-          //     channel: this.activatedRoute.snapshot.queryParams.channel,
-          //   },
-          //   relativeTo: this.activatedRoute,
-          // });
         },
         (error) => {
           if (

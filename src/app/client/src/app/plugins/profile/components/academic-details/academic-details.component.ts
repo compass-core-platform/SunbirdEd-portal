@@ -33,7 +33,9 @@ import { map, startWith } from "rxjs/operators";
 export class AcademicDetailsComponent implements OnInit {
   form: FormGroup;
   showAdditionalQualification: boolean = false;
+  showAdditionalGraduation: boolean = false;
   additionalQualifications: FormGroup[] = [];
+  additionalGraduation: FormGroup[] = [];
   formData = {
     colOne: {
       fields: [
@@ -118,9 +120,13 @@ export class AcademicDetailsComponent implements OnInit {
       });
     }
     this.populateForm();
-    const additionalQualificationsData = this.userProfile.profileDetails.academicDetails.filter(detail =>
-      detail.type === "ADDITIONAL_QUALIFICATION"
-    );
+    const additionalQualificationsData = this.userProfile.profileDetails.academicDetails
+  .filter(detail => detail.type === "POSTGRADUATE")
+  .slice(1);
+
+const additionalGraduationData = this.userProfile.profileDetails.academicDetails
+  .filter(detail => detail.type === "GRADUATE")
+  .slice(1);
     additionalQualificationsData.forEach((qualification: any) => {
       const additionalQualificationGroup = this.formBuilder.group({
         degree: [qualification.nameOfQualification],
@@ -128,6 +134,14 @@ export class AcademicDetailsComponent implements OnInit {
         instituteName: [qualification.nameOfInstitute],
       });
       this.additionalQualifications.push(additionalQualificationGroup);
+    })
+    additionalGraduationData.forEach((qualification: any) => {
+      const additionalGraduationGroup = this.formBuilder.group({
+        degree: [qualification.nameOfQualification],
+        yearOfPassing: [qualification.yearOfPassing],
+        instituteName: [qualification.nameOfInstitute],
+      });
+      this.additionalGraduation.push(additionalGraduationGroup);
     })
   }
   addAdditionalQualification() {
@@ -139,13 +153,22 @@ export class AcademicDetailsComponent implements OnInit {
     this.additionalQualifications.push(additionalQualificationGroup);
     this.showAdditionalQualification = true;
   }
+  addAdditionalGraduation() {
+    const additionalGraduationGroup = this.formBuilder.group({
+      degree: [""],
+      yearOfPassing: [""],
+      instituteName: [""],
+    });
+    this.additionalGraduation.push(additionalGraduationGroup);
+    this.showAdditionalGraduation = true;
+  }
   populateForm() {
     if (this.userProfile?.profileDetails?.academicDetails) {
-      const academicDetails = this.userProfile.profileDetails.academicDetails;
-      const tenthSchool = academicDetails[0];
-      const twelthSchool = academicDetails[1];
-      const graduation = academicDetails[2];
-      const postGraduation = academicDetails[3];
+      const academics = this.userProfile.profileDetails.academicDetails;
+      const tenthSchool = academics[0];
+      const twelthSchool = academics[1];
+      const graduation = academics[2];
+      const postGraduation = academics[3];
   
       this.form = this.formBuilder.group({
         tenthSchoolName: [tenthSchool?.nameOfInstitute || ""],
@@ -211,7 +234,15 @@ export class AcademicDetailsComponent implements OnInit {
           this.additionalQualifications.forEach((qualification) => {
             academicDetails.push({
               nameOfQualification: qualification.value.degree,
-              type: "ADDITIONAL_QUALIFICATION",
+              type: "POSTGRADUATE",
+              nameOfInstitute: qualification.value.instituteName,
+              yearOfPassing: qualification.value.yearOfPassing,
+            });
+          });
+          this.additionalGraduation.forEach((qualification) => {
+            academicDetails.push({
+              nameOfQualification: qualification.value.degree,
+              type: "GRADUATE",
               nameOfInstitute: qualification.value.instituteName,
               yearOfPassing: qualification.value.yearOfPassing,
             });
