@@ -97,8 +97,8 @@ export class BatchProgressDetailsComponent implements OnInit {
                   return {
                     initials:`${m.firstName[0]}${m.lastName[0] ? m.lastName[0] : ''}`,
                     name: m.firstName+' '+m.lastName,
-                    designation:m.profileDetails!==null?m.profileDetails.professionalDetails[0].designation : '',
-                    department:m.profileDetails !== null?m.profileDetails.employmentDetails.departmentName : '',
+                    designation:m.profileDetails?.professionalDetails.length>0?m.profileDetails.professionalDetails[0].designation : '',
+                    department:m.profileDetails?.employmentDetails.hasOwnProperty('departmentName')?m.profileDetails.employmentDetails.departmentName : '',
                     progress: 0
                   }
                 })
@@ -130,8 +130,8 @@ export class BatchProgressDetailsComponent implements OnInit {
         return {
               initials:`${m.firstName[0]}${m.lastName[0] ? m.lastName[0] : ''}`,
               name: m.firstName+' '+m.lastName,
-              designation:m.profileDetails!==null? m.profileDetails.professionalDetails[0].designation : '',
-              department:m.profileDetails !== null? m.profileDetails.employmentDetails.departmentName : '',
+              designation:m.profileDetails?.professionalDetails.length>0?m.profileDetails.professionalDetails[0].designation : '',
+              department:m.profileDetails?.employmentDetails.hasOwnProperty('departmentName')?m.profileDetails.employmentDetails.departmentName : '',
               progress:perValue.length>0? perValue[0].completionPercentage : 0
             }
           });

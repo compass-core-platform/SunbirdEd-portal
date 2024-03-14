@@ -121,7 +121,7 @@ export class CourseAssessmentProgressComponent implements OnInit {
             totalMembers:courseBatch.length>0?courseBatch[0].count:'',
             batchId:data.batches?data.batches[0].batchId:'',
             primaryCategory:data.primaryCategory+'s',
-            link:data.batches?{text:'View Progress', path:`batch/${data.identifier}/${data.batches[0].batchId}`}:{text:'View Progress', path:'#'}
+            link:data.batches?{text:'View Progress', path:`batch/${data.identifier}/${data.batches[0].batchId}`}:{text:'View Progress', path:''}
           }}); 
           this.dataSource = [...updateCourseList]; 
     });
