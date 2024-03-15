@@ -58,7 +58,10 @@
         <p class="aside__share-rating">
             <button class="com-secondary-btn" [ngClass]="{'disabled' : courseStatus != 2}" (click)="displayRatingModal()"><span class="button-icon">
                     <mat-icon>star</mat-icon>
-                </span><label class="button-label">{{configContent.courseAside.rating}}</label></button>
+                </span>
+                    <label *ngIf="!ratings" class="button-label">{{configContent.courseAside.rating}}</label>
+                    <label *ngIf="ratings" class="button-label">{{configContent.courseAside.editRating}}</label>
+            </button>
             <button class="com-secondary-btn disabled"><span class="button-icon">
                     <mat-icon>share</mat-icon>
                 </span><label class="button-label">{{configContent.courseAside.share}}</label></button>
@@ -224,7 +227,7 @@
                         </p>
                     </div>
                     <div class="rating-description mt-2em">
-                        <p>{{resourceService?.frmelmnts?.toc?.courseAside?.yourReview}}</p>
+                        <p>{{resourceService?.frmelmnts?.toc?.courseAside?.yourReview}} <span class="asterisk">*</span></p>
                         <div class="sb-input">
                             <textarea rows="5" class="false sb-textbox ng-pristine ng-valid valid ng-touched" name="review" id="review" placeholder="Type here" required #reviewInput="ngModel"
                             [(ngModel)]="reviewValue" [class.error]="reviewInput.invalid && reviewInput.touched && !textareaValue"></textarea>
