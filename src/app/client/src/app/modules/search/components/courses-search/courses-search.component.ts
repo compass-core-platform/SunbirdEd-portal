@@ -183,7 +183,7 @@ export class CoursesSearchComponent implements OnInit {
     }
     this.searchService.contentSearch(option).subscribe(res => {
       this.getWishlisteddoids();
-      this.courses = [...res['result']['content']];
+      this.courses = [ ...this.courses, ...res['result']['content']];
       this.courses =  this.contentSearchService.updateCourseWithTaggedCompetency(this.courses);
       this.scrollCheck = false;
       // console.log('Searched Courses', res['result']['content']);
