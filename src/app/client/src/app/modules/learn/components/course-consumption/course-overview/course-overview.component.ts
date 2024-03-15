@@ -146,4 +146,12 @@ export class CourseOverviewComponent implements OnInit {
     }
   }
 
+  ratingUpdated(event){
+    if(event){
+      this.rating = 0;
+      this.reviews = [];
+      this.getCourseReviews(this.courseDetails['identifier']);
+    }
+  }
+
 }

@@ -21,6 +21,7 @@ export class CourseAsideComponent implements OnInit {
   @Input() courseHierarchy: any;
   @Input() configContent: any;
   @Input() params: any;
+  @Output() ratingUpdation: EventEmitter<boolean> = new EventEmitter();
 
   firstContentId: any;
   parentId: any;
@@ -218,11 +219,8 @@ export class CourseAsideComponent implements OnInit {
       this.courseConsumptionService.saveCourseRating(data).subscribe((res: any) => {
         this.toasterService.success('Ratings added successfully!');
         this.showRatingModal = false;
-        this.instructorRating = 0;
-        this.contentRating = 0;
-        this.engagementRating = 0;
-        this.assessmentRating = 0;
         (<HTMLInputElement>document.getElementById("review")).value = '';
+        this.ratingUpdation.emit(true);
         console.log('Rating', res);
       });
     }
