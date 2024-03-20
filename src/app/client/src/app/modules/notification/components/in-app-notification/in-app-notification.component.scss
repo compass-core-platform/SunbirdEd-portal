@@ -38,6 +38,8 @@
     top:calculateRem(50px);
     padding: calculateRem(15px);
     background: var(--white);
+    max-height: 90vh;
+    overflow: auto;
     .mat-icon{
       cursor: pointer;
       position: absolute;
