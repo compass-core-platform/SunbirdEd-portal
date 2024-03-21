@@ -98,6 +98,7 @@
     "compass-resource-library": "^0.0.3",
     "compass-sb-styles": "^0.0.9",
     "compass-sb-themes": "^0.0.89",
+    "compass-sb-notification": "0.0.1",
     "compass-sunbird-quml-player": "^0.0.8",
     "core-js": "^2.4.1",
     "datatables.net-dt": "^1.10.20",
