@@ -39,6 +39,7 @@
         }
         &-content {
              min-height: 100vh;
+             padding-left: 15px;
         }
     }
 }
@@ -48,6 +49,19 @@
 
 ::ng-deep main-footer footer {
     margin-top: 0px !important;
+}
+
+::ng-deep .sidenav-container .category-header-items h4 {
+    white-space: nowrap !important;
+}
+
+.banner{
+    background: linear-gradient(89deg, #fe7b5f, #fb8169);
+ img{
+    display: flex;
+    justify-content: center;
+    
+}
 }
 
 

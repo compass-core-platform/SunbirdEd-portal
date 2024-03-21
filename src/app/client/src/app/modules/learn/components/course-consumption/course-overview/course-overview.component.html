@@ -132,14 +132,14 @@
               <hr>
             </div>
           </div>
-          <div class="ui container" *ngIf="reviews.length > 0">
+          <div class="ui container" *ngIf="reviews.length > 3">
             <button class="more-btn com-secondary-btn" (click)="updatedSlicing()">{{moreBtnText}}</button>
           </div>
         </div>
       </div>
     </div>
     <div class="second_pannel four wide column">
-      <app-course-aside [courseHierarchy]="courseDetails" [configContent]="configContent" [params]="params">
+      <app-course-aside [courseHierarchy]="courseDetails" [configContent]="configContent" [params]="params" (ratingUpdation)="ratingUpdated($event)">
       </app-course-aside>
     </div>
   </div>

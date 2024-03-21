@@ -1,3 +1,8 @@
+<header class="banner">
+        <div class="container ui">
+                <img src="./assets/images/banner-svg/net-banner.png" />
+        </div>
+</header>
 <div class="container ui network-lib">
         <aside class="network-lib__side-content">
                 <a routerLink="/network-hub/home" [routerLinkActive]="['active']">{{resourceService?.frmelmnts?.networkHub?.home}}</a>
@@ -7,6 +12,7 @@
              
         </aside>
         <section class="network-lib__main-content">
+      
         <router-outlet></router-outlet>
         </section>
 </div>

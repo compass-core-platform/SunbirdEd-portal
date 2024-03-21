@@ -12,6 +12,7 @@
     "courseAside":{
         "startCourse":"Start this course",
         "rating":"Give rating",
+        "editRating": "Edit rating",
         "share":"Share",
         "durationText":" of total content",
         "modules":"Modules",

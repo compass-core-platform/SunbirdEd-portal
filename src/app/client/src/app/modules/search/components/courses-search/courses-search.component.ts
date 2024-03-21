@@ -35,6 +35,7 @@ export class CoursesSearchComponent implements OnInit {
   currentPage=1;
   itemsPerPage=15;
   scrollCheck = false;
+  prevKey: string = '';
   constructor(public activatedRoute: ActivatedRoute, public searchService: SearchService,
     public resourceService: ResourceService, private schemaService: SchemaService,
     private contentSearchService: ContentSearchService, public coursesService: CoursesService, public frameworkService: FrameworkService, private snackBar: MatSnackBar,
@@ -72,6 +73,7 @@ export class CoursesSearchComponent implements OnInit {
           "link": ""
         }
       ];
+      this.prevKey = this.activatedRoute.snapshot.queryParams.key;
       this.fetchContentOnParamChange();
     }
     this.frameworkService.getSelectedFrameworkCategories(this.activatedRoute.snapshot.queryParams.framework)
@@ -172,7 +174,7 @@ export class CoursesSearchComponent implements OnInit {
       ],
       query: key ?? '',
       sort_by: { lastPublishedOn: this.recentlyPublished?'desc':'asc' },
-      pageNumber: this.currentPage,
+      pageNumber:  key === this.prevKey ? this.currentPage : pageNumber,
       limit:this.itemsPerPage
     };
     if (option.filters.keywords == '') {
@@ -181,13 +183,31 @@ export class CoursesSearchComponent implements OnInit {
     if (option.filters.targetTaxonomyCategory4Ids[0] == '') {
       delete option.filters.targetTaxonomyCategory4Ids;
     }
+    if(key != this.prevKey ){
+      this.courses = [];
+    }
+    if(key == this.prevKey && this.currentPage != pageNumber){
+
+    }
+    this.prevKey = key;
     this.searchService.contentSearch(option).subscribe(res => {
       this.getWishlisteddoids();
-      this.courses = [...this.courses , ...res['result']['content']];
+      if (this.courses.length === 0 || !this.isSame(this.courses, res['result']['content'])) {
+        this.courses = [ ...this.courses, ...res['result']['content']];
+      }
       this.courses =  this.contentSearchService.updateCourseWithTaggedCompetency(this.courses);
       this.scrollCheck = false;
       // console.log('Searched Courses', res['result']['content']);
     });
+  }
+
+  isSame(arr1: any[], arr2: any[]): boolean {
+    const identifiers1 = arr1.map(obj => obj.identifier);
+    const identifiers2 = arr2.map(obj => obj.identifier);
+    const uniqueIdentifiers1 = new Set(identifiers1);
+    const uniqueIdentifiers2 = new Set(identifiers2);
+    const intersection = new Set([...uniqueIdentifiers1].filter(x => uniqueIdentifiers2.has(x)));
+    return intersection.size > 0;
   }
 
   appendWishlistToCourse() {

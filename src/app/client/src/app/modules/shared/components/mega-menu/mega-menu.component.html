@@ -20,15 +20,6 @@
          </a>
         </li>
         <li>
-          <a href="javascript:void(0);"  (click)="navigateTo('/competency-passbook')" mat-menu-item>
-            <mat-icon>extension</mat-icon>
-             <div class="display">
-                <h3 class="	sub-heading-two">Competency passbook</h3>
-                <p>Competency passbook space</p>
-             </div>
-         </a>
-        </li>
-        <li>
           <a href="javascript:void(0);"  [routerLink]="['/network-hub/home']" mat-menu-item>
             <mat-icon>extension</mat-icon>
              <div class="display">
@@ -43,15 +34,6 @@
      *ngIf="permissionService.checkRolesPermissions(workSpaceRole) || permissionService.checkRolesPermissions(adminDashboard)"
     >Others</h3>
     <ul class="list">
-      <li *ngIf="permissionService.checkRolesPermissions(adminDashboard)">
-        <a href="javascript:void(0);"  (click)="navigateTo('/dashBoard/taxonomy-editor')" mat-menu-item>
-          <mat-icon class="mr-8">settings_applications</mat-icon>
-           <div class="display">
-              <h3 class="sub-heading-two">{{resourceService?.frmelmnts?.snav?.taxonomyEditor}}</h3>
-              <p>A visual representation of framework categories.</p>
-           </div>
-        </a>
-      </li>
       <li *ngIf="permissionService.checkRolesPermissions(workSpaceRole)">
         <a href="javascript:void(0);"  (click)="navigateToWorkspace()" mat-menu-item>
           <mat-icon>settings_brightness</mat-icon>

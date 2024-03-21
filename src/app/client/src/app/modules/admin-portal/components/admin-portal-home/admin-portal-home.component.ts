@@ -40,14 +40,19 @@ export class AdminPortalHomeComponent implements OnInit {
       this.iconName = 'school';
     } else if(this.routeName == 'roles-access') {
       this.tabName = 'Roles and Access';
-       //change Icon as required
+      //change Icon as required
       this.iconName = 'school';
     } else if(this.routeName === 'competencies') {
-      this.tabName = 'Competencies';
-       //change Icon as required
+      this.tabName = 'User Competency Passbook';
+      //change Icon as required
+      this.iconName = 'school';
+    } else if(this.routeName === 'taxonomy-editor') {
+      this.tabName = 'Taxonomy Editor';
+      //change Icon as required
       this.iconName = 'school';
     } else {
       this.tabName = 'Notification';
+      //change Icon as required
       this.iconName = "notifications";
     }
     this.mapBreadCrumb();
@@ -66,6 +71,14 @@ export class AdminPortalHomeComponent implements OnInit {
       });
     } else {
       this.breadCrumbData = [];
+      if(this.tabName === 'Taxonomy Editor') {
+        this.breadCrumbData.push({
+          "label": "Course and Assessment",
+          "status": "inActive",
+          "icon": "school",
+          "link": "/admin-portal/course-assessment"
+        })
+      }
       this.breadCrumbData.push(
         {
             "label": this.tabName,
@@ -73,6 +86,7 @@ export class AdminPortalHomeComponent implements OnInit {
             "icon": this.iconName,
             "link": this.router.url
       });
+      
     }
     
   }

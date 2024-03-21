@@ -1,13 +1,19 @@
-<mat-drawer-container class="sidenav-container">
-    <mat-drawer #sidenav mode="side" [opened]="router.url.split('/')[3] == 'create'? false : true">
+
+<div class="banner" *ngIf="routeName === 'course-assessment'">
+    <img class="container ui" src="../../../../../assets/images/course_and_assessment.png" alt="Course and Assessment">
+</div>
+<!-- [ngClass]="routeName !== 'taxonomy-editor'? 'container ui':''" -->
+<mat-drawer-container class="sidenav-container container ui">
+    <mat-drawer #sidenav mode="side" [opened]="router.url.split('/')[3] == 'create' || routeName === 'taxonomy-editor' ? false : true">
         <a mat-button color="primary" [routerLink]="['course-assessment']" [ngClass]="{'active': routeName == 'course-assessment'}">{{resourceService?.frmelmnts?.adminPortal?.courseAndAssessment}}</a>
         <a mat-button color="primary" [routerLink]="['roles-access']" [ngClass]="{'active': routeName == 'roles-access'}">{{resourceService?.frmelmnts?.adminPortal?.rolesAndAccess}}</a>
         <a mat-button color="primary" [routerLink]="['competencies']" [ngClass]="{'active': routeName == 'competencies'}">{{resourceService?.frmelmnts?.adminPortal?.competencies}}</a>
         <a mat-button color="primary" [routerLink]="['custom-notification']" [ngClass]="{'active': routeName == 'custom-notification'}">{{resourceService?.frmelmnts?.adminPortal?.notifications}}</a>
+        <a mat-button color="primary" [routerLink]="['taxonomy-editor']" [ngClass]="{'active': routeName == 'taxonomy-editor'}">{{resourceService?.frmelmnts?.adminPortal?.taxonomyEditor}}</a>
     </mat-drawer>
-    <mat-drawer-content class="side-content">
+    <mat-drawer-content>
         <compass-breadcrumb [data]="breadCrumbData"></compass-breadcrumb>
-        <div class="ui container">
+        <div class="side-content">
             <router-outlet></router-outlet>
         </div>
     </mat-drawer-content>

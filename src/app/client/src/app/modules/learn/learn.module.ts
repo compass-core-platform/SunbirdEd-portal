@@ -18,8 +18,6 @@ import {
   SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
   SuiRatingModule, SuiCollapseModule
 } from 'ng2-semantic-ui-v9';
-import { CourseAssessmentProgressComponent } from './components/course-assessment-progress/course-assessment-progress.component';
-import { BatchProgressDetailsComponent } from './components/batch-progress-details/batch-progress-details.component';
 
 @NgModule({
   imports: [
@@ -39,6 +37,6 @@ import { BatchProgressDetailsComponent } from './components/batch-progress-detai
     MatMenuModule
   ],
   providers: [],
-  declarations: [CoursePageComponent, CourseAssessmentProgressComponent, BatchProgressDetailsComponent]
+  declarations: [CoursePageComponent]
 })
 export class LearnModule { }

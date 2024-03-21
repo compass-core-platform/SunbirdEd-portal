@@ -36,18 +36,12 @@ export class ProfessionalDetailsComponent implements OnInit {
     colOne: {
       fields: [
         { label: "Type of Organisation", value: "organisationType" },
-        { label: "Organisation Name", value: "organisationName" },
+        { label: "Organisation Name", value: "name" },
         { label: "Industry", value: "industry" },
         { label: "Location", value: "location" },
-      ],
-    },
-    colTwo: {
-      fields: [
-        {
-          label: "Organisation Name (Govt. employees)",
-          value: "govOrganisationName",
-        },
-        { label: "Service (Govt. employees)", value: "service" },
+        { label: "Description", value: "description" },
+        { label: "Pay Type", value: "payType" },
+        { label: "Service", value: "service" },
       ],
     },
     colThree: {
@@ -56,6 +50,9 @@ export class ProfessionalDetailsComponent implements OnInit {
         { label: "Allotment Year of Service", value: "allotmentYear" },
         { label: "Civil List Number", value: "civilListNumber" },
         { label: "Employee Code", value: "employeeCode" },
+        { label: "Date of joining of service", value: "dojOfService" },
+        { label: "Official Postal Address", value: "officialPostalAddress" },
+        { label: "Pin Code", value: "pinCode" },
       ],
     },
   };
@@ -120,56 +117,49 @@ export class ProfessionalDetailsComponent implements OnInit {
         item.label = this.resourceService.frmelmnts.lbl.editProfile[item.value];
       });
     }
-
-    this.form = this.formBuilder.group({
-      // First Column
-      organisationType: [
-        this.userProfile?.profileDetails?.professionalDetails[0]
-          ?.organisationType || "",
-      ],
-      organisationName: [
-        this.userProfile?.profileDetails?.professionalDetails[0]
-          ?.organisationName || "",
-      ],
-      industry: [
-        this.userProfile?.profileDetails?.professionalDetails[0]?.industry ||
-          "",
-      ],
-
-      location: [
-        this.userProfile?.profileDetails?.professionalDetails[0]?.location ||
-          "",
-      ],
-
-      // Second Column
-      govOrganisationName: [
-        this.userProfile?.profileDetails?.professionalDetails[0]
-          ?.govOrganisationName || "",
-      ],
-      service: [
-        this.userProfile?.profileDetails?.professionalDetails[0]?.service || "",
-      ],
-
-      // Third Column
-      cadre: [
-        this.userProfile?.profileDetails?.professionalDetails[0]?.cadre || "",
-      ],
-      allotmentYear: [
-        this.userProfile?.profileDetails?.professionalDetails[0]
-          ?.allotmentYear || "",
-      ],
-
-      civilListNumber: [
-        this.userProfile?.profileDetails?.professionalDetails[0]
-          ?.civilListNumber || "",
-      ],
-      employeeCode: [
-        this.userProfile?.profileDetails?.professionalDetails[0]
-          ?.employeeCode || "",
-      ],
-    });
+    this.populateForm()
   }
-
+  populateForm() {
+    if (this.userProfile?.profileDetails?.professionalDetails) {
+      const professionalDetails = this.userProfile.profileDetails.professionalDetails[0]; // Assuming there is only one set of professional details
+      const employmentDetails = this.userProfile.profileDetails.employmentDetails;
+  
+      this.form = this.formBuilder.group({
+        organisationType: [professionalDetails?.organisationType || ""],
+        name: [professionalDetails?.name || ""],
+        industry: [professionalDetails?.industry || ""],
+        location: [professionalDetails?.location || ""],
+        description: [professionalDetails?.description || ""],
+        payType: [employmentDetails?.payType || ""],
+        service: [employmentDetails?.service || ""],
+        cadre: [employmentDetails?.cadre || ""],
+        allotmentYear: [employmentDetails?.allotmentYearOfService || ""],
+        civilListNumber: [employmentDetails?.civilListNo || ""],
+        employeeCode: [employmentDetails?.employeeCode || ""],
+        dojOfService: [employmentDetails?.dojOfService || ""],
+        officialPostalAddress: [employmentDetails?.officialPostalAddress || ""],
+        pinCode: [employmentDetails?.pinCode || ""],
+      });
+    } else {
+      this.form = this.formBuilder.group({
+        organisationType: [""],
+        name: [""],
+        industry: [""],
+        location: [""],
+        description: [""],
+        payType: [""],
+        service: [""],
+        cadre: [""],
+        allotmentYear: [""],
+        civilListNumber: [""],
+        employeeCode: [""],
+        dojOfService: [""],
+        officialPostalAddress: [""],
+        pinCode: [""],
+      });
+    }
+  }
+  
   onSubmit(request) {
     if (this.form.valid) {
       this.payload = this.form.value;
@@ -185,21 +175,30 @@ export class ProfessionalDetailsComponent implements OnInit {
                   ?.designation,
               doj: this.userProfile?.profileDetails?.professionalDetails[0]
                 ?.doj,
-              organisationType: this.payload.organisationType,
-              organisationName: this.payload.organisationName,
+                organisationType: this.payload.organisationType,
+              name: this.payload.name,
               industry: this.payload.industry,
               location: this.payload.location,
-              govOrganisationName: this.payload.govOrganisationName,
-              service: this.payload.service,
-              cadre: this.payload.cadre,
-              allotmentYear: this.payload.allotmentYear,
-              civilListNumber: this.payload.civilListNumber,
-              employeeCode: this.payload.employeeCode,
+              description: this.payload.description,
             },
           ];
-
+          let employmentDetails: any = {
+            departmentName:
+              this.userProfile?.profileDetails?.employmentDetails
+                ?.departmentName,
+            cadre: this.payload.cadre,
+            allotmentYearOfService: this.payload.allotmentYear,
+            civilListNo: this.payload.civilListNumber,
+            employeeCode: this.payload.employeeCode,
+            payType: this.payload.payType,
+            service: this.payload.service,
+            dojOfService: this.payload.dojOfService,
+            officialPostalAddress: this.payload.officialPostalAddress,
+            pinCode: this.payload.pinCode,
+          };
           this.userProfile.profileDetails = {
             ...this.userProfile.profileDetails,
+            employmentDetails: employmentDetails,
             professionalDetails: professionalDetails,
           };
 
@@ -215,8 +214,7 @@ export class ProfessionalDetailsComponent implements OnInit {
             });
         }
       });
-    }
-    else {
+    } else {
       const requiredFieldsEmpty = Object.keys(this.form.controls).some(
         (control) => this.form.get(control)?.hasError("required")
       );
