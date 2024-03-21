@@ -36,7 +36,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { BatchListComponent } from './components/batch/batch-list/batch-list.component';
 import { CourseContentComponent } from './components/course-consumption/course-content/course-content.component';
-import { CertificateDirectivesModule } from 'sb-svg2pdf-v13';
+import { CertificateDirectivesModule } from 'compass-svg2pdf';
 import { CourseDiscussionForumComponent } from './components/course-consumption/course-discussion-forum/course-discussion-forum.component';
 import { TimeagoModule } from "ngx-timeago";
 
