@@ -98,7 +98,7 @@
     "compass-resource-library": "^0.0.3",
     "compass-sb-styles": "^0.0.9",
     "compass-sb-themes": "^0.0.89",
-    "compass-sb-notification": "0.0.1",
+    "compass-sb-notification": "0.0.2",
     "compass-sunbird-quml-player": "^0.0.8",
     "compass-svg2pdf": "^0.0.1",
     "core-js": "^2.4.1",
