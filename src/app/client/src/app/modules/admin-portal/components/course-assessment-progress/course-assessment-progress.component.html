@@ -32,6 +32,11 @@
                   </button>
                 </mat-chip>
             </mat-chip-list>
-            <data-table [dataSource]="dataSource" [displayedColumns]="displayColumns" (onPageChange)="onPageChange($event)" [showPagination]="true" [count]="count"></data-table>
+            <ng-container *ngIf="dataSource.length > 0; else noData">
+                <data-table [dataSource]="dataSource" [displayedColumns]="displayColumns" (onPageChange)="onPageChange($event)" [showPagination]="true" [count]="count"></data-table>
+            </ng-container>
+            <ng-template #noData>
+                <div class="errorMessage">Something went wrong with API</div>
+            </ng-template>
         </section>
 </div>
