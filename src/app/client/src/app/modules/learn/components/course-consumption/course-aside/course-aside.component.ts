@@ -84,7 +84,11 @@ export class CourseAsideComponent implements OnInit {
         this.getOtherCertificates(_.get(this.userProfile, 'userId'), 'all');
       }
     });
+    this.getCourseRatings();
+    
+  }
 
+  getCourseRatings(){
     this.courseConsumptionService.getCourseRatings(this.courseHierarchy['identifier']).subscribe((res: any) => {
       this.ratings = res['result']['response'];
       // this.ratings = {
@@ -113,7 +117,6 @@ export class CourseAsideComponent implements OnInit {
       }
     });
   }
-
   /**
   * @param userId
   *It will fetch certificates of user, other than courses
@@ -222,8 +225,8 @@ export class CourseAsideComponent implements OnInit {
         this.toasterService.success('Ratings added successfully!');
         this.showRatingModal = false;
         (<HTMLInputElement>document.getElementById("review")).value = '';
+        this.getCourseRatings();
         this.ratingUpdation.emit(true);
-        console.log('Rating', res);
       });
     }
   }
