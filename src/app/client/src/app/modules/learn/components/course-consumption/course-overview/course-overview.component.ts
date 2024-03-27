@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FrameworkService } from '@sunbird/core';
 import { floor, iteratee } from 'lodash';
 import { CourseConsumptionService } from './../../../services';
@@ -14,7 +14,8 @@ export class CourseOverviewComponent implements OnInit {
 
   @Input() courseDetails: any;
   @Input() configContent: any;
-  @Input() params: any
+  @Input() params: any;
+  @Output() ratingUpdation: EventEmitter<boolean> = new EventEmitter();
   associatedTerms = [];
   categoryTermsIdLevels: any
   competencylevels: any;
@@ -143,6 +144,15 @@ export class CourseOverviewComponent implements OnInit {
     } else {
       this.slicedItems = 3;
       this.moreBtnText = 'More';
+    }
+  }
+
+  ratingUpdated(event){
+    if(event){
+      this.rating = 0;
+      this.reviews = [];
+      this.getCourseReviews(this.courseDetails['identifier']);
+      this.ratingUpdation.emit(true);
     }
   }
 

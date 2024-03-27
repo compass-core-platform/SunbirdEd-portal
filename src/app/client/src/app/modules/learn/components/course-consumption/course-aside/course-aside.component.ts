@@ -8,7 +8,7 @@ import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ResourceService, ToasterService, IUserData } from '@sunbird/shared';
 import { CsCertificateService } from '@project-sunbird/client-services/services/certificate/interface';
-import { CertificateDownloadAsPdfService } from 'sb-svg2pdf-v13';
+import { CertificateDownloadAsPdfService } from 'compass-svg2pdf';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,6 +21,7 @@ export class CourseAsideComponent implements OnInit {
   @Input() courseHierarchy: any;
   @Input() configContent: any;
   @Input() params: any;
+  @Output() ratingUpdation: EventEmitter<boolean> = new EventEmitter();
 
   firstContentId: any;
   parentId: any;
@@ -83,7 +84,11 @@ export class CourseAsideComponent implements OnInit {
         this.getOtherCertificates(_.get(this.userProfile, 'userId'), 'all');
       }
     });
+    this.getCourseRatings();
+    
+  }
 
+  getCourseRatings(){
     this.courseConsumptionService.getCourseRatings(this.courseHierarchy['identifier']).subscribe((res: any) => {
       this.ratings = res['result']['response'];
       // this.ratings = {
@@ -112,7 +117,6 @@ export class CourseAsideComponent implements OnInit {
       }
     });
   }
-
   /**
   * @param userId
   *It will fetch certificates of user, other than courses
@@ -171,10 +175,12 @@ export class CourseAsideComponent implements OnInit {
       rcApiPath: '/learner/rc/${schemaName}/v1',
     })
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((resp) => {
+      .subscribe(async (resp) => {
         if (_.get(resp, 'printUri')) {
-          this.certDownloadAsPdf.download(resp.printUri, null, courseObj.trainingName);
-          this.toasterService.success(this.resourceService.frmelmnts.cert.lbl.certDownloadSuccess);
+          let status: any = await this.certDownloadAsPdf.download(resp.printUri, null, courseObj.trainingName);
+          if(!status.hasOwnProperty('__zone_symbol__state')) {
+            this.toasterService.success(this.resourceService.frmelmnts.cert.lbl.certDownloadSuccess);
+          }
         } else {
           this.toasterService.error(this.resourceService.messages.emsg.m0076);
         }
@@ -218,12 +224,9 @@ export class CourseAsideComponent implements OnInit {
       this.courseConsumptionService.saveCourseRating(data).subscribe((res: any) => {
         this.toasterService.success('Ratings added successfully!');
         this.showRatingModal = false;
-        this.instructorRating = 0;
-        this.contentRating = 0;
-        this.engagementRating = 0;
-        this.assessmentRating = 0;
         (<HTMLInputElement>document.getElementById("review")).value = '';
-        console.log('Rating', res);
+        this.getCourseRatings();
+        this.ratingUpdation.emit(true);
       });
     }
   }

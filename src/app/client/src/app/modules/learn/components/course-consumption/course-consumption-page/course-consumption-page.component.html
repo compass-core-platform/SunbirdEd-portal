@@ -32,7 +32,7 @@
                 </div>
             </div> -->
 
-        <app-course-overview [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [params]="batchId" [isActive]="tab1.isActive"></app-course-overview>
+        <app-course-overview [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [params]="batchId" [isActive]="tab1.isActive" (ratingUpdation)="ratingUpdated($event)"></app-course-overview>
         </mat-tab>
         <mat-tab label={{contentTabLabel}} #tab2>
             <app-course-content [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc"

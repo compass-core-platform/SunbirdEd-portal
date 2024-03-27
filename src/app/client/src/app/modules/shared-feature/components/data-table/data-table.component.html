@@ -5,7 +5,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> <ng-container *ngIf="col !==  'link' && col !==  'appIcon' && col !==  'initials'">{{splitColumnName(col)}}</ng-container></th>
         <td mat-cell *matCellDef="let row"> 
             <ng-container *ngIf="col ===  'link'">
-                <a [routerLink]='row[col].path' [queryParams]="{name:row['name'], primaryCategory:row['primaryCategory']}">{{row[col].text}}</a>
+                <ng-container *ngIf="row[col].path else noLink">
+                  <a [routerLink]='row[col].path' [queryParams]="{name:row['name'], primaryCategory:row['primaryCategory']}">{{row[col].text}}</a>
+                </ng-container>
+                <ng-template #noLink>
+                  <a>{{row[col].text}}</a>
+                </ng-template>
             </ng-container>
             <ng-container *ngIf="col !==  'link'">
                 <!-- <img *ngIf="col === 'appIcon'" [src]="row['appIcon']" /> -->
