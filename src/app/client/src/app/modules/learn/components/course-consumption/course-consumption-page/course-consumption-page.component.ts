@@ -488,4 +488,8 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
       this.courseConsumptionService.courseBatchProgress.next(res);
     });
   }
+
+  ratingUpdated(){
+    this.getCourseRating(this.courseId);
+  }
 }
