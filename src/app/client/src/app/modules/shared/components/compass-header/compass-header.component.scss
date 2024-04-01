@@ -138,7 +138,7 @@
   .spaces-icon {
     display: none;
 
-    @media only screen and (min-width: 800px) {
+    @media only screen and (min-width: 768px) {
       display: block;
     }
   }
@@ -154,7 +154,7 @@
     .right{
       display: flex;
     }
-    @media only screen and (min-width: 800px) {
+    @media only screen and (min-width: 768px) {
       display: none;
     }
   }
@@ -168,7 +168,7 @@
   &__lang-large {
     display: none;
 
-    @media only screen and (min-width: 800px) {
+    @media only screen and (min-width: 768px) {
       display: block;
     }
   }
@@ -279,6 +279,12 @@
     padding: 15px;
     margin-top: 19px;
   }
+
+  @media only screen and (max-width: 768px) {
+    .mat-menu-panel.ng-trigger-transformMenu.mat-menu-after.mat-menu-below {
+      display: none !important;
+    }
+  }
 }
 
 // ::ng-deep#cdk-overlay-0 {
@@ -307,7 +313,7 @@
 .sbt-header-tool-bar {
   .header-icon{
     &__home, &__notification{
-      @media only screen and (max-width: 800px) {
+      @media only screen and (max-width: 768px) {
         display: none;
       }
     }

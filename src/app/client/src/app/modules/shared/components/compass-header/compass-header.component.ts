@@ -177,4 +177,11 @@ export class CompassHeaderComponent implements OnInit {
   searchCourses(text: string) {
     this.router.navigateByUrl(`search/Courses/1?channel=${this.userService.channel}&key=${encodeURIComponent(text)}`)
   }
+
+  hideBottomMenu() {
+    setTimeout(() => {
+      const el = document.getElementsByClassName('mat-menu-after')[0] as HTMLElement;
+      el.style.display = "none";
+    }, 1000);
+  }
 }
