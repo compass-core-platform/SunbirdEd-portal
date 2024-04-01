@@ -101,6 +101,7 @@ export class CourseAssessmentProgressComponent implements OnInit {
 
   getAllparicipentsList(batchList){
     let updateCourseList = [];
+    this.dataSource = [];
       let payload = {
         request:{
           batch: {
@@ -124,6 +125,9 @@ export class CourseAssessmentProgressComponent implements OnInit {
             link:data.batches?{text:'View Progress', path:`batch/${data.identifier}/${data.batches[0].batchId}`}:{text:'View Progress', path:''}
           }}); 
           this.dataSource = [...updateCourseList]; 
+    }, (error) => {
+      this.dataSource = [];
+      console.log("There is a error while fetching participants data", error)
     });
   }
 

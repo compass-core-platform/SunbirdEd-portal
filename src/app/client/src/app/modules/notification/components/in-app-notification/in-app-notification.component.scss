@@ -36,13 +36,15 @@
     right: 0;
     width: calculateRem(300px);
     top:calculateRem(50px);
-    padding: calculateRem(15px);
+    padding: calculateRem(18px);
     background: var(--white);
+    max-height: 90vh;
+    overflow: auto;
     .mat-icon{
       cursor: pointer;
       position: absolute;
-      right: calculateRem(5px);
-      top: calculateRem(5px);
+      right: calculateRem(4px);
+      top: calculateRem(4px);
     }
   }
 

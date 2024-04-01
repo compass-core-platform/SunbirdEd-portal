@@ -61,6 +61,7 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
       }
     });
     this.fetchNotificationList();
+    console.log('inAppNotificationConfig',this.inAppNotificationConfig);
   }
 
   async fetchNotificationList() {

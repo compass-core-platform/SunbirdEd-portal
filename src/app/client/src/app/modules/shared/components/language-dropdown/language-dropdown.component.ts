@@ -48,9 +48,12 @@ export class LanguageDropdownComponent implements OnInit {
     this.resourceService.getLanguageChange(_.find(this.languageRange, ['value', this.selectedLanguage]));
     this.genericResourceService.getLanguageChange(_.find(this.languageRange, ['value', this.selectedLanguage]));
     window['TagManager']?.SBTagService?.pushTag({portalLanguage: this.selectedLanguage}, 'USERLANG_', true);
+    this.selectedLanguage = this.selectedLanguage.toUpperCase();
+    this.languageRange.forEach((lan: any) => lan.value = lan.value.toUpperCase());
   }
 
   onLanguageChange(event) {
+    event = event.toLowerCase();
     this._cacheService.set('portalLanguage', event);
     localStorage.setItem('portalLanguage', event);
     const language = _.find(this.languageRange, ['value', event]);

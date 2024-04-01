@@ -19,7 +19,7 @@ import { PendingchangesGuard } from '@sunbird/public';
 import { GroupsModule } from '../groups';
 import { CommonConsumptionModule } from 'compass-common-consumption';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';import { CertificateDirectivesModule } from 'sb-svg2pdf-v13';
+import { MatDividerModule } from '@angular/material/divider';import { CertificateDirectivesModule } from 'compass-svg2pdf';
 import { TimeagoModule } from "ngx-timeago";
 import { EcmlHandlerComponentComponent } from './components/ecml-handler-component/ecml-handler-component.component';
 

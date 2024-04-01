@@ -290,7 +290,7 @@ export class PersonalDetailsComponent implements OnInit {
           firstname:this.userProfile?.firstName,
           lastname:this.userProfile?.lastName,
           mobile:this.userProfile?.phone,
-          // primaryEmail:this.userProfile?.email,
+          primaryEmail:this.userProfile?.userName,
           secondaryEmail: this.payload.secondaryEmail || "",
           domicileMedium: this.payload.domicileMedium || "",
           postalAddress: this.payload.postalAddress || "",
@@ -317,6 +317,7 @@ export class PersonalDetailsComponent implements OnInit {
       delete this.payload.departmentName;
       delete this.payload.designation;
       delete this.payload.doj;
+      delete this.payload.secondaryEmail;
 
       this.payload.profileDetails = {
         ...this.userProfile.profileDetails,
