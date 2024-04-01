@@ -403,54 +403,52 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         if(this.configService.appConfig.isProfileupdateMandatory){
             this.checkUserProfileDetails();
         }
-        this.fetchRecommendedCourses()
-        this.frameWorkService
-          .getFrameworkCategories("fracing_fw")
-          .subscribe((data) => {
-            console.log("THIS IS DATA", data);
-
-            data.result.framework.categories.forEach((category) => {
-              if (category.code === "taxonomyCategory4") {
-                category.terms.forEach((term) => {
-                  if (term.category === "taxonomyCategory4") {
-                    this.identifiers.push(term.identifier);
-                  }
-                });
-              }
-            });
-            console.log("THIS IS Identifiers", this.identifiers);
-          });
+          this.fetchRecommendedCourses()
     }
     fetchRecommendedCourses() {
-        const request = {
-            request: {
-                "targetTaxonomyCategory4Ids": ["fracing_fw_taxonomycategory4_competencies_a", "fracing_fw_taxonomycategory4_competencies_b", "fracing_fw_taxonomycategory4_competencies_c", "fracing_fw_taxonomycategory4_competencies_d", "fracing_fw_taxonomycategory4_competencies_e", "fracing_fw_taxonomycategory4_competencies_f", "fracing_fw_taxonomycategory4_f51a525c-48b6-427c-8b44-9bd7a1238c60", "fracing_fw_taxonomycategory4_787bb123-3926-4226-a866-1a51d7ae98b3", "fracing_fw_taxonomycategory4_b675af5f-aeaa-4414-85ae-765be1dacb08", "fracing_fw_taxonomycategory4_7f741841-0766-40e7-ab09-d1f046671d0b", "fracing_fw_taxonomycategory4_4184ee8f-7542-4535-8477-05d6c6b2a5c7", "fracing_fw_taxonomycategory4_5d6e1a67-e96b-45fd-8334-c4f19d6e3296", "fracing_fw_taxonomycategory4_730ed64f-c041-4c84-9d80-1bd7574e89bf", "fracing_fw_taxonomycategory4_fracing_fw_taxonomycategory4_term947", "fracing_fw_taxonomycategory4_807af82e-90a7-4182-b5d6-0842132930eb", "fracing_fw_taxonomycategory4_b1461f58-f454-4d8e-9eb3-04cc10ed2b79", "fracing_fw_taxonomycategory4_9bae3a5c-7edb-48fd-b226-5301ca18638e", "fracing_fw_taxonomycategory4_6ddc5543-f078-44bc-aef4-25d19f3e8516", "fracing_fw_taxonomycategory4_7fd5e55c-f330-41cd-b60c-6fdefcd1eaad", "fracing_fw_taxonomycategory4_23138f02-eafa-499e-b140-84bb9a0f7a82", "fracing_fw_taxonomycategory4_29860950-3faf-444b-b3ba-970e588faaf5"],
-              limit: 100,
-            }
-          };   
-        this.coursesService.getRecommendedCourses(request).subscribe(
-          (data) => { 
-            if (data && data.result && data.result.content) {
-              this.recommendedCourses = data.result.content;
-              this.recommendedCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.recommendedCourses);
-              this.recommendedCourses = this.recommendedCourses.map((course: any) => {
-                let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
-                if(isWhishListed) {
-                    course['isWishListed'] = true;
-                } else {
-                    course['isWishListed'] = false;
+        this.frameWorkService.getFrameworkCategories("fracing_fw").subscribe((data) => {    
+            const identifiers = [];
+            data.result.framework.categories.forEach((category) => {
+                if (category.code === "taxonomyCategory4") {
+                    category.terms.forEach((term) => {
+                        if (term.category === "taxonomyCategory4") {
+                            identifiers.push(term.identifier);
+                        }
+                    });
                 }
-
-                return course
-            })
-            }
-          },
-          (err) => {
-            console.error('Error fetching recommended courses:', err);
-          }
-        );
-      }
-      
+            });
+    
+            const request = {
+                request: {
+                    "targetTaxonomyCategory4Ids": identifiers,
+                    limit: 100,
+                }
+            };   
+            
+            this.coursesService.getRecommendedCourses(request).subscribe(
+                (data) => { 
+                    if (data && data.result && data.result.content) {
+                        this.recommendedCourses = data.result.content;
+                        this.recommendedCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.recommendedCourses);
+                        this.recommendedCourses = this.recommendedCourses.map((course: any) => {
+                            let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
+                            if(isWhishListed) {
+                                course['isWishListed'] = true;
+                            } else {
+                                course['isWishListed'] = false;
+                            }
+    
+                            return course;
+                        });
+                    }
+                },
+                (err) => {
+                    console.error('Error fetching recommended courses:', err);
+                }
+            );
+        });
+    }
+    
     public getWishlisteddoIds() {
         let payload = {
             "request": {
