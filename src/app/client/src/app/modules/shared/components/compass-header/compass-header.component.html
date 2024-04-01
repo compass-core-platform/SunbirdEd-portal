@@ -145,7 +145,7 @@
         </div>
         <mat-menu #menu="matMenu" yPosition="above" [hasBackdrop]="false">
           <app-mega-menu (navigateToHome)="navigateToHomepage()"></app-mega-menu>
-          <div class="menu-trigger__close" [matMenuTriggerFor]="menu">
+          <div class="menu-trigger__close" [matMenuTriggerFor]="menu" (click)="hideBottomMenu();">
             <mat-icon>cancel</mat-icon>
           </div>
         </mat-menu>
