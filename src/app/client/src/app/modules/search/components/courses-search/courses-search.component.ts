@@ -138,19 +138,12 @@ export class CoursesSearchComponent implements OnInit {
         "userId": this.userService._userid
       }
     }
-
-    this.wishlistedService.getWishlistedCourses(payload).subscribe((res: any) => {
-      if (res.result.wishlist.length > 0) {
-        this.allWishlistedIds = res.result.wishlist;
-      }
-      this.coursesService.enrolledCourseData$.pipe().subscribe(data => {
-        this.coursesService.enrolledCourseData$.pipe().subscribe(data => {
-          this.courses = _.reverse(_.sortBy(data.enrolledCourses, val => {
-            return _.isNumber(_.get(val, 'completedOn')) ? _.get(val, 'completedOn') : Date.parse(val.completedOn);
-          })) || [];
-          this.appendWishlistToCourse();
-        });
-      });
+    
+    this.coursesService.enrolledCourseData$.pipe().subscribe(data => {
+      this.courses = _.reverse(_.sortBy(data.enrolledCourses, val => {
+        return _.isNumber(_.get(val, 'completedOn')) ? _.get(val, 'completedOn') : Date.parse(val.completedOn);
+      })) || [];
+      this.appendWishlistToCourse();
     });
   }
 
@@ -316,7 +309,12 @@ export class CoursesSearchComponent implements OnInit {
   onScroll(){
     this.currentPage++;
     this.scrollCheck = true;
-    this.fetchContentOnParamChange();
+    if(this.activatedRoute.snapshot.queryParams.learnings == 'true'){
+      this.getTrainingAttended();
+    } else {
+      this.fetchContentOnParamChange();
+    }
+    
   }
   scrolledUp(){
     this.currentPage--;
