@@ -340,7 +340,7 @@
 </ng-container>
 
 
-<div class="overlay-sidebar" *ngIf="showSideMenu">
+<div class="overlay-sidebar" *ngIf="showSideMenu"  (click)="toggleSideMenu(false)">
   <div class="overlay-sidebar__menu" tabindex="0" role="dialog" id="overlaySidebarID" aria-labelledby="dialog1_label" aria-modal="true" aria-label="open sidebar navigation">
     <div class="profile__info">
       <em class="icon-svg icon-svg--xs icon-close" role="button" aria-label="Close sidebar navigation" title="Close sidebar" tabindex="0"
