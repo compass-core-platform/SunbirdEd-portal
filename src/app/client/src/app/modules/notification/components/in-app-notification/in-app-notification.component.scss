@@ -1,4 +1,5 @@
-@use "@project-sunbird/sb-styles/assets/mixins/mixins" as *;
+// @use "@project-sunbird/sb-styles/assets/mixins/mixins" as *;
+@use "compass-sb-styles/assets/mixins/mixins"as *;
 
 .notification-bell{
   // box-shadow: var(--sbt-box-shadow-6px);
@@ -43,9 +44,40 @@
     .mat-icon{
       cursor: pointer;
       position: absolute;
-      right: calculateRem(4px);
-      top: calculateRem(4px);
+      right: calculateRem(8px);
+      top: calculateRem(8px);
     }
+  }
+  .sb-notification-popup{
+    right: 0;
+    width: calculateRem(300px);
+    top:calculateRem(50px);
+    padding: calculateRem(18px);
+    background: var(--white);
+    max-height: 90vh;
+    overflow: auto;
+    .pop-up{
+      padding: 32px;
+      left: 50%;
+      top: 50%;
+      transform: translate(0, -50%);
+      .title{
+        @include typography(var(--font-com-lato), 24px, 700, 0.25px, 20px);
+        margin-bottom: 24px;
+      }
+      .description{
+        @include typography(var(--font-com-lato), 18px, 700, 0.25px, 20px);
+        margin-bottom: 24px;
+      }
+      .buttons{
+        display: flex;
+        justify-content: flex-end;
+        .btn{
+          margin-left: 16px;
+        }
+      }
+    }
+    
   }
 
 }
