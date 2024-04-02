@@ -13,17 +13,35 @@
       <!-- <div mat-dialog-title class="mb-0">
         <button aria-label="close dialog" mat-dialog-close class="close-btn"></button>
       </div> -->
-      <mat-icon (click)="showNotificationModel = !showNotificationModel">close</mat-icon>
+      <mat-icon (click)="showNotificationModel = false;">close</mat-icon>
       <div class="sb-mat__modal__content" tabindex="0">
       
         <sb-notification tabindex="0" *ngIf = 'notificationList.length>0; else showNoNotification' [notificationList]="notificationList"
-          [inAppNotificationConfig]="inAppNotificationConfig" (showMore)="handleShowMore($event)"
+          [inAppNotificationConfig]="inAppNotificationConfig" (showMore)="handleShowMore($event)" (notificationClick)="notificationClickHandler($event);"
           (showLess)="handleShowLess($event)"></sb-notification>
           <ng-template #showNoNotification>
               No notifications.
           </ng-template>
       </div>
       <div class="sb-mat__modal__actions"></div>
+    </div>
+
+    <div class="sb-mat__modal sb-notification-modal sb-notification-popup" *ngIf="showNotificationPopup">
+        <div class="transition ui dimmer page modals active visible">
+          <div class="ui modal transition active visible normal pop-up">
+            <mat-icon (click)="showNotificationPopup = false; $event.stopPropagation()">close</mat-icon>
+            <div class="title">
+              {{currentNotificationData?.data?.action?.template?.data?.title}}
+            </div>
+            <div class="description">
+              {{currentNotificationData?.data?.action?.template?.data?.description}}
+            </div>
+            <div class="buttons" tabindex="0">
+              <button class="btn com-secondary-btn" (click)="readHandler(currentNotificationData);$event.stopPropagation()">Mark as read</button>
+              <button class="btn com-secondary-btn" (click)="deleteHandler(currentNotificationData);$event.stopPropagation()">Delete</button>
+            </div>
+          </div>
+      </div>
     </div>
 </div>
 
@@ -40,7 +58,7 @@
       <div class="sb-mat__modal__content" tabindex="0">
         <sb-notification tabindex="0" [notificationList]="notificationList"
           [inAppNotificationConfig]="inAppNotificationConfig" (showMore)="handleShowMore($event)"
-          (showLess)="handleShowLess($event)"></sb-notification>
+          (showLess)="handleShowLess($event)" (notificationClick)="notificationClickHandler($event)"></sb-notification>
       </div>
       <div class="sb-mat__modal__actions"></div>
     </div>
