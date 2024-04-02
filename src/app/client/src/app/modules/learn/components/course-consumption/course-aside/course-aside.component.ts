@@ -43,6 +43,7 @@ export class CourseAsideComponent implements OnInit {
   engagementRating: number = 0;
   assessmentRating: number = 0;
   courseBatchCompletetion = 0;
+  impactScore= 0;
   reviewValue: string;
   ratings: any;
 
@@ -152,6 +153,7 @@ export class CourseAsideComponent implements OnInit {
     }
     this.courseConsumptionService.courseBatchProgress.subscribe((res:any) => {
       this.courseBatchCompletetion =Math.round(Number((res.result.courseCompletionPercentage)));
+      this.impactScore =Math.round(Number((res.result.impactScore)));
     })
   }
 

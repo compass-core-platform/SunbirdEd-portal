@@ -21,6 +21,7 @@ import { TaxonomyService } from '../../../../service/taxonomy.service';
 import { IContent } from '@project-sunbird/common-consumption';
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef } from '@angular/material/snack-bar';
 import { WishlistedService } from '../../../../service/wishlisted.service';
+import { FrameworkService } from '../../../core/services/framework/framework.service';
 
 interface IContentSearchRequest {
     request: {
@@ -132,6 +133,9 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
     popularTitle: string = '';
     popularButton: string = '';
     dynamicPopularCard = [];
+    frameWorkId: any = "";
+    identifiers = [];
+
     browseByCard = [
         {
             "iconUrl": "assets/images/topic.png",
@@ -209,7 +213,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         private segmentationTagService: SegmentationTagService, private observationUtil: ObservationUtilService,
         private genericResourceService: GenericResourceService, private cdr: ChangeDetectorRef, private taxonomyService: TaxonomyService,
         private learnPageContentService: publicService.LearnPageContentService, private snackBar: MatSnackBar,
-        private wishlistedService: WishlistedService) {
+        private wishlistedService: WishlistedService, private frameWorkService: FrameworkService) {
         this.genericResourceService.initialize();
         this.instance = (<HTMLInputElement>document.getElementById('instance'))
             ? (<HTMLInputElement>document.getElementById('instance')).value.toUpperCase() : 'SUNBIRD';
@@ -399,38 +403,52 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         if(this.configService.appConfig.isProfileupdateMandatory){
             this.checkUserProfileDetails();
         }
-        this.fetchRecommendedCourses()
+          this.fetchRecommendedCourses()
     }
     fetchRecommendedCourses() {
-        const request = {
-            request: {
-              competency: 'targetTaxonomyCategory4Ids',
-              limit: 100,
-            }
-          };   
-        this.coursesService.getRecommendedCourses(request).subscribe(
-          (data) => { 
-            if (data && data.result && data.result.content) {
-              this.recommendedCourses = data.result.content;
-              this.recommendedCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.recommendedCourses);
-              this.recommendedCourses = this.recommendedCourses.map((course: any) => {
-                let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
-                if(isWhishListed) {
-                    course['isWishListed'] = true;
-                } else {
-                    course['isWishListed'] = false;
+        this.frameWorkService.getFrameworkCategories("fracing_fw").subscribe((data) => {    
+            const identifiers = [];
+            data.result.framework.categories.forEach((category) => {
+                if (category.code === "taxonomyCategory4") {
+                    category.terms.forEach((term) => {
+                        if (term.category === "taxonomyCategory4") {
+                            identifiers.push(term.identifier);
+                        }
+                    });
                 }
-
-                return course
-            })
-            }
-          },
-          (err) => {
-            console.error('Error fetching recommended courses:', err);
-          }
-        );
-      }
-      
+            });
+    
+            const request = {
+                request: {
+                    "targetTaxonomyCategory4Ids": identifiers,
+                    limit: 100,
+                }
+            };   
+            
+            this.coursesService.getRecommendedCourses(request).subscribe(
+                (data) => { 
+                    if (data && data.result && data.result.content) {
+                        this.recommendedCourses = data.result.content;
+                        this.recommendedCourses = this.contentSearchService.updateCourseWithTaggedCompetency(this.recommendedCourses);
+                        this.recommendedCourses = this.recommendedCourses.map((course: any) => {
+                            let isWhishListed = this.allWishlistedIds.find((id: string) => id === course.identifier);
+                            if(isWhishListed) {
+                                course['isWishListed'] = true;
+                            } else {
+                                course['isWishListed'] = false;
+                            }
+    
+                            return course;
+                        });
+                    }
+                },
+                (err) => {
+                    console.error('Error fetching recommended courses:', err);
+                }
+            );
+        });
+    }
+    
     public getWishlisteddoIds() {
         let payload = {
             "request": {
@@ -547,7 +565,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         };
         this.searchService.compositePopularSearch(requestData).subscribe(res => {
             this.popularTopics = res['result']['facets'][0]['values'];
-            console.log('Popular topics', res['result']);
+            // console.log('Popular topics', res['result']);
         });
     }
 
@@ -662,7 +680,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
     
                         return course
                     })
-                    console.log('enrolledCourses', this.enrolledCourses);
+                    // console.log('enrolledCourses', this.enrolledCourses);
 
                     const { constantData, metaData, dynamicFields } = _.get(this.configService, 'appConfig.CoursePageSection.enrolledCourses');
                     enrolledSection.contents = _.map(filteredCourses, content => {

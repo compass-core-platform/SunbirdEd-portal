@@ -34,7 +34,7 @@
 
         <app-course-overview [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc" [params]="batchId" [isActive]="tab1.isActive" (ratingUpdation)="ratingUpdated($event)"></app-course-overview>
         </mat-tab>
-        <mat-tab label={{contentTabLabel}} #tab2>
+        <mat-tab label={{resourceService.frmelmnts.toc.tab.courseContent}} #tab2>
             <app-course-content [courseDetails]="courseHierarchy" [configContent]="resourceService.frmelmnts.toc"
              [params]="batchId" [tocList]="tocList" (contentClicked)="contentClicked($event)" [isActive]="tab2.isActive"></app-course-content>
         </mat-tab>

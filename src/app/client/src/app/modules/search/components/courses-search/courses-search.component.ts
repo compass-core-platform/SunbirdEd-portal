@@ -24,12 +24,12 @@ export class CoursesSearchComponent implements OnInit {
   selectedCompetency: string;
   rating = [];
   selectedRate = [];
-  startRates = [{label:5,selected:false}, 
-                {label:4,selected:false},
-                {label:3,selected:false},
-                {label:2,selected:false},
-                {label:1,selected:false},
-                ]
+  startRates = [ 
+    {label:4.5,selected:false},
+    {label:4.0,selected:false},
+    {label:3.5,selected:false},
+    {label:3.0,selected:false},
+    ]
   recentlyPublished = true;
   allWishlistedIds = [];
   currentPage=1;
@@ -286,13 +286,6 @@ export class CoursesSearchComponent implements OnInit {
     }
   }
 
-  getRatingText(index) {
-    this.rating = [];
-    for(let i = index; i>0; i--){
-       this.rating.push(i); 
-    }
-      return this.rating;
-  }
 
   recentlyAddCourses() {
     this.courses = [];
@@ -319,6 +312,39 @@ export class CoursesSearchComponent implements OnInit {
   scrolledUp(){
     this.currentPage--;
     this.scrollCheck = true;
+    this.fetchContentOnParamChange();
+  }
+  getRatingText(index) {
+    this.rating = [];
+    const fullStars = Math.floor(index);
+    const halfStar = index % 1 !== 0;
+  
+    for (let i = 0; i < fullStars; i++) {
+      this.rating.push({ icon: 'star', type: 'full' });
+    }
+  
+    if (halfStar) {
+      this.rating.push({ icon: 'star_half', type: 'full' });
+    }
+  
+    const remainingStars = 5 - Math.ceil(index);
+  
+    for (let i = 0; i < remainingStars; i++) {
+      this.rating.push({ icon: 'star_border', type: 'empty' });
+    }
+  
+    return this.rating;
+  }
+  updateSelectedRate(rate: any) {
+    this.courses = [];
+    this.currentPage = 1
+    this.selectedRate = [rate]
+    this.fetchContentOnParamChange();
+  }
+  clearFilters() {
+    this.selectedRate = [];
+    this.currentPage = 1
+    this.courses = []; 
     this.fetchContentOnParamChange();
   }
 }

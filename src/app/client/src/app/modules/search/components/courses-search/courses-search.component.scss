@@ -122,3 +122,21 @@
         width: 100%!important;
     }
 }
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clear-filters-text {
+    cursor: pointer;
+}
+.star-label {
+    font-size: x-small;
+}
+.rating-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

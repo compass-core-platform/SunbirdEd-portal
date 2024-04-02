@@ -43,7 +43,13 @@
         <div class="ui grid">
             <div class="twelve wide column">
                 <div class="filter">
-                    <h3 class="top-heading">{{resourceService?.frmelmnts?.lbl?.filterby}}</h3>
+                    <!-- <h3 class="top-heading">{{resourceService?.frmelmnts?.lbl?.filterby}}</h3> -->
+                    <div class="filter-header">
+                        <h3 class="top-heading">{{resourceService?.frmelmnts?.lbl?.filterby}}</h3>
+                        <div class="clear-filters-text" (click)="clearFilters()" color="primary">
+                            Clear Filter
+                        </div>
+                    </div>
                     <h5 class="sub-heading">{{resourceService?.frmelmnts?.lbl?.type}}</h5>
                     <mat-list>
                         <mat-list-item>
@@ -70,9 +76,13 @@
                            </mat-list-item>
                          </mat-list>
                    </div>
-
+                <div class="rating-header">
                     <h5 class="sub-heading">{{resourceService?.frmelmnts?.lbl?.rating}}</h5>
-                    <div class="star-rated">
+                    <div *ngIf="selectedRate.length !== 0">
+                        {{selectedRate}} & Up
+                    </div>
+                </div>
+                    <!-- <div class="star-rated">
                         <mat-list>
                            <mat-list-item *ngFor="let star of startRates"> 
                                <mat-checkbox [(ngModel)]="star.selected"
@@ -81,8 +91,23 @@
                              </mat-checkbox>
                            </mat-list-item>
                          </mat-list>
-                   </div>
-                   
+                   </div> -->
+                   <div class="star-rating">
+                    <mat-list>
+                      <mat-radio-group [(ngModel)]="selectedRate">
+                        <mat-list-item *ngFor="let star of startRates">
+                            <div class="d-flex">
+                               
+                                  <div> <mat-radio-button [value]="star.label" (click)="updateSelectedRate(star.label)">
+                                    <ng-container *ngFor="let s of getRatingText(star.label)">
+                                      <mat-icon [color]="s.type === 'full' ? 'primary' : 'teritiary' ">{{s.icon}}</mat-icon>
+                                    </ng-container>
+                                  </mat-radio-button></div>
+                            </div>   
+                        </mat-list-item>
+                      </mat-radio-group>
+                    </mat-list>
+                  </div>
                 </div>
             </div>
         </div>
