@@ -25,6 +25,8 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
   inAppNotificationConfig: NotificationViewConfig;
   isConnected = false;
   unsubscribe$ = new Subject<void>();
+  showNotificationPopup = false;
+  currentNotificationData:any;
 
   @HostListener('document:click', ['$event'])
   clickOutside(event) {
@@ -41,7 +43,9 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private connectionService: ConnectionService,
     private eleRef: ElementRef
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.inAppNotificationConfig = {
       title: _.get(this.resourceService, 'frmelmnts.lbl.notification'),
       subTitle: _.get(this.resourceService, 'frmelmnts.lbl.newNotification'),
@@ -50,9 +54,6 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
       lessText: _.get(this.resourceService, 'frmelmnts.btn.seeLess'),
       minNotificationViewCount: 5
     };
-  }
-
-  ngOnInit() {
     this.connectionService.monitor()
     .pipe(takeUntil(this.unsubscribe$), delay(2000)).subscribe(isConnected => {
       this.isConnected = isConnected;
@@ -116,6 +117,21 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
     if (event) {
       this.generateInteractEvent('see-less');
     }
+  }
+
+  notificationClickHandler(eventData){
+    this.showNotificationPopup = true;
+    this.currentNotificationData = eventData;
+  }
+
+  deleteHandler(eventData){
+    this.showNotificationPopup = false;
+    this.notificationService.deleteNotification(eventData);
+  }
+
+  readHandler(eventData){
+    this.showNotificationPopup = false;
+    this.notificationService.handleNotificationClick(eventData);
   }
   
 }
