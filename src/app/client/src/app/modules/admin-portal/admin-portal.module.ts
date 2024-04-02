@@ -22,6 +22,7 @@ import { TaxonomyService } from './services/taxonomy/taxonomy.service';
 import { TaxonomyViewWrapComponent } from './components/taxonomy-view-wrap/taxonomy-view-wrap.component';
 import { SbTaxonomyEditorModule } from 'sb-taxonomy-editor';
 import { TranslateModule } from '@ngx-translate/core';
+import { GoalUiModule } from 'goal-ui';
 
 
 const environment = {
@@ -58,7 +59,10 @@ const environment = {
       configuration: { environment:environment }
     }),
     TranslateModule,
-    SbTaxonomyEditorModule
+    SbTaxonomyEditorModule,
+    GoalUiModule.forRoot({
+      configuration: { environment:environment }
+    })
   ],
   providers: [  
     ManageService,
