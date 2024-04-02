@@ -71,15 +71,14 @@ export class AdminPortalHomeComponent implements OnInit {
       });
     } else {
       this.breadCrumbData = [];
-      if(this.tabName === 'Taxonomy Editor') {
-        this.breadCrumbData.push({
-          "label": "Course and Assessment",
+
+      this.breadCrumbData.push(
+        {
+          "label": "Admin Portal",
           "status": "inActive",
           "icon": "school",
           "link": "/admin-portal/course-assessment"
-        })
-      }
-      this.breadCrumbData.push(
+        },
         {
             "label": this.tabName,
             "status": "active",
