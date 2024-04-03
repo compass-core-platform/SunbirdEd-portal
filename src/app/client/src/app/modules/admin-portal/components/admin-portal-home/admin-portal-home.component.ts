@@ -76,7 +76,7 @@ export class AdminPortalHomeComponent implements OnInit {
         {
           "label": "Admin Portal",
           "status": "inActive",
-          "icon": "school",
+          "icon": "person",
           "link": "/admin-portal/course-assessment"
         },
         {
