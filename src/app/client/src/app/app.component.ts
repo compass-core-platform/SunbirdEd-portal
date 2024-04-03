@@ -130,6 +130,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isStepperEnabled = false;
   isPopupEnabled = false;
   getFormConfigSubscribe: any;
+  showDiscussionBanner = false;
   @ViewChild('increaseFontSize') increaseFontSize: ElementRef;
   @ViewChild('decreaseFontSize') decreaseFontSize: ElementRef;
   @ViewChild('resetFontSize') resetFontSize: ElementRef;
@@ -344,6 +345,9 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     if (window.location.pathname === '/mobile') {
       this.isMobileView = true;
+    }
+    if (window.location.pathname === '/discussion-forum/category/5') {
+      this.showDiscussionBanner = true;
     }
     this.activatedRoute.queryParams.pipe(filter(param => !_.isEmpty(param))).subscribe(params => {
       const utmParams = ['utm_campaign', 'utm_medium', 'utm_source', 'utm_term', 'utm_content', 'channel'];
