@@ -57,7 +57,7 @@ export class AllCompetenciesComponent implements OnInit {
 
   public setBreadCrumbData() {
     let param = {};
-    param['label'] = 'All competencies';
+    param['label'] = this.resourceService.frmelmnts.breadcrumbs.allCompetencies;
     param['status'] = "inactive";
     let channelId = this.activatedRoute.snapshot.queryParams.channel;
     let fw = this.activatedRoute.snapshot.queryParams.framework;
@@ -74,13 +74,13 @@ export class AllCompetenciesComponent implements OnInit {
         this.allCompetencies.title = "All Competencies";
         this.breadCrumbData = [
           {
-            "label": "Learn",
+            "label": this.resourceService.frmelmnts.breadcrumbs.learn,
             "status": "inactive",
             "icon": "school",
             "link": "resources"
           },
           {
-            "label": "All competencies",
+            "label": this.resourceService.frmelmnts.breadcrumbs.allCompetencies,
             "status": "active",
             "icon": "extension",
             "link": ""

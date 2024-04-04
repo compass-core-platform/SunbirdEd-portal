@@ -45,13 +45,13 @@ export class CoursesSearchComponent implements OnInit {
     if (this.activatedRoute.snapshot.queryParams.learnings == 'true') {
       this.breadCrumbData = [
         {
-          "label": "Profile",
+          "label": this.resourceService.frmelmnts.breadcrumbs.profile,
           "icon": "person",
           "status": "inactive",
           "link": "profile"
         },
         {
-          "label": "Learnings",
+          "label": this.resourceService.frmelmnts.breadcrumbs.learnings,
           "status": "active",
           "icon": "play_circle_filled",
           "link": ""
@@ -61,13 +61,13 @@ export class CoursesSearchComponent implements OnInit {
     } else {
       this.breadCrumbData = [
         {
-          "label": "Learn",
+          "label": this.resourceService.frmelmnts.breadcrumbs.learn,
           "icon": "school",
           "status": "inactive",
           "link": "resources"
         },
         {
-          "label": "Search",
+          "label": this.resourceService.frmelmnts.breadcrumbs.search,
           "status": "active",
           "icon": "search",
           "link": ""

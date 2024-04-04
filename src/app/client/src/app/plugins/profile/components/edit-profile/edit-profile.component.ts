@@ -8,26 +8,28 @@ import { ResourceService} from '@sunbird/shared';
 })
 export class EditProfileComponent implements OnInit {
   resourceService: ResourceService;
-  breadCrumbData = [
-    {
-      "label": "Profile",
-      "status": "inactive",
-      "link": "profile",
-      'icon': 'person'
-    },
-    {
-      "label": "Edit profile",
-      "status": "active",
-      "link": "",
-      'icon': 'edit'
-    }
-  ];
+  breadCrumbData: any;
 
   constructor(resourceService: ResourceService) {
     this.resourceService = resourceService;
+    this.breadCrumbData = [
+      {
+        "label": this.resourceService.frmelmnts.breadcrumbs.profile,
+        "status": "inactive",
+        "link": "profile",
+        'icon': 'person'
+      },
+      {
+        "label": this.resourceService.frmelmnts.breadcrumbs.editProfile,
+        "status": "active",
+        "link": "",
+        'icon': 'edit'
+      }
+    ];
    }
 
   ngOnInit(): void {
+    
   }
 
 }

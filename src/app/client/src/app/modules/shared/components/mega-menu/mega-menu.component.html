@@ -5,8 +5,8 @@
             <a href="javascript:void(0);" (click)="navigateToHomepage()" mat-menu-item>
                 <mat-icon>school</mat-icon>
                  <div class="display">
-                    <h3 class="	sub-heading-two">Learn</h3>
-                    <p>Learn space</p>
+                    <h3 class="	sub-heading-two">{{resourceService.frmelmnts?.megaMenu?.learn}}</h3>
+                    <p>{{resourceService.frmelmnts?.megaMenu?.learnDesc}}</p>
                  </div>
               </a>
         </li>
@@ -14,8 +14,8 @@
           <a href="javascript:void(0);"  (click)="navigateTo('/discussion')" mat-menu-item>
             <mat-icon>settings_brightness</mat-icon>
              <div class="display">
-                <h3 class="	sub-heading-two">Discussion</h3>
-                <p>Discussion space</p>
+                <h3 class="	sub-heading-two">{{resourceService.frmelmnts?.megaMenu?.discussion}}</h3>
+                <p>{{resourceService.frmelmnts?.megaMenu?.discussionDesc}}</p>
              </div>
          </a>
         </li>
@@ -23,8 +23,8 @@
           <a href="javascript:void(0);"  [routerLink]="['/network-hub/home']" mat-menu-item>
             <mat-icon>extension</mat-icon>
              <div class="display">
-                <h3 class="	sub-heading-two">Network Hub</h3>
-                <p>Network hub</p>
+                <h3 class="	sub-heading-two">{{resourceService.frmelmnts?.megaMenu?.networkhub}}</h3>
+                <p>{{resourceService.frmelmnts?.megaMenu?.networkhubDesc}}</p>
              </div>
          </a>
         </li>
@@ -38,8 +38,8 @@
         <a href="javascript:void(0);"  (click)="navigateToWorkspace()" mat-menu-item>
           <mat-icon>settings_brightness</mat-icon>
            <div class="display">
-              <h3 class="	sub-heading-two">Workspace</h3>
-              <p>Workspace space access</p>
+              <h3 class="	sub-heading-two">{{resourceService.frmelmnts?.megaMenu?.workspace}}</h3>
+              <p>{{resourceService.frmelmnts?.megaMenu?.workspaceDesc}}</p>
            </div>
        </a>
       </li>
@@ -47,8 +47,8 @@
         <a href="javascript:void(0);"  (click)="navigateTo('search/wishlist')" mat-menu-item>
           <mat-icon class="favourite-icon">favorite</mat-icon>
            <div class="display">
-              <h3 class="	sub-heading-two">Wishlist</h3>
-              <p>Effortlessly save and organise your must-haves</p>
+              <h3 class="	sub-heading-two">{{resourceService.frmelmnts?.megaMenu?.wishlist}}</h3>
+              <p>{{resourceService.frmelmnts?.megaMenu?.wishlistDesc}}</p>
            </div>
        </a>
       </li>
@@ -63,8 +63,8 @@
             <img src="assets/images/admin-portal.png" width="20px" height="20px">
           </span>
           <div class="display">
-              <h3 class="sub-heading-two">Admin Portal</h3>
-              <p>Admin portal space</p>
+              <h3 class="sub-heading-two">{{resourceService.frmelmnts?.megaMenu?.adminPortal}}</h3>
+              <p>{{resourceService.frmelmnts?.megaMenu?.adminPortalDesc}}</p>
           </div>
         </a>
       </li>

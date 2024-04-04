@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BatchParticipantService } from '../../services/course-batch/batch.service';
 import { UserService, PublicDataService, LearnerService} from '@sunbird/core';
-import { ConfigService } from '@sunbird/shared';
+import { ConfigService, ResourceService } from '@sunbird/shared';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators/map';
 import { FormControl } from '@angular/forms';
@@ -28,7 +28,7 @@ export class BatchProgressDetailsComponent implements OnInit {
   authToken : [];
   displayColumns = ['initials', 'name', 'designation', 'department','progress'];
   breadCrumbData = [{
-    label: 'Courses',
+    label: this.resourceService.frmelmnts.breadcrumbs.courses,
     "status": "",
     "icon": "list",
     "link": "/learn/batch-progress"
@@ -47,7 +47,8 @@ export class BatchProgressDetailsComponent implements OnInit {
     private publicDataService: PublicDataService,
     private learnerService: LearnerService,
     private configService: ConfigService,
-    private userSerivce: UserService, private httpClient: HttpClient) {
+    private userSerivce: UserService, private httpClient: HttpClient,
+    private resourceService: ResourceService) {
    }
 
   ngOnInit(): void {

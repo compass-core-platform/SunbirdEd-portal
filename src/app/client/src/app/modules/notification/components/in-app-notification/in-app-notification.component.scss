@@ -41,6 +41,7 @@
     background: var(--white);
     max-height: 90vh;
     overflow: auto;
+    box-shadow: calculateRem(5px) calculateRem(5px) calculateRem(2px) 0 rgba(var(--rc-rgba-black), 0.1);
     .mat-icon{
       cursor: pointer;
       position: absolute;

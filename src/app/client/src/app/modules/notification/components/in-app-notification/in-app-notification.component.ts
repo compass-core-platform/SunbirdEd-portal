@@ -47,11 +47,11 @@ export class InAppNotificationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.inAppNotificationConfig = {
-      title: _.get(this.resourceService, 'frmelmnts.lbl.notification'),
-      subTitle: _.get(this.resourceService, 'frmelmnts.lbl.newNotification'),
-      clearText: _.get(this.resourceService, 'frmelmnts.btn.clear'),
-      moreText: _.get(this.resourceService, 'frmelmnts.btn.seeMore'),
-      lessText: _.get(this.resourceService, 'frmelmnts.btn.seeLess'),
+      title: _.get(this.resourceService, 'frmelmnts.lbl.notification') ? _.get(this.resourceService, 'frmelmnts.lbl.notification') : 'Notification',
+      subTitle: _.get(this.resourceService, 'frmelmnts.lbl.newNotification') ? _.get(this.resourceService, 'frmelmnts.lbl.newNotification') : 'New Notification (s)',
+      clearText: _.get(this.resourceService, 'frmelmnts.btn.clear') ? _.get(this.resourceService, 'frmelmnts.btn.clear') : 'Clear',
+      moreText: _.get(this.resourceService, 'frmelmnts.btn.seeMore') ? _.get(this.resourceService, 'frmelmnts.btn.seeMore') : 'See more',
+      lessText: _.get(this.resourceService, 'frmelmnts.btn.seeLess') ? _.get(this.resourceService, 'frmelmnts.btn.seeLess') : 'See less',
       minNotificationViewCount: 5
     };
     this.connectionService.monitor()

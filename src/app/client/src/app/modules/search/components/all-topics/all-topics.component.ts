@@ -19,13 +19,13 @@ export class AllTopicsComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbData = [
       {
-        "label": "Learn",
+        "label": this.resourceService.frmelmnts.breadcrumbs.learn,
         "status": "inactive",
         "icon": "school",
         "link": "resources"
       },
       {
-        "label": "All topics",
+        "label": this.resourceService.frmelmnts.breadcrumbs.allTopics,
         "status": "active",
         "icon": "map",
         "link": ""

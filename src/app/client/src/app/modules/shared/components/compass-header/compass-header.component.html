@@ -17,7 +17,7 @@
                 <div class="menu-trigger" [matMenuTriggerFor]="menu">
                   <mat-icon class="menuIcon open">menu</mat-icon>
                   <mat-icon class="close" >close</mat-icon>
-                  <span class="mx-10">Spaces</span>
+                  <span class="mx-10">{{resourceService.frmelmnts?.prmpt?.spaces}}</span>
                 </div>
                   <mat-menu #menu="matMenu" yPosition="below" [hasBackdrop]="true">
                     <app-mega-menu (navigateToHome)="navigateToHomepage()"></app-mega-menu>

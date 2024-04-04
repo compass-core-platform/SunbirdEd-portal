@@ -1,16 +1,16 @@
 <div class="course-assessment__wrapper">
        <header class="course-assessment__header">
             <div class="container ui course-assessment__tabs">
-                 <span (click)="switchTabs('Course')" class="course-assessment__label" [ngClass]="{'active': primaryCategory === 'Course'}">Courses</span>
-                 <span (click)="switchTabs('Assessment')" class="course-assessment__label" [ngClass]="{'active': primaryCategory === 'Assessment'}">Assessments</span>
+                 <span (click)="switchTabs('Course')" class="course-assessment__label" [ngClass]="{'active': primaryCategory === 'Course'}">{{resourceService.frmelmnts.courseAndAssessment.courses}}</span>
+                 <span (click)="switchTabs('Assessment')" class="course-assessment__label" [ngClass]="{'active': primaryCategory === 'Assessment'}">{{resourceService.frmelmnts.courseAndAssessment.assessments}}</span>
             </div>
         </header>
         <section class="container ui">
             <header class="course-assessment-section__header">
-                <h1 *ngIf="count" class="headline">{{primaryCategory === 'Course'? 'Courses':'Assessments'}}({{count}})</h1>
+                <h1 *ngIf="count" class="headline">{{primaryCategory === 'Course'? resourceService.frmelmnts.courseAndAssessment.courses : resourceService.frmelmnts.courseAndAssessment.assessments}}({{count}})</h1>
                 <div class="course-assessment-section__header-filter">
                     <mat-form-field [floatLabel]="'never'">
-                        <mat-label>Select Competency</mat-label>
+                        <mat-label>{{resourceService.frmelmnts.courseAndAssessment.selectCompetency}}</mat-label>
                             <mat-select [formControl]="competency" multiple appearance="none" [(value)]="competencyModel.selectedCompetenciesList" (selectionChange)="onSelect($event.value)">
                                 <mat-option *ngFor="let comp of competenciesList" [value]="comp">{{comp.name}}</mat-option>
                             </mat-select>
@@ -18,7 +18,7 @@
 
                     <mat-form-field class="course-assessment__search"  [floatLabel]="'never'"> 
                         <mat-icon>search</mat-icon>
-                        <input matInput type="text" [(ngModel)]="search" (keyup.enter)="searchQuery()" (blur)="searchQuery()" placeholder="Search course" appearance="outline" />                       
+                        <input matInput type="text" [(ngModel)]="search" (keyup.enter)="searchQuery()" (blur)="searchQuery()" placeholder="{{resourceService.frmelmnts.courseAndAssessment.searchCourse}}" appearance="outline" />                       
                     </mat-form-field>
                 </div>
             </header>
@@ -36,7 +36,7 @@
                 <data-table [dataSource]="dataSource" [displayedColumns]="displayColumns" (onPageChange)="onPageChange($event)" [showPagination]="true" [count]="count"></data-table>
             </ng-container>
             <ng-template #noData>
-                <div class="errorMessage">Something went wrong with API</div>
+                <div class="errorMessage">{{resourceService.frmelmnts.courseAndAssessment.errorMsg}}</div>
             </ng-template>
         </section>
 </div>

@@ -102,7 +102,7 @@ export class CourseConsumptionPageComponent implements OnInit, OnDestroy {
         };
         this.breadCrumbData = [
           {
-            "label": "Learn",
+            "label": this.resourceService.frmelmnts.breadcrumbs.learn,
             "status": "inactive",
             "link": "resources",
             "icon": "school"

@@ -74,7 +74,7 @@ export class AdminPortalHomeComponent implements OnInit {
 
       this.breadCrumbData.push(
         {
-          "label": "Admin Portal",
+          "label": this.resourceService.frmelmnts.breadcrumbs.adminPortal,
           "status": "inActive",
           "icon": "person",
           "link": "/admin-portal/course-assessment"
