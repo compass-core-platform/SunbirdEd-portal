@@ -395,7 +395,7 @@ export class ExplorePageComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         this.breadCrumbData.push(
         {
-            "label": "Learn",
+            "label": this.resourceService.frmelmnts.breadcrumbs.learn,
             "status": "active",
             "icon": "school",
             "link": ""

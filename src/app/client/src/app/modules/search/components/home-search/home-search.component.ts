@@ -144,13 +144,13 @@ export class HomeSearchComponent implements OnInit, OnDestroy, AfterViewInit {
         // console.log('HIDE PARAMS', this.activatedRoute.snapshot.queryParams.hideFilter);
         this.breadCrumbData = [
           {
-              "label": "Learn",
+              "label": this.resourceService.frmelmnts.breadcrumbs.learn,
               "status": "inactive",
               "link": "resources",
               "showIcon": true
           },
           {
-            "label": "All competencies",
+            "label": this.resourceService.frmelmnts.breadcrumbs.allCompetencies,
             "status": "active",
             "link": "",
             "showIcon": false

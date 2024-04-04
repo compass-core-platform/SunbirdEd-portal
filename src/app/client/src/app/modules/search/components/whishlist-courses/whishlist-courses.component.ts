@@ -28,13 +28,13 @@ export class WhishlistCoursesComponent implements OnInit {
           this.channelId = this.userService.channel;
           this.breadCrumbData = [
             {
-              "label": "Learn",
+              "label": this.resourceService.frmelmnts.breadcrumbs.learn,
               "status": "inactive",
               "icon": "school",
               "link": "resources"
             },
             {
-              "label": "Wishlist",
+              "label": this.resourceService.frmelmnts.breadcrumbs.wishlist,
               "status": "active",
               "icon": "favorite",
               "link": ""
