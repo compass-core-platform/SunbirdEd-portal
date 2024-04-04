@@ -115,11 +115,11 @@
     <!-- <app-install-app (viewInBrowser)="viewInBrowser($event)" *ngIf="showAppPopUp && userService.loggedIn">
     </app-install-app> -->
     <!--<app-breadcrumbs *ngIf="userService.loggedIn"></app-breadcrumbs>-->
-    <header class="banner" *ngIf="showDiscussionBanner">
+    <!-- <header class="banner" *ngIf="showDiscussionBanner">
       <div class="ui">
           <img class="discussion-banner" src="./assets/images/banner-svg/discuss-hub-banner.jpeg" />
       </div>
-    </header>
+    </header> -->
     <main>
       <router-outlet *ngIf="isIOS || (initApp && !showFrameWorkPopUp && !showTermsAndCondPopUp)"
         (activate)="onActivate($event)"></router-outlet>
