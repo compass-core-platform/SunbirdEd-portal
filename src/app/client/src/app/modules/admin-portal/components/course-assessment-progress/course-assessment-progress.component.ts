@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
 import {get} from 'lodash-es';
 import { BatchParticipantService } from '../../services/course-batch/batch.service';
+import { ResourceService } from '@sunbird/shared';
 
 export interface CourseData {
   id: string;
@@ -40,7 +41,8 @@ export class CourseAssessmentProgressComponent implements OnInit {
   }
   
   constructor( public userService: UserService, private searchService: SearchService, 
-    private contentSearchService: ContentSearchService, private orgDetailsService: OrgDetailsService, private courseBatchService: BatchParticipantService) { 
+    private contentSearchService: ContentSearchService, private orgDetailsService: OrgDetailsService, private courseBatchService: BatchParticipantService,
+    public resourceService: ResourceService) { 
       
   }
 

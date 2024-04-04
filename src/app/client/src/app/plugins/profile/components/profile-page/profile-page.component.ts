@@ -109,7 +109,7 @@ export class ProfilePageComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   breadCrumbData = [
     {
-      "label": "Profile",
+      "label": this.resourceService.frmelmnts.breadcrumbs.profile,
       "status": "inactive",
       "link": "",
       'icon': 'person'
