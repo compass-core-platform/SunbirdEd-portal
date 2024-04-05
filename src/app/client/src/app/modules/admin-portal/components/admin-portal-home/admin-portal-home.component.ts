@@ -50,7 +50,11 @@ export class AdminPortalHomeComponent implements OnInit {
       this.tabName = 'Taxonomy Editor';
       //change Icon as required
       this.iconName = 'school';
-    } else {
+    } else if(this.routeName === 'goals-ui') {
+      this.tabName = 'Goals UI';
+      //change Icon as required
+      this.iconName = 'school';
+    }else {
       this.tabName = 'Notification';
       //change Icon as required
       this.iconName = "notifications";

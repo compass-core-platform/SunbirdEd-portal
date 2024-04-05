@@ -12,6 +12,11 @@ $custom-typography: mat.define-typography-config($font-family: "var(--font-stack
 
 :root {
   font-size: 16px;
+  --primary-color: #0154D2;
+  --light-blue-color: #f0f8ff;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --gray-80: #cccccc;
 }
 
 html,
@@ -1546,4 +1551,55 @@ html[layout="joy"] .sb-modal-content .ui.center.aligned.segment {
   font-size: 1rem;
   font-weight: normal;
   padding: calculateRem(10px) 0;
+}
+
+
+@function calculateRem($value) {
+  @return #{$value / 16}rem;
+}
+
+@function dynamic-border($width, $color) {
+  @return $width + ' solid ' + $color;
+}
+
+@mixin flexbox($display: null, $justify-content: null, $align-items: null, $flex-direction: null) {
+  @if $display !=null {
+      display: $display;
+  }
+
+  @if $justify-content !=null {
+      justify-content: $justify-content;
+  }
+
+  @if $align-items !=null {
+      align-items: $align-items;
+  }
+
+  @if $flex-direction !=null {
+      flex-direction: $flex-direction
+  }
+}
+
+@mixin font-style($font-size: null, $font-family: null, $font-weight: null) {
+  @if $font-size !=null {
+      font-size: $font-size;
+  }
+
+  @if $font-family !=null {
+      font-family: $font-family;
+  }
+
+  @if $font-weight !=null {
+      font-weight: $font-weight;
+  }
+}
+
+@mixin text-style($text-align: null, $text-transform: null) {
+  @if $text-align != null {
+      text-align: $text-align
+  }
+
+  @if $text-transform != null {
+      text-transform: $text-transform;
+  }
 }
