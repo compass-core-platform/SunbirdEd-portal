@@ -176,7 +176,8 @@ export class ResourceService {
       connection: '',
       lastAdded: '',
       sortByName: '',
-      recommended: ''
+      recommended: '',
+      req: ''
     };
     config.noConnectionReq = this.frmelmnts.networkHub.noConnectionReq;
     config.yourConnectionReq = this.frmelmnts.networkHub.yourConnectionReq;
@@ -185,6 +186,7 @@ export class ResourceService {
     config.lastAdded = this.frmelmnts.networkHub.lastAdded;
     config.sortByName = this.frmelmnts.networkHub.sortByName;
     config.recommended = this.frmelmnts.networkHub.recommended;
+    config.req = this.frmelmnts.networkHub.requests;
     this.networkhubConfigSubject.next(config);
   }
 }
