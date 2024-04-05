@@ -37,7 +37,7 @@ export class NetworkHubModule {
   constructor(private taxonomyService: TaxonomyService, private resourceService: ResourceService ) {
     config.userId = this.userProfile.id;
     config.userName = this.userProfile.userName;
-    config.userDepartment = this.userProfile.userDepartment;
+    config.userDepartment = this.userProfile?.profileDetails?.employmentDetails?.departmentName;
     this.taxonomyService.getPortalToken().subscribe((res) => {
       config.authorization = res; 
     });
