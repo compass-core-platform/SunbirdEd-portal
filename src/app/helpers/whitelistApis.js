@@ -1993,6 +1993,30 @@ const API_LIST = {
     "/learner/user/v1/notification/list/true": {
       checksNeeded: ['ROLE_CHECK'],
       ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/api/network/connections/established": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/api/network/connections/requested": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/api/network/connections/update": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/api/network/connections/add": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/api/network/connections/suggests": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
+    },
+    "/api/network/connections/search": {
+      checksNeeded: ['ROLE_CHECK'],
+      ROLE_CHECK: [ROLE.ANONYMOUS]
     }
   },
   URL_PATTERN: [
@@ -2162,7 +2186,13 @@ const API_LIST = {
     '/learner/user/v1/image/upload',
     '/api/user/v1/image/upload',
     '/learner/user/v1/notification/list/false',
-    '/learner/user/v1/notification/list/true'
+    '/learner/user/v1/notification/list/true',
+    '/api/network/connections/established',
+    '/api/network/connections/requested',
+    '/api/network/connections/update',
+    '/api/network/connections/add',
+    '/api/network/connections/suggests',
+    '/api/network/connections/search'
   ]
 };
 module.exports = API_LIST;

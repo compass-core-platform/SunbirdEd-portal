@@ -38,9 +38,6 @@ export class NetworkHubModule {
     config.userId = this.userProfile.id;
     config.userName = this.userProfile.userName;
     config.userDepartment = this.userProfile?.profileDetails?.employmentDetails?.departmentName;
-    this.taxonomyService.getPortalToken().subscribe((res) => {
-      config.authorization = res; 
-    });
     this.resourceService.networkhubConfig$.subscribe((newConfig) => {
       config.translation = newConfig;
     });
