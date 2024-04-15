@@ -162,6 +162,12 @@ const additionalGraduationData = this.userProfile.profileDetails.academicDetails
     this.additionalGraduation.push(additionalGraduationGroup);
     this.showAdditionalGraduation = true;
   }
+  removeAdditionalGraduation(index: number) {
+    this.additionalGraduation.splice(index, 1);
+  }
+  removeAdditionalQualification(index: number) {
+    this.additionalQualifications.splice(index, 1);
+  }
   populateForm() {
     if (this.userProfile?.profileDetails?.academicDetails) {
       const academics = this.userProfile.profileDetails.academicDetails;
