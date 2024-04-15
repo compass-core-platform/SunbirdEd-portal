@@ -75,7 +75,13 @@
       class="form-container"
     >
       <div class="form-column">
-        <p>Additional Graduation {{ i + 1 }}</p>
+        <div class="header-container">
+          <p>Additional Graduation {{ i + 1 }}</p>
+    
+          <button mat-icon-button color="warn" aria-label="Remove" (click)="removeAdditionalGraduation(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
 
         <mat-form-field appearance="outline">
           <mat-label>Degree</mat-label>
@@ -183,7 +189,13 @@
       class="form-container"
     >
       <div class="form-column">
-        <p>Additional Post Graduation {{ i + 1 }}</p>
+        <div class="header-container">
+          <p>Additional Post Graduation {{ i + 1 }}</p>
+    
+          <button mat-icon-button color="warn" aria-label="Remove" (click)="removeAdditionalQualification(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
 
         <mat-form-field appearance="outline">
           <mat-label>Degree</mat-label>

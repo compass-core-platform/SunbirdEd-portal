@@ -164,3 +164,12 @@ p {
 *:focus-visible {
   border: unset !important;
 }
+.header-container {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+}
+
+.header-container p {
+  margin: 0; 
+}
