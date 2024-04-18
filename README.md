@@ -76,10 +76,10 @@ Installing Sunbird requires two primary software components:
 1. Clone project
 
     ```console
-    git clone https://github.com/Sunbird-Ed/SunbirdEd-portal.git
+    git clone git@github.com:compass-core-platform/SunbirdEd-portal.git
     ```
 
-    > ***Note***: Stable versions of the sunbird portal are available via tags for each release, and the master branch contains latest stable release. For latest stable release [refer](https://github.com/Sunbird-Ed/SunbirdEd-portal/branches)
+    > ***Note***: Checkout to compass-dev
 
 2. Install required dependencies
 
