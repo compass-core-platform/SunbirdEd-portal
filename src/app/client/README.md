@@ -179,7 +179,7 @@ Installing Sunbird requires two primary software components:
     │   |   ├── /libs                            # Sunbird utilities
     │   |   ├── /proxy                           # Redirection to respective services
     │   |   ├── /resourcebundles                 # Language resources
-    │   |   ├── /routes                          # Sunbird Backend Routes
+    │   |   ├── /routes                          # Sunbird Backend Routes``
     │   |   ├── /sunbird-plugins                 # Sunbird plugins for editors
     │   |   ├── /tests                           # Test case scripts for helpers and routes
     │   |   ├── framework.config.js              # Default framework configuration
@@ -203,3 +203,8 @@ Installing Sunbird requires two primary software components:
         2. $ npm run backend-test
         3. With Coverage $ npm run backend-test-with-coverage
 
+### Cypress Angular e2e Testing
+     
+        1. $ cd {PROJECT-FOLDER}/src/app/client
+        2. npm run cypress:open
+        3. Follow the on screen instruction to start e2e script.
