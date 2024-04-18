@@ -1,0 +1,32 @@
+{
+    "publishapi_url":"https://compass-dev.tarento.com/action/content/v3/publish/do_1140151985879613441102",
+    "publishapi_payload":{
+        "request": {
+                    "content":
+                    {
+                        "lastPublishedBy":"836ba369-fc24-4464-95ec-505d61b67ef0",
+                        "publishChecklist":[
+                            "No Hate speech, Abuse, Violence, Profanity","No Sexual content, Nudity or Vulgarity","No Discrimination or Defamation","Is suitable for children","Appropriate Title, Description","Relevant Keywords","Content plays correctly","Can see the content clearly on Desktop and App","Audio (if any) is clear and easy to understand","No Spelling mistakes in the text","Language is simple to understand"
+                            ]
+                    }
+                }
+        
+    },
+    "publishapi_response": {
+        "id": "api.v3.publish",
+        "ver": "1.0",
+        "ts": "2024-03-20T10:03:25.867Z",
+        "params": {
+            "resmsgid": "17cf9fb0-e6a1-11ee-bfe0-71200034c560",
+            "msgid": "9a690b8f-36e9-40d5-b152-3d1d5d77dc15",
+            "status": "successful",
+            "err": null,
+            "errmsg": null
+        },
+        "responseCode": "OK",
+        "result": {
+            "content_id": "do_1140152785265459201122",
+            "publishStatus": "Publish Operation for Content Id 'do_1140152785265459201122' Started Successfully!"
+        }
+    }
+}

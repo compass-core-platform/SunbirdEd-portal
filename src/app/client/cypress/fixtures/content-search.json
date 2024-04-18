@@ -1,0 +1,64 @@
+{
+    "headers":{
+        "Accept": "application/json",
+        "Accept-Language": "en-GB,en;q=0.9",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Cookie": "connect.sid=s%3ANcmE-Ty40MiktSpstrMhVUv02e52JFqY.n1TnID7Wv9%2BsVXd6QUQxhvLcFIkFRnKo3KgQTfXbkGY",
+        "Origin": "https://compass-dev.tarento.com",
+        "Referer": "https://compass-dev.tarento.com/admin-portal/course-assessment",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
+        "X-App-Id": "dev.dev.portal",
+        "X-App-Version": "6.0.0",
+        "X-Channel-Id": "0138325860604395527",
+        "X-Device-ID": "b7ca47fc00e7497d773ad4840db94bbc",
+        "X-Org-code": "0138325860604395527",
+        "X-Request-ID": "2d242444-2d0b-46af-85fb-9e1afe21a7eb",
+        "X-Session-ID": "NcmE-Ty40MiktSpstrMhVUv02e52JFqY",
+        "X-Source": "web",
+        "X-User-ID": "c43e5500-0ec1-486e-a623-60c1d1436c82",
+        "X-msgid": "2d242444-2d0b-46af-85fb-9e1afe21a7eb",
+        "sec-ch-ua": "'Not?A_Brand';v='8', 'Chromium';v='108', 'Google Chrome';v='108'",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "Linux",
+        "ts": "2024-04-12T12:33:41+05:30"
+      },
+    "coursePayload":{
+        "request": {
+            "filters": {
+              "status": ["Live"],
+              "primaryCategory": ["Course"]
+            },
+            "limit": 15,
+            "sort_by": {
+              "lastPublishedOn": "desc"
+            },
+            "fields": ["name", "appIcon", "posterImage", "mimeType", "identifier", "pkgVersion", "resourceType", "contentType", "channel", "organisation", "trackable", "lastPublishedOn", "Duration", "targetTaxonomyCategory4Ids", "primaryCategory", "batches"],
+            "facets": ["taxonomyCategory4Ids"]
+          }
+    },
+    "assessmentPayload": {
+        "request": {
+            "filters": {
+                "status": [
+                    "Live"
+                ],
+                "primaryCategory": [
+                    "Course"
+                ]
+            },
+            "limit": 15,
+            "sort_by": {
+                "lastPublishedOn": "desc"
+            },
+            "fields": [
+                "name","appIcon","posterImage","mimeType","identifier","pkgVersion","resourceType","contentType", "channel","organisation","trackable","lastPublishedOn","Duration", "targetTaxonomyCategory4Ids","primaryCategory", "batches" ],
+            "facets": [
+                "taxonomyCategory4Ids"
+            ]
+        }
+    }
+}

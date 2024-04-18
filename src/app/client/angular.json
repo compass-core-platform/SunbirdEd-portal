@@ -264,6 +264,51 @@
           "options": {
             "browserTarget": "src:build"
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "src:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "src:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "ct": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "src:serve",
+            "watch": true,
+            "headless": false,
+            "testingType": "component"
+          },
+          "configurations": {
+            "development": {
+              "devServerTarget": "src:serve:development"
+            }
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "src:serve",
+            "watch": true,
+            "headless": false
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "src:serve:production"
+            }
+          }
         }
       }
     }
@@ -278,6 +323,10 @@
     }
   },
   "cli": {
-    "analytics": "c933c758-ef3b-463a-8d9c-7044a53ab381"
+    "analytics": "c933c758-ef3b-463a-8d9c-7044a53ab381",
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   }
 }

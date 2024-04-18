@@ -1,0 +1,6 @@
+{
+    "createQuestionset": {
+        "title": "How does Generative AI work?",
+        "description": "Generative AI works through the use of neural networks, specifically Recurrent Neural Networks (RNNs)"
+    }
+}
